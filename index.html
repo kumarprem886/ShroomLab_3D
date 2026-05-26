@@ -175,6 +175,20 @@
     .badge-custom { background: var(--g-light); color: #fff; }
     .badge-flexi  { background: #ff7043; color: #fff; }
     .badge-kit    { background: #5c6bc0; color: #fff; }
+    .badge-home   { background: #e91e63; color: #fff; }
+    .badge-new-label {
+      position: absolute; top: 10px; right: 10px;
+      background: #ffd700; color: #1a1a2e;
+      padding: 2px 8px; border-radius: 50px;
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.5px;
+    }
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px;
+    }
+    .img-placeholder span { font-size: 3.6rem; }
+    .img-placeholder small { font-size: 0.65rem; color: var(--muted); font-weight: 500; }
 
     .product-info { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
     .product-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
@@ -292,7 +306,7 @@
   <div class="hero-content">
     <div class="hero-badge">🇮🇳 Proudly Made in Cuddalore, India</div>
     <h1>Premium <span class="hl">3D Printed</span><br>Creations</h1>
-    <p class="hero-sub">Flexi toys, custom figures, kit cards &amp; more — 60+ products, crafted with precision and passion.</p>
+    <p class="hero-sub">Flexi toys, custom figures, kit cards, home decor &amp; more — 80+ products, crafted with precision and passion.</p>
     <div class="hero-tags">
       <span class="hero-tag">🐉 Flexi Toys</span>
       <span class="hero-tag">🎨 Custom Prints</span>
@@ -300,7 +314,7 @@
       <span class="hero-tag">⚡ Fast Shipping</span>
     </div>
     <div class="hero-btns">
-      <a href="#catalogue" class="btn btn-dark">Browse 60+ Products →</a>
+      <a href="#catalogue" class="btn btn-dark">Browse 80+ Products →</a>
       <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-wa">Order via WhatsApp</a>
     </div>
   </div>
@@ -333,6 +347,7 @@
     <button class="filter-btn" data-cat="flexi">🐾 Flexi Toys <span id="cnt-flexi"></span></button>
     <button class="filter-btn" data-cat="kit">🃏 Kit Cards <span id="cnt-kit"></span></button>
     <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
+    <button class="filter-btn" data-cat="home">🏠 Home & More <span id="cnt-home"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -447,11 +462,41 @@ const PRODUCTS = [
   {"title":"Rabbit Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/rabbit.webp?v=1777728133","cat":"kit"},
   {"title":"Scooty Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Scooty.webp?v=1777728094","cat":"kit"},
   {"title":"F-14 Tomcat Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/F-14Tomcat.webp?v=1777727578","cat":"kit"},
-  {"title":"T-34 Tank Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/T-34Tank.webp?v=1777727462","cat":"kit"}
+  {"title":"T-34 Tank Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/T-34Tank.webp?v=1777727462","cat":"kit"},
+
+  // ── HOME & MORE — Fidget Toys ────────────────────────────────
+  {"title":"Fidget Cube – Click & Stress Relief","price":"149","compare_at":"299","cat":"home","isNew":true,"icon":"🎲","bg":"linear-gradient(135deg,#e8f4fd,#c5e3f7)"},
+  {"title":"Print-in-Place Planetary Gear Spinner","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⚙️","bg":"linear-gradient(135deg,#f3e5f5,#e1bee7)"},
+  {"title":"Infinity Flip Fidget Ring","price":"99","compare_at":"199","cat":"home","isNew":true,"icon":"💫","bg":"linear-gradient(135deg,#fff8e1,#ffecb3)"},
+  {"title":"Butterfly Knife Fidget Trainer","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"🪃","bg":"linear-gradient(135deg,#fce4ec,#f8bbd0)"},
+  {"title":"Print-in-Place Gyroscope Desk Toy","price":"249","compare_at":"","cat":"home","isNew":true,"icon":"🌀","bg":"linear-gradient(135deg,#e0f7fa,#b2ebf2)"},
+  {"title":"Snap Fit Fidget Spinner","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🌪️","bg":"linear-gradient(135deg,#f1f8e9,#dcedc8)"},
+
+  // ── HOME & MORE — Home Decor ─────────────────────────────────
+  {"title":"Geometric Voronoi Vase","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🏺","bg":"linear-gradient(135deg,#fdf6ec,#fde3c0)"},
+  {"title":"Succulent Planter Pot","price":"249","compare_at":"450","cat":"home","isNew":true,"icon":"🌵","bg":"linear-gradient(135deg,#e8f5e9,#c8e6c9)"},
+  {"title":"Geometric Lamp Shade","price":"499","compare_at":"900","cat":"home","isNew":true,"icon":"💡","bg":"linear-gradient(135deg,#fffde7,#fff9c4)"},
+  {"title":"Hexagon Wall Art Panel","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🔷","bg":"linear-gradient(135deg,#e8eaf6,#c5cae9)"},
+  {"title":"Moon Phase Wall Decor","price":"349","compare_at":"","cat":"home","isNew":true,"icon":"🌙","bg":"linear-gradient(135deg,#1a1a2e,#16213e)"},
+  {"title":"Twisted Spiral Candle Holder","price":"299","compare_at":"","cat":"home","isNew":true,"icon":"🕯️","bg":"linear-gradient(135deg,#fff3e0,#ffe0b2)"},
+
+  // ── HOME & MORE — Desk & Gaming ──────────────────────────────
+  {"title":"Headphone Stand","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🎧","bg":"linear-gradient(135deg,#f3e5f5,#ce93d8)"},
+  {"title":"Gaming Controller Stand","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🎮","bg":"linear-gradient(135deg,#e8eaf6,#9fa8da)"},
+  {"title":"Desk Pen & Pencil Holder","price":"249","compare_at":"400","cat":"home","isNew":true,"icon":"✏️","bg":"linear-gradient(135deg,#e0f2f1,#80cbc4)"},
+  {"title":"Cable Clips — Set of 6","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🔌","bg":"linear-gradient(135deg,#fafafa,#eeeeee)"},
+  {"title":"Dice Tower (Tabletop RPG)","price":"449","compare_at":"750","cat":"home","isNew":true,"icon":"🎲","bg":"linear-gradient(135deg,#3e2723,#6d4c41)"},
+  {"title":"D&D 7-Piece Dice Set","price":"499","compare_at":"","cat":"home","isNew":true,"icon":"🎯","bg":"linear-gradient(135deg,#1b0000,#4a0000)"},
+
+  // ── HOME & MORE — Miniatures ─────────────────────────────────
+  {"title":"Low Poly Pokémon Figure","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⭐","bg":"linear-gradient(135deg,#fff9c4,#f9a825)"},
+  {"title":"Articulated Groot Figure","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🌿","bg":"linear-gradient(135deg,#33691e,#558b2f)"},
+  {"title":"Among Us Crewmate Figure","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"👾","bg":"linear-gradient(135deg,#e53935,#b71c1c)"},
+  {"title":"Low Poly Animal Trophy Head","price":"399","compare_at":"650","cat":"home","isNew":true,"icon":"🦌","bg":"linear-gradient(135deg,#efebe9,#bcaaa4)"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -459,11 +504,17 @@ function waLink(title) {
 
 function renderCard(p) {
   const old = p.compare_at ? `<span class="price-old">₹${p.compare_at}</span>` : '';
+  const newBadge = p.isNew ? `<span class="badge-new-label">NEW</span>` : '';
+  const catEmoji = {flexi:'🐾', kit:'🃏', custom:'🎨', home:'🏠'}[p.cat];
+  const imgContent = p.image
+    ? `<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+       <div class="img-fallback" style="display:none"><div class="img-placeholder"><span>${p.icon||catEmoji}</span><small>Photo Coming Soon</small></div></div>`
+    : `<div class="img-placeholder" style="background:${p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'}"><span>${p.icon||catEmoji}</span><small>Available to Order</small></div>`;
   return `<div class="product-card" data-cat="${p.cat}" data-title="${p.title.toLowerCase()}">
-    <div class="product-img">
-      <img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="img-fallback" style="display:none">${p.cat==='flexi'?'🐾':p.cat==='kit'?'🃏':'🎨'}</div>
+    <div class="product-img" style="${!p.image?'background:'+( p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'):''}">
+      ${imgContent}
       <span class="cat-badge ${BADGE_CLASS[p.cat]}">${BADGE[p.cat]}</span>
+      ${newBadge}
     </div>
     <div class="product-info">
       <div class="product-name">${p.title}</div>
@@ -478,12 +529,13 @@ function renderCard(p) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map(renderCard).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0 };
 PRODUCTS.forEach(p => counts[p.cat]++);
 document.getElementById('cnt-all').textContent   = `(${counts.all})`;
 document.getElementById('cnt-flexi').textContent = `(${counts.flexi})`;
 document.getElementById('cnt-kit').textContent   = `(${counts.kit})`;
 document.getElementById('cnt-custom').textContent= `(${counts.custom})`;
+document.getElementById('cnt-home').textContent  = `(${counts.home})`;
 
 let activeCat = 'all', searchVal = '';
 
