@@ -3,344 +3,271 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ShroomLab 3D — Premium 3D Printed Creations. Flexi Toys, Custom Prints, Made in India. Order via WhatsApp or Instagram.">
+  <meta name="description" content="ShroomLab 3D — Premium 3D Printed Creations. Flexi Toys, Custom Prints, Kit Cards. Made in India. Order via WhatsApp or Instagram.">
   <title>ShroomLab 3D | Flexi Toys • Custom Prints • Made in India</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --green-deep:   #1b4332;
-      --green-mid:    #2d6a4f;
-      --green-light:  #40916c;
-      --green-accent: #52b788;
-      --green-pale:   #d8f3dc;
-      --cream:        #fefae0;
-      --white:        #ffffff;
-      --text-dark:    #1a1a2e;
-      --text-mid:     #4a4a6a;
-      --text-light:   #9999bb;
-      --shadow:       0 4px 20px rgba(0,0,0,0.07);
-      --shadow-hover: 0 12px 40px rgba(0,0,0,0.14);
-      --radius:       16px;
+      --g-deep:   #1b4332;
+      --g-mid:    #2d6a4f;
+      --g-light:  #40916c;
+      --g-accent: #52b788;
+      --g-pale:   #d8f3dc;
+      --text:     #1a1a2e;
+      --muted:    #5a5a7a;
+      --faint:    #9999bb;
+      --bg:       #f6fdf9;
+      --white:    #ffffff;
+      --shadow:   0 4px 18px rgba(0,0,0,0.07);
+      --shadow-h: 0 12px 36px rgba(0,0,0,0.13);
+      --r: 14px;
     }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f7fdf9;
-      color: var(--text-dark);
-      line-height: 1.6;
-    }
-
-    /* ── NAV ─────────────────────────────────────── */
+    /* NAV */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 200;
       background: rgba(255,255,255,0.96);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid #e2f0e8;
-      padding: 0 6%;
+      border-bottom: 1px solid #dff0e6;
+      padding: 0 5%;
       display: flex; align-items: center; justify-content: space-between;
-      height: 68px;
+      height: 66px;
     }
-
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none;
-    }
-    .nav-logo-icon {
-      width: 40px; height: 40px;
-      background: var(--green-deep);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-    }
-    .nav-logo-text {
-      font-size: 1.15rem; font-weight: 700;
-      color: var(--green-deep); letter-spacing: -0.4px;
-    }
-    .nav-logo-text span { color: var(--green-accent); }
-
-    .nav-links {
-      display: flex; gap: 30px; list-style: none;
-    }
-    .nav-links a {
-      text-decoration: none; color: var(--text-mid);
-      font-weight: 500; font-size: 0.88rem;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--green-deep); }
-
-    .nav-cta { display: flex; gap: 10px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 42px; height: 42px; object-fit: contain; border-radius: 50%; }
+    .nav-logo-text { font-size: 1.12rem; font-weight: 700; color: var(--g-deep); letter-spacing: -0.3px; }
+    .nav-logo-text span { color: var(--g-accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 0.87rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--g-deep); }
+    .nav-cta { display: flex; gap: 9px; }
 
     .btn {
-      padding: 9px 18px;
-      border-radius: 50px;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600; font-size: 0.83rem;
-      cursor: pointer; border: none;
-      text-decoration: none;
+      padding: 9px 17px; border-radius: 50px;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.82rem;
+      cursor: pointer; border: none; text-decoration: none;
       display: inline-flex; align-items: center; gap: 7px;
-      transition: all 0.22s;
-      white-space: nowrap;
+      transition: all 0.22s; white-space: nowrap;
     }
-    .btn-whatsapp { background: #25D366; color: white; }
-    .btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(37,211,102,0.35); }
-    .btn-insta {
-      background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
-      color: white;
-    }
-    .btn-insta:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 6px 18px rgba(220,39,67,0.3); }
-    .btn-primary { background: var(--green-deep); color: white; }
-    .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(27,67,50,0.3); }
-    .btn-lg { padding: 14px 30px; font-size: 0.96rem; }
+    .btn-wa  { background: #25D366; color: #fff; }
+    .btn-wa:hover  { background: #1da851; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(37,211,102,0.35); }
+    .btn-ig  { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+    .btn-ig:hover  { transform: translateY(-2px); opacity: .9; }
+    .btn-dark { background: var(--g-deep); color: #fff; }
+    .btn-dark:hover { background: var(--g-mid); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(27,67,50,0.3); }
+    .btn-lg { padding: 13px 28px; font-size: 0.94rem; }
 
-    /* ── HERO ────────────────────────────────────── */
+    /* HERO */
     .hero {
-      padding: 80px 6% 64px;
-      display: flex; align-items: center; gap: 60px;
+      padding: 72px 5% 56px;
+      display: flex; align-items: center; gap: 56px;
       max-width: 1200px; margin: 0 auto;
     }
     .hero-content { flex: 1 1 0; }
-
     .hero-badge {
       display: inline-flex; align-items: center; gap: 7px;
-      background: var(--green-pale); color: var(--green-deep);
-      padding: 6px 16px; border-radius: 50px;
-      font-size: 0.78rem; font-weight: 600;
-      margin-bottom: 22px;
+      background: var(--g-pale); color: var(--g-deep);
+      padding: 6px 15px; border-radius: 50px;
+      font-size: 0.76rem; font-weight: 600; margin-bottom: 20px;
     }
-    .hero h1 {
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      font-weight: 800; line-height: 1.15;
-      margin-bottom: 18px;
-    }
-    .hero h1 .highlight { color: var(--green-light); }
-    .hero-sub {
-      font-size: 0.98rem; color: var(--text-mid);
-      max-width: 460px; margin-bottom: 18px;
-    }
-    .hero-tags {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      margin-bottom: 32px;
-    }
-    .hero-tag {
-      background: white; border: 1px solid #ceeada;
-      color: var(--green-mid);
-      padding: 5px 14px; border-radius: 50px;
-      font-size: 0.8rem; font-weight: 500;
-    }
-    .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
-
+    .hero h1 { font-size: clamp(1.9rem, 3.8vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+    .hero h1 .hl { color: var(--g-light); }
+    .hero-sub { font-size: 0.96rem; color: var(--muted); max-width: 440px; margin-bottom: 18px; }
+    .hero-tags { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 30px; }
+    .hero-tag { background: var(--white); border: 1px solid #ceeada; color: var(--g-mid); padding: 5px 13px; border-radius: 50px; font-size: 0.78rem; font-weight: 500; }
+    .hero-btns { display: flex; gap: 13px; flex-wrap: wrap; }
     .hero-visual { flex: 1 1 0; display: flex; justify-content: center; }
     .hero-blob {
-      width: 360px; height: 360px;
-      background: linear-gradient(135deg, #c7f0d8, #d8f3dc);
+      width: 340px; height: 340px;
+      background: linear-gradient(135deg,#c7f0d8,#d8f3dc);
       border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 8.5rem;
-      animation: morph 7s ease-in-out infinite;
+      animation: morph 7s ease-in-out infinite; overflow: hidden;
     }
+    .hero-blob img { width: 75%; height: 75%; object-fit: contain; }
     @keyframes morph {
       0%,100% { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
       33%      { border-radius: 40% 60% 30% 70% / 60% 40% 60% 40%; }
       66%      { border-radius: 70% 30% 50% 50% / 40% 70% 30% 60%; }
     }
 
-    /* ── FEATURES BAR ────────────────────────────── */
-    .features {
-      background: var(--green-deep);
-      padding: 22px 6%;
-      display: flex; justify-content: center; gap: 56px; flex-wrap: wrap;
+    /* FEATURES BAR */
+    .features-bar {
+      background: var(--g-deep); padding: 20px 5%;
+      display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;
     }
-    .feature-item { display: flex; align-items: center; gap: 10px; color: white; }
-    .feature-icon { font-size: 1.3rem; }
-    .feature-text { font-size: 0.84rem; font-weight: 500; }
+    .fi { display: flex; align-items: center; gap: 9px; color: #fff; }
+    .fi-icon { font-size: 1.25rem; }
+    .fi-text { font-size: 0.82rem; font-weight: 500; }
 
-    /* ── CATALOGUE ───────────────────────────────── */
-    .catalogue {
-      padding: 72px 6%;
-      max-width: 1200px; margin: 0 auto;
+    /* CATALOGUE */
+    .catalogue { padding: 68px 5%; max-width: 1240px; margin: 0 auto; }
+    .sec-head { text-align: center; margin-bottom: 40px; }
+    .sec-tag {
+      display: inline-block; background: var(--g-pale); color: var(--g-deep);
+      padding: 5px 15px; border-radius: 50px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;
     }
-    .section-header { text-align: center; margin-bottom: 50px; }
-    .section-tag {
-      display: inline-block;
-      background: var(--green-pale); color: var(--green-deep);
-      padding: 5px 16px; border-radius: 50px;
-      font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .section-header h2 {
-      font-size: clamp(1.6rem, 3vw, 2.3rem);
-      font-weight: 700;
-    }
-    .section-header p { color: var(--text-mid); margin-top: 10px; font-size: 0.93rem; }
+    .sec-head h2 { font-size: clamp(1.5rem, 2.8vw, 2.1rem); font-weight: 700; }
+    .sec-head p { color: var(--muted); margin-top: 9px; font-size: 0.9rem; }
 
+    /* FILTER TABS */
+    .filter-bar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 36px;
+    }
+    .filter-btn {
+      padding: 8px 20px; border-radius: 50px; border: 1.5px solid #cce8d6;
+      background: var(--white); color: var(--g-mid);
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--g-mid); }
+    .filter-btn.active { background: var(--g-deep); color: #fff; border-color: var(--g-deep); }
+    .search-box {
+      padding: 8px 18px; border-radius: 50px; border: 1.5px solid #cce8d6;
+      background: var(--white); font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem; color: var(--text); outline: none; width: 200px;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus { border-color: var(--g-light); }
+
+    /* PRODUCT GRID */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
     }
-
     .product-card {
-      background: white;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
+      background: var(--white); border-radius: var(--r);
+      overflow: hidden; box-shadow: var(--shadow);
       transition: transform 0.28s ease, box-shadow 0.28s ease;
-      position: relative;
+      position: relative; display: flex; flex-direction: column;
     }
-    .product-card:hover {
-      transform: translateY(-7px);
-      box-shadow: var(--shadow-hover);
-    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-h); }
+    .product-card.hidden { display: none; }
 
     .product-img {
-      height: 195px;
-      background: linear-gradient(135deg, #eefaf3, #d8f3dc);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 4rem;
-      position: relative; overflow: hidden;
+      height: 190px; position: relative; overflow: hidden;
+      background: #eef8f2;
     }
     .product-img img {
       width: 100%; height: 100%; object-fit: cover;
-      position: absolute; top: 0; left: 0;
+      transition: transform 0.35s ease;
+    }
+    .product-card:hover .product-img img { transform: scale(1.06); }
+    .img-fallback {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; background: linear-gradient(135deg,#eefaf3,#d8f3dc);
     }
 
-    .product-badge {
-      position: absolute; top: 12px; left: 12px;
-      background: #ff4757; color: white;
+    .cat-badge {
+      position: absolute; top: 10px; left: 10px;
       padding: 3px 10px; border-radius: 50px;
-      font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.5px;
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
     }
-    .badge-custom { background: var(--green-light); }
-    .badge-popular { background: #ff7f50; }
+    .badge-custom { background: var(--g-light); color: #fff; }
+    .badge-flexi  { background: #ff7043; color: #fff; }
+    .badge-kit    { background: #5c6bc0; color: #fff; }
 
-    .product-info { padding: 18px; }
-    .product-name { font-size: 0.93rem; font-weight: 600; margin-bottom: 6px; }
-    .product-desc {
-      font-size: 0.78rem; color: var(--text-mid);
-      margin-bottom: 15px; line-height: 1.55;
-    }
-    .product-footer { display: flex; align-items: center; justify-content: space-between; }
-    .price-current { font-size: 1.05rem; font-weight: 700; color: var(--green-deep); }
-    .price-old {
-      font-size: 0.76rem; color: var(--text-light);
-      text-decoration: line-through; margin-left: 5px;
-    }
-
+    .product-info { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+    .product-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .price-cur { font-size: 1rem; font-weight: 700; color: var(--g-deep); }
+    .price-old { font-size: 0.74rem; color: var(--faint); text-decoration: line-through; margin-left: 5px; }
     .btn-order {
-      background: var(--green-pale); color: var(--green-deep);
-      padding: 7px 14px; border-radius: 50px;
-      font-size: 0.76rem; font-weight: 600;
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 5px;
-      transition: all 0.2s;
+      background: var(--g-pale); color: var(--g-deep);
+      padding: 6px 13px; border-radius: 50px;
+      font-size: 0.74rem; font-weight: 600; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
+      transition: all 0.2s; white-space: nowrap;
     }
-    .btn-order:hover { background: var(--green-deep); color: white; }
+    .btn-order:hover { background: var(--g-deep); color: #fff; }
 
-    /* ── CUSTOM ORDERS ───────────────────────────── */
-    .custom-section {
-      background: linear-gradient(135deg, #f0fbf5, #e4f7eb);
-      padding: 72px 6%;
-    }
-    .custom-inner {
-      max-width: 780px; margin: 0 auto; text-align: center;
-    }
-    .custom-inner h2 {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700; margin: 14px 0 16px;
-    }
-    .custom-inner p { color: var(--text-mid); font-size: 0.94rem; max-width: 500px; margin: 0 auto 34px; }
-    .custom-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-    /* ── CONTACT ─────────────────────────────────── */
-    .contact-section {
-      background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
-      padding: 72px 6%;
-      text-align: center;
-      color: white;
-    }
-    .contact-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 12px; }
-    .contact-section > p { opacity: 0.85; font-size: 0.94rem; max-width: 480px; margin: 0 auto 36px; }
-    .contact-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .contact-info {
-      margin-top: 40px;
-      display: flex; gap: 36px; justify-content: center; flex-wrap: wrap;
-    }
-    .contact-info-item {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.84rem; opacity: 0.78;
+    .no-results {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 20px; color: var(--muted); font-size: 0.95rem;
     }
 
-    /* ── FOOTER ──────────────────────────────────── */
+    /* CUSTOM SECTION */
+    .custom-sec {
+      background: linear-gradient(135deg,#f0fbf5,#e4f7eb);
+      padding: 68px 5%;
+    }
+    .custom-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+    .custom-inner h2 { font-size: clamp(1.5rem,2.8vw,2rem); font-weight: 700; margin: 12px 0 14px; }
+    .custom-inner p { color: var(--muted); font-size: 0.92rem; max-width: 490px; margin: 0 auto 32px; }
+    .custom-btns { display: flex; gap: 13px; justify-content: center; flex-wrap: wrap; }
+
+    /* CONTACT */
+    .contact-sec {
+      background: linear-gradient(135deg, var(--g-deep), var(--g-mid));
+      padding: 68px 5%; text-align: center; color: #fff;
+    }
+    .contact-sec h2 { font-size: clamp(1.5rem,2.8vw,2rem); font-weight: 700; margin-bottom: 10px; }
+    .contact-sec > p { opacity: .82; font-size: 0.92rem; max-width: 460px; margin: 0 auto 32px; }
+    .contact-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .contact-info { margin-top: 36px; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+    .ci { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; opacity: .75; }
+
+    /* FOOTER */
     footer {
-      background: #0a2016; color: white;
-      padding: 28px 6%;
+      background: #0a2016; color: #fff;
+      padding: 26px 5%;
       display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 14px;
+      flex-wrap: wrap; gap: 12px;
     }
-    .footer-brand { font-size: 0.82rem; opacity: 0.55; }
-    .footer-links { display: flex; gap: 22px; }
-    .footer-links a {
-      color: white; opacity: 0.55;
-      text-decoration: none; font-size: 0.8rem;
-      transition: opacity 0.2s;
-    }
+    .footer-brand { font-size: 0.8rem; opacity: .5; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: #fff; opacity: .5; text-decoration: none; font-size: 0.78rem; transition: opacity 0.2s; }
     .footer-links a:hover { opacity: 1; }
 
-    /* ── FLOATING WHATSAPP ───────────────────────── */
+    /* FLOATING WA */
     .float-wa {
-      position: fixed; bottom: 24px; right: 24px; z-index: 999;
-      width: 56px; height: 56px;
-      background: #25D366;
-      border-radius: 50%;
+      position: fixed; bottom: 22px; right: 22px; z-index: 999;
+      width: 54px; height: 54px; background: #25D366; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 24px rgba(37,211,102,0.5);
-      text-decoration: none;
+      box-shadow: 0 6px 22px rgba(37,211,102,.5); text-decoration: none;
       animation: pulse 2.5s infinite;
     }
-    .float-wa svg { width: 28px; height: 28px; fill: white; }
+    .float-wa svg { width: 27px; height: 27px; fill: #fff; }
     @keyframes pulse {
-      0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,0.5); }
-      50%      { box-shadow: 0 6px 36px rgba(37,211,102,0.75); }
+      0%,100% { box-shadow: 0 6px 22px rgba(37,211,102,.5); }
+      50%      { box-shadow: 0 6px 34px rgba(37,211,102,.75); }
     }
 
-    /* ── MOBILE ──────────────────────────────────── */
+    /* MOBILE */
     @media (max-width: 768px) {
-      .hero {
-        flex-direction: column-reverse;
-        padding: 48px 5% 40px;
-        text-align: center;
-        gap: 32px;
-      }
+      .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
       .hero-sub { margin: 0 auto 16px; }
-      .hero-tags { justify-content: center; }
-      .hero-buttons { justify-content: center; }
-      .hero-blob { width: 240px; height: 240px; font-size: 6rem; }
+      .hero-tags, .hero-btns { justify-content: center; }
+      .hero-blob { width: 220px; height: 220px; }
       .nav-links { display: none; }
-      .nav-cta .btn-insta { display: none; }
-      .features { gap: 20px; padding: 18px 5%; }
+      .nav-cta .btn-ig { display: none; }
+      .features-bar { gap: 18px; padding: 16px 5%; }
       footer { justify-content: center; text-align: center; }
+      .search-box { width: 160px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── FLOATING WHATSAPP BUTTON ── -->
-<a class="float-wa" href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" aria-label="Chat on WhatsApp">
+<!-- FLOATING WA -->
+<a class="float-wa" href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<!-- ── NAV ── -->
+<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <div class="nav-logo-icon">🍄</div>
+    <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="ShroomLab 3D Logo" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+    <div style="display:none;width:42px;height:42px;background:var(--g-deep);border-radius:50%;align-items:center;justify-content:center;font-size:20px;">🍄</div>
     <div class="nav-logo-text">Shroom<span>Lab</span> 3D</div>
   </a>
   <ul class="nav-links">
@@ -349,229 +276,109 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-cta">
-    <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-whatsapp">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-wa">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp
     </a>
-    <a href="https://instagram.com/shroomlab_3d" target="_blank" class="btn btn-insta">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <a href="https://instagram.com/shroomlab_3d" target="_blank" class="btn btn-ig">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       Instagram
     </a>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">🇮🇳 Proudly Made in Cuddalore, India</div>
-    <h1>Premium <span class="highlight">3D Printed</span><br>Creations</h1>
-    <p class="hero-sub">Flexi toys, custom figures, kit cards &amp; more — crafted with precision and passion.</p>
+    <h1>Premium <span class="hl">3D Printed</span><br>Creations</h1>
+    <p class="hero-sub">Flexi toys, custom figures, kit cards &amp; more — 60+ products, crafted with precision and passion.</p>
     <div class="hero-tags">
       <span class="hero-tag">🐉 Flexi Toys</span>
       <span class="hero-tag">🎨 Custom Prints</span>
+      <span class="hero-tag">🃏 Kit Cards</span>
       <span class="hero-tag">⚡ Fast Shipping</span>
-      <span class="hero-tag">✨ High Quality</span>
     </div>
-    <div class="hero-buttons">
-      <a href="#catalogue" class="btn btn-primary">Browse Catalogue →</a>
-      <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-whatsapp">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Order via WhatsApp
-      </a>
+    <div class="hero-btns">
+      <a href="#catalogue" class="btn btn-dark">Browse 60+ Products →</a>
+      <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-wa">Order via WhatsApp</a>
     </div>
   </div>
   <div class="hero-visual">
-    <div class="hero-blob">🍄</div>
+    <div class="hero-blob">
+      <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="ShroomLab 3D" onerror="this.parentElement.innerHTML='🍄'">
+    </div>
   </div>
 </section>
 
-<!-- ── FEATURES BAR ── -->
-<div class="features">
-  <div class="feature-item"><span class="feature-icon">🏆</span><span class="feature-text">High Quality Prints</span></div>
-  <div class="feature-item"><span class="feature-icon">⚡</span><span class="feature-text">Fast Shipping</span></div>
-  <div class="feature-item"><span class="feature-icon">🎨</span><span class="feature-text">Custom Designs Welcome</span></div>
-  <div class="feature-item"><span class="feature-icon">🇮🇳</span><span class="feature-text">Made in India</span></div>
+<!-- FEATURES BAR -->
+<div class="features-bar">
+  <div class="fi"><span class="fi-icon">🏆</span><span class="fi-text">High Quality Prints</span></div>
+  <div class="fi"><span class="fi-icon">⚡</span><span class="fi-text">Fast Shipping</span></div>
+  <div class="fi"><span class="fi-icon">🎨</span><span class="fi-text">Custom Designs</span></div>
+  <div class="fi"><span class="fi-icon">📦</span><span class="fi-text">60+ Products</span></div>
+  <div class="fi"><span class="fi-icon">🇮🇳</span><span class="fi-text">Made in India</span></div>
 </div>
 
-<!-- ── CATALOGUE ── -->
+<!-- CATALOGUE -->
 <section class="catalogue" id="catalogue">
-  <div class="section-header">
-    <div class="section-tag">Our Collection</div>
+  <div class="sec-head">
+    <div class="sec-tag">Our Collection</div>
     <h2>Browse Our Catalogue</h2>
-    <p>Like something? Tap <strong>Order →</strong> to DM us on WhatsApp instantly.</p>
+    <p>Like something? Hit <strong>Order →</strong> to DM us on WhatsApp with the product name pre-filled.</p>
   </div>
 
-  <div class="products-grid">
-
-    <!-- 1 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#eefaf3,#c7f0d8)">
-        🧑‍🎨
-        <span class="product-badge badge-custom">Custom</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Chibi You — Custom</div>
-        <div class="product-desc">Your very own chibi-style custom figure. Send us a reference and we'll bring it to life!</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹799</span><span class="price-old">₹1,500</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order a Chibi Custom figure" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#fff5f5,#ffd6d6)">
-        🦸
-        <span class="product-badge badge-custom">Custom</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Custom Action Figure</div>
-        <div class="product-desc">Custom action figure printed to your specs. Perfect for gifts, collectibles &amp; display.</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹599</span><span class="price-old">₹799</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order a Custom Action Figure" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#fffbf0,#fdefc0)">
-        🕉️
-        <span class="product-badge badge-custom">Custom</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Divine — Custom</div>
-        <div class="product-desc">Beautifully detailed divine &amp; spiritual custom prints. A unique and thoughtful gift.</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹449</span><span class="price-old">₹799</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order a Divine Custom print" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#f5f0ff,#ddd0ff)">
-        🐉
-        <span class="product-badge badge-popular">Popular</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Flexi Dragon — Desk Toy</div>
-        <div class="product-desc">Satisfying articulated flexi dragon with fully movable joints. The ultimate desk companion!</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹249</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order a Flexi Dragon" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#f0f4ff,#ccd9ff)">
-        ✈️
-      </div>
-      <div class="product-info">
-        <div class="product-name">F-14 Tomcat Kit Card</div>
-        <div class="product-desc">Punch-out kit card of the iconic F-14 Tomcat. Assemble your own miniature fighter jet!</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹149</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order an F-14 Tomcat Kit Card" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 6 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#fdf0ff,#eac8ff)">
-        🕷️
-        <span class="product-badge badge-popular">Popular</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Articulated Mini Flexi Spider</div>
-        <div class="product-desc">Tiny spider with fully movable legs. Satisfying to fidget with — creepy cute!</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹49</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order an Articulated Mini Flexi Spider" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 7 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#fff0f8,#ffd6ee)">
-        💎
-        <span class="product-badge badge-custom">Custom</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Custom Earrings</div>
-        <div class="product-desc">Unique 3D printed earrings in any shape or style you want. Wearable art!</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹29</span><span class="price-old">₹100</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order Custom Earrings" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 8 -->
-    <div class="product-card">
-      <div class="product-img" style="background:linear-gradient(135deg,#f0fff4,#b7ebc4)">
-        🚛
-      </div>
-      <div class="product-info">
-        <div class="product-name">Army Truck Kit Card</div>
-        <div class="product-desc">Punch-out kit card of a rugged army truck. Build your own miniature military vehicle!</div>
-        <div class="product-footer">
-          <div><span class="price-current">₹149</span></div>
-          <a href="https://wa.me/919597976015?text=Hi! I want to order an Army Truck Kit Card" target="_blank" class="btn-order">Order →</a>
-        </div>
-      </div>
-    </div>
-
+  <div class="filter-bar">
+    <button class="filter-btn active" data-cat="all">All <span id="cnt-all"></span></button>
+    <button class="filter-btn" data-cat="flexi">🐾 Flexi Toys <span id="cnt-flexi"></span></button>
+    <button class="filter-btn" data-cat="kit">🃏 Kit Cards <span id="cnt-kit"></span></button>
+    <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
+    <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
+
+  <div class="products-grid" id="grid"></div>
 </section>
 
-<!-- ── CUSTOM ORDERS ── -->
-<section class="custom-section" id="custom">
+<!-- CUSTOM ORDERS -->
+<section class="custom-sec" id="custom">
   <div class="custom-inner">
-    <div class="section-tag">Custom Orders</div>
+    <div class="sec-tag">Custom Orders</div>
     <h2>Got Something in Mind?</h2>
-    <p>Send us a reference image, sketch, or idea — we'll bring it to life with precision 3D printing. No project is too unique!</p>
+    <p>Send us a reference image, sketch, or idea — we'll bring it to life with precision 3D printing. Figurines, keychains, frames, and more!</p>
     <div class="custom-btns">
-      <a href="https://wa.me/919597976015?text=Hi! I have a custom 3D print request" target="_blank" class="btn btn-whatsapp btn-lg">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <a href="https://wa.me/919597976015?text=Hi! I have a custom 3D print request" target="_blank" class="btn btn-wa btn-lg">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Chat on WhatsApp
       </a>
-      <a href="https://instagram.com/shroomlab_3d" target="_blank" class="btn btn-insta btn-lg">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      <a href="https://instagram.com/shroomlab_3d" target="_blank" class="btn btn-ig btn-lg">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         DM on Instagram
       </a>
     </div>
   </div>
 </section>
 
-<!-- ── CONTACT ── -->
-<section class="contact-section" id="contact">
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
   <h2>Ready to Order?</h2>
-  <p>We respond fast — just drop a message on WhatsApp or Instagram and we'll get back to you right away.</p>
-  <div class="contact-buttons">
-    <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-whatsapp btn-lg">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <p>We respond fast — drop a message on WhatsApp or Instagram!</p>
+  <div class="contact-btns">
+    <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-wa btn-lg">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       +91 95979 76015
     </a>
-    <a href="https://instagram.com/shroomlab_3d" target="_blank" class="btn btn-insta btn-lg">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <a href="https://instagram.com/shroomlab_3d" target="_blank" class="btn btn-ig btn-lg">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       @shroomlab_3d
     </a>
   </div>
   <div class="contact-info">
-    <div class="contact-info-item">📍 Cuddalore, Tamil Nadu, India</div>
-    <div class="contact-info-item">📧 shroomlabddd@gmail.com</div>
+    <div class="ci">📍 Cuddalore, Tamil Nadu, India</div>
+    <div class="ci">📧 shroomlabddd@gmail.com</div>
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-brand">© 2025 ShroomLab 3D · Made with ❤️ in India</div>
   <div class="footer-links">
@@ -581,5 +388,133 @@
   </div>
 </footer>
 
+<script>
+const PRODUCTS = [
+  {"title":"Custom Earrings – Personalized Style","price":"29","compare_at":"100","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/mushear.webp?v=1777807427","cat":"custom"},
+  {"title":"Articulated Mini Flexi Fox Toy / Keychain","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexifoxtoy_keychain.webp?v=1777807166","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Octopus","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexioctpus.webp?v=1777807132","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Spider","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/spidy.webp?v=1777809934","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Shark","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexishark.webp?v=1777807057","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Turtle","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexiturle.webp?v=1777807032","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Shark Dragon","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexisharkdragon.webp?v=1777807007","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Hammerhead Shark","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Hammerheadshrak.webp?v=1777806974","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Mini Dragon","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/minidragon.webp?v=1777806941","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Winged Dragon","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/miniwingeddragon.webp?v=1777806910","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Slug","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexislug.webp?v=1777806865","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Gecko","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexigecko.webp?v=1777806831","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Skunk","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexiskunk_105fd527-a77d-427e-9b8f-f6be71b37a82.webp?v=1777806767","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Starfish","price":"99","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexistarfish.jpg?v=1777806734","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Manta Ray","price":"99","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/fleximantaray_58fd5286-9cf7-4f7f-bf06-f9c17ace1991.webp?v=1777806704","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Scorpion","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexiscorpion.webp?v=1777806655","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Toothless","price":"99","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexitoothless.webp?v=1777806598","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Axolotl","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/FlexiAxolotl.webp?v=1777806548","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Wiggly Kitty","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexiwigglykitty.webp?v=1777806515","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Pangolin","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexipangolin.webp?v=1777806487","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Pirate","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/FlexiPirate.webp?v=1777806461","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Raccoon","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexiracoon.webp?v=1777806409","cat":"flexi"},
+  {"title":"Articulated Mini Flexi Baby Dragon","price":"49","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/FlexiBabyDragon.webp?v=1777806171","cat":"flexi"},
+  {"title":"Articulated Flexi Snake","price":"249","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/port_hoti.jpg?v=1777720333","cat":"flexi"},
+  {"title":"Flexi Dragon – Satisfying Desk Toy","price":"249","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexidragon.png?v=1777716771","cat":"flexi"},
+  {"title":"Chibi You – Custom Figure","price":"799","compare_at":"1500","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/chibi.png?v=1777789533","cat":"custom"},
+  {"title":"Custom Action Figure – Mini Hero","price":"599","compare_at":"799","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/JyKdnOhC_h0L1KmP7s2C2u4VDGRQ1n8kbDCekaQ6qYs39IDVs2jLQ_2ZF9miT-KwfBb5aUv_eK-Oj7fQYbB05o4mKLtxftEJHeZoiBoF9Ymi4iMDR9Xaj5IE0vUdwvARQld7S4mNXHWxz-9c4fa6Tt60I7jIbM-qqLeMdHujVs2jR2UKlNo--fa.jpg?v=1777805831","cat":"custom"},
+  {"title":"Divine – Custom Print","price":"449","compare_at":"799","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Shivan.jpg?v=1777799098","cat":"custom"},
+  {"title":"Pet Figurine – Custom","price":"699","compare_at":"999","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/dogg.jpg?v=1777798440","cat":"custom"},
+  {"title":"Couple Figurines – Custom","price":"1199","compare_at":"1900","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/couplee.jpg?v=1777798319","cat":"custom"},
+  {"title":"Photo Magnet – Custom","price":"349","compare_at":"600","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/magnettt.jpg?v=1777798145","cat":"custom"},
+  {"title":"Desk Name Plate – Custom","price":"349","compare_at":"600","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/nameeplate.jpg?v=1777797903","cat":"custom"},
+  {"title":"Phone Stand – Custom","price":"349","compare_at":"600","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/phonestand.jpg?v=1777797903","cat":"custom"},
+  {"title":"Face / Name Keychain Tag – Custom","price":"249","compare_at":"500","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/face_keychain.jpg?v=1777797437","cat":"custom"},
+  {"title":"Lithophane Photo Frame / Lamp – Custom","price":"799","compare_at":"1200","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/lithoframe.jpg?v=1777796973","cat":"custom"},
+  {"title":"Italian Vespa Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/ItalianVespa.webp?v=1777729054","cat":"kit"},
+  {"title":"Bulldozer Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/bulldozer.webp?v=1777729026","cat":"kit"},
+  {"title":"Army Truck Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Armytruck.webp?v=1777728987","cat":"kit"},
+  {"title":"Skeleton Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Skeleton.webp?v=1777728957","cat":"kit"},
+  {"title":"Battle Droid Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/battledroid.webp?v=1777728925","cat":"kit"},
+  {"title":"AT-ST Walker Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/at-stwalker.png?v=1777728887","cat":"kit"},
+  {"title":"F1 Car Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/F1.webp?v=1777728849","cat":"kit"},
+  {"title":"Moto Bike Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/motobike.webp?v=1777728810","cat":"kit"},
+  {"title":"Jeep Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Jeep.webp?v=1777728765","cat":"kit"},
+  {"title":"Golf Car Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/golfcar.webp?v=1777728736","cat":"kit"},
+  {"title":"Beyblade Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/beyblade.webp?v=1777728659","cat":"kit"},
+  {"title":"Turbo 2 Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Turbo2.webp?v=1777728574","cat":"kit"},
+  {"title":"SR-71 Plane Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/SR-71plane.webp?v=1777728501","cat":"kit"},
+  {"title":"T-Rex Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/T-rex.webp?v=1777728450","cat":"kit"},
+  {"title":"Tie Fighter Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/tieFighter.webp?v=1777728394","cat":"kit"},
+  {"title":"X-Wing Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/X-Wing.webp?v=1777728325","cat":"kit"},
+  {"title":"Dog Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Dog.jpg?v=1777728282","cat":"kit"},
+  {"title":"Tie Fighter Snowflake Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/TieFightersnowflake.webp?v=1777728244","cat":"kit"},
+  {"title":"Darth Vader Tie Advanced X1 Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/DarthVaderTieAdvancedX1.webp?v=1777728201","cat":"kit"},
+  {"title":"Rabbit Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/rabbit.webp?v=1777728133","cat":"kit"},
+  {"title":"Scooty Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Scooty.webp?v=1777728094","cat":"kit"},
+  {"title":"F-14 Tomcat Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/F-14Tomcat.webp?v=1777727578","cat":"kit"},
+  {"title":"T-34 Tank Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/T-34Tank.webp?v=1777727462","cat":"kit"}
+];
+
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom' };
+
+function waLink(title) {
+  return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
+}
+
+function renderCard(p) {
+  const old = p.compare_at ? `<span class="price-old">₹${p.compare_at}</span>` : '';
+  return `<div class="product-card" data-cat="${p.cat}" data-title="${p.title.toLowerCase()}">
+    <div class="product-img">
+      <img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="img-fallback" style="display:none">${p.cat==='flexi'?'🐾':p.cat==='kit'?'🃏':'🎨'}</div>
+      <span class="cat-badge ${BADGE_CLASS[p.cat]}">${BADGE[p.cat]}</span>
+    </div>
+    <div class="product-info">
+      <div class="product-name">${p.title}</div>
+      <div class="product-footer">
+        <div><span class="price-cur">₹${p.price}</span>${old}</div>
+        <a href="${waLink(p.title)}" target="_blank" class="btn-order">Order →</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+const grid = document.getElementById('grid');
+grid.innerHTML = PRODUCTS.map(renderCard).join('');
+
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0 };
+PRODUCTS.forEach(p => counts[p.cat]++);
+document.getElementById('cnt-all').textContent   = `(${counts.all})`;
+document.getElementById('cnt-flexi').textContent = `(${counts.flexi})`;
+document.getElementById('cnt-kit').textContent   = `(${counts.kit})`;
+document.getElementById('cnt-custom').textContent= `(${counts.custom})`;
+
+let activeCat = 'all', searchVal = '';
+
+function applyFilters() {
+  let visible = 0;
+  document.querySelectorAll('.product-card').forEach(card => {
+    const catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
+    const searchMatch = !searchVal || card.dataset.title.includes(searchVal);
+    const show = catMatch && searchMatch;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  const nr = document.querySelector('.no-results');
+  if (!visible) {
+    if (!nr) { const d = document.createElement('div'); d.className='no-results'; d.textContent='No products found. Try a different search.'; grid.appendChild(d); }
+  } else { if (nr) nr.remove(); }
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    applyFilters();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchVal = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+</script>
 </body>
 </html>
