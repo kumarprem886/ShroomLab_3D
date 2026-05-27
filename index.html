@@ -180,6 +180,8 @@
     .badge-jewellery { background: #ad1457; color: #fff; }
     .badge-idols     { background: #6a1b9a; color: #fff; }
     .badge-vases     { background: #00796b; color: #fff; }
+    .badge-keychains { background: #5d4037; color: #fff; }
+    .badge-namedecor { background: #1565c0; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -384,6 +386,8 @@
     <button class="filter-btn" data-cat="jewellery">💍 Jewellery <span id="cnt-jewellery"></span></button>
     <button class="filter-btn" data-cat="idols">🎭 Idols <span id="cnt-idols"></span></button>
     <button class="filter-btn" data-cat="vases">🏺 Vases <span id="cnt-vases"></span></button>
+    <button class="filter-btn" data-cat="keychains">🔑 Keychains <span id="cnt-keychains"></span></button>
+    <button class="filter-btn" data-cat="namedecor">✏️ Name & Letters <span id="cnt-namedecor"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -595,11 +599,27 @@ const PRODUCTS = [
   {"title":"Fairy Blossom Throne Vase","price":"449","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/USa2a0ea6eaf344d/design/32ebbcf6e91aafdd.jpg"},
   {"title":"Elegant Petal Muse Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/US87d00fd9ec3a9d/design/b9668f28e082b016.jpg"},
   {"title":"Flowing Blossom Spirit Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/UScf6863e3c2e20a/design/382a46c03be9c220.jpg"},
-  {"title":"Forest Lily Spirit Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌿","image":"https://makerworld.bblmw.com/makerworld/model/US537f907eb4959a/design/b4356684d43b0d4e.jpg"}
+  {"title":"Forest Lily Spirit Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌿","image":"https://makerworld.bblmw.com/makerworld/model/US537f907eb4959a/design/b4356684d43b0d4e.jpg"},
+  {"title":"Customizable Script Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"🔑","bg":"linear-gradient(135deg,#efebe9,#d7ccc8)"},
+  {"title":"Harry Potter Font Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"⚡","bg":"linear-gradient(135deg,#f3e5f5,#e1bee7)"},
+  {"title":"Parametric Custom Name Keychain","price":"79","compare_at":"","cat":"keychains","isNew":true,"icon":"🔑","bg":"linear-gradient(135deg,#e8eaf6,#c5cae9)"},
+  {"title":"Custom Parametric Keychains","price":"79","compare_at":"","cat":"keychains","isNew":true,"icon":"🔑","bg":"linear-gradient(135deg,#e3f2fd,#bbdefb)"},
+  {"title":"Huntrix Font Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"🔤","bg":"linear-gradient(135deg,#fbe9e7,#ffccbc)"},
+  {"title":"Disney Style Pencil Topper Keychain","price":"89","compare_at":"","cat":"keychains","isNew":true,"icon":"✨","bg":"linear-gradient(135deg,#fff9c4,#fff176)"},
+  {"title":"Roblox Font Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"🎮","bg":"linear-gradient(135deg,#e8f5e9,#c8e6c9)"},
+  {"title":"Harry Potter Personalized Keychain","price":"89","compare_at":"","cat":"keychains","isNew":true,"icon":"⚡","bg":"linear-gradient(135deg,#f3e5f5,#e1bee7)"},
+  {"title":"GTA Font Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"🎯","bg":"linear-gradient(135deg,#fce4ec,#f8bbd9)"},
+  {"title":"Street Graffiti Style Keychain","price":"79","compare_at":"","cat":"keychains","isNew":true,"icon":"🖌️","bg":"linear-gradient(135deg,#e0f2f1,#b2dfdb)"},
+  {"title":"Minecraft Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"⛏️","bg":"linear-gradient(135deg,#f1f8e9,#dcedc8)"},
+  {"title":"Star Wars Font Name Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"⭐","bg":"linear-gradient(135deg,#fafafa,#e0e0e0)"},
+  {"title":"Custom Name – Pokémon Font Keychain","price":"79","compare_at":"150","cat":"keychains","isNew":true,"icon":"🌟","bg":"linear-gradient(135deg,#fff8e1,#ffecb3)"},
+  {"title":"Ultimate 3D Name Sign","price":"299","compare_at":"500","cat":"namedecor","isNew":true,"icon":"✏️","bg":"linear-gradient(135deg,#e3f2fd,#bbdefb)"},
+  {"title":"Floral Decor Letters","price":"249","compare_at":"450","cat":"namedecor","isNew":true,"icon":"🌸","bg":"linear-gradient(135deg,#fce4ec,#f8bbd9)"},
+  {"title":"Alphabet Flower Wall Decor","price":"349","compare_at":"600","cat":"namedecor","isNew":true,"icon":"🌺","bg":"linear-gradient(135deg,#f3e5f5,#e1bee7)"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -665,8 +685,8 @@ function renderCard(p) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map(renderCard).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0 };
-PRODUCTS.forEach(p => counts[p.cat]++);
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0 };
+PRODUCTS.forEach(p => { if (counts[p.cat] !== undefined) counts[p.cat]++; });
 document.getElementById('cnt-all').textContent        = `(${counts.all})`;
 document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
 document.getElementById('cnt-kit').textContent        = `(${counts.kit})`;
@@ -676,6 +696,8 @@ document.getElementById('cnt-assemble').textContent   = `(${counts.assemble})`;
 document.getElementById('cnt-jewellery').textContent  = `(${counts.jewellery})`;
 document.getElementById('cnt-idols').textContent      = `(${counts.idols})`;
 document.getElementById('cnt-vases').textContent      = `(${counts.vases})`;
+document.getElementById('cnt-keychains').textContent  = `(${counts.keychains})`;
+document.getElementById('cnt-namedecor').textContent  = `(${counts.namedecor})`;
 
 let activeCat = 'all', searchVal = '';
 
