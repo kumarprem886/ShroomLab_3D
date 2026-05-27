@@ -376,7 +376,7 @@
     <button class="filter-btn" data-cat="kit">🃏 Kit Cards <span id="cnt-kit"></span></button>
     <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
     <button class="filter-btn" data-cat="home">🏠 Home & More <span id="cnt-home"></span></button>
-    <button class="filter-btn" data-cat="assemble">🦜 Assemble Lab <span id="cnt-assemble"></span></button>
+    <button class="filter-btn" data-cat="assemble">🦜 Life-Size Prints <span id="cnt-assemble"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -542,11 +542,11 @@ const PRODUCTS = [
   {"title":"Mini Flexi Shark","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦈","image":"https://makerworld.bblmw.com/makerworld/model/US7aadb0b7460041/design/2025-01-20_9ec80ea87866.jpg"},
   {"title":"Low-Poly Animal Collection","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🦁","image":"https://makerworld.bblmw.com/makerworld/model/US43317d53633ee6/design/2025-12-28_76ad956293753.png"},
 
-  // ── ASSEMBLE LAB ──────────────────────────────────────────────
-  {"title":"Assemble Lab: LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","image":"https://makerworld.bblmw.com/makerworld/model/US1b76a40a049258/design/67d4b4c40f5ca1c4.jpg"}
+  // ── LIFE-SIZE PRINTS ──────────────────────────────────────────
+  {"title":"LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","images":["images/macaw1.jpg","images/macaw2.jpg"]}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Assemble Lab' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size' };
 const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble' };
 
 function waLink(title) {
