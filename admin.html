@@ -13,12 +13,12 @@
     header h1{font-size:1.2rem;font-weight:700}
     header span{font-size:0.8rem;color:#a7f3d0;margin-left:auto}
 
-    .layout{display:grid;grid-template-columns:420px 1fr;gap:0;min-height:calc(100vh - 65px)}
+    .layout{display:grid;grid-template-columns:440px 1fr;gap:0;min-height:calc(100vh - 65px)}
 
     /* ── FORM PANEL ── */
     .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:28px 28px 40px;overflow-y:auto}
-    .form-panel h2{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #d8f3dc}
-    .field{margin-bottom:16px}
+    .section-title{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #d8f3dc}
+    .field{margin-bottom:14px}
     label{display:block;font-size:0.78rem;font-weight:600;color:#2d6a4f;margin-bottom:5px}
     input,select,textarea{
       width:100%;padding:9px 13px;border:1.5px solid #ceeada;border-radius:10px;
@@ -26,12 +26,38 @@
       background:#f6fdf9;outline:none;transition:border 0.2s
     }
     input:focus,select:focus,textarea:focus{border-color:#40916c;background:#fff}
-    textarea{resize:vertical;min-height:70px}
+    textarea{resize:vertical;min-height:65px}
+
+    /* new category box */
+    .new-cat-box{
+      background:#f0fdf4;border:1.5px dashed #40916c;border-radius:12px;
+      padding:14px;margin-bottom:14px;display:none
+    }
+    .new-cat-box.visible{display:block}
+    .new-cat-box label{color:#1b4332}
+    .new-cat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .color-row{display:flex;align-items:center;gap:10px;margin-top:4px}
+    .color-row input[type=color]{width:46px;height:36px;padding:2px;border-radius:8px;cursor:pointer}
+    .color-row input[type=text]{flex:1}
+    .btn-save-cat{
+      width:100%;padding:9px;background:#40916c;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;margin-top:10px;
+      transition:all 0.2s
+    }
+    .btn-save-cat:hover{background:#2d6a4f}
+    .cat-saved-msg{font-size:0.72rem;color:#065f46;font-weight:600;margin-top:6px;display:none;text-align:center}
+
+    /* existing categories chips */
+    .cat-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+    .cat-chip{
+      font-size:0.65rem;font-weight:700;padding:3px 9px;border-radius:50px;
+      color:#fff;letter-spacing:0.3px
+    }
 
     .img-preview-box{
-      width:100%;height:160px;border-radius:10px;border:2px dashed #ceeada;
+      width:100%;height:155px;border-radius:10px;border:2px dashed #ceeada;
       background:#f6fdf9;display:flex;align-items:center;justify-content:center;
-      overflow:hidden;margin-top:8px;position:relative
+      overflow:hidden;margin-top:7px
     }
     .img-preview-box img{width:100%;height:100%;object-fit:cover;border-radius:8px}
     .img-preview-box .placeholder{color:#9999bb;font-size:0.75rem;text-align:center;padding:10px}
@@ -39,23 +65,28 @@
     .btn-add{
       width:100%;padding:13px;background:#1b4332;color:#fff;border:none;border-radius:50px;
       font-family:'Poppins',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;
-      transition:all 0.2s;margin-top:8px
+      transition:all 0.2s;margin-top:6px
     }
     .btn-add:hover{background:#2d6a4f;transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,67,50,0.3)}
-    .btn-add:active{transform:none}
 
     .success-msg{
-      display:none;background:#d1fae5;color:#065f46;padding:10px 14px;border-radius:10px;
+      display:none;background:#d1fae5;color:#065f46;padding:9px 14px;border-radius:10px;
       font-size:0.8rem;font-weight:600;margin-top:10px;text-align:center
     }
 
-    /* ── EXPORT SECTION ── */
-    .export-section{margin-top:24px;padding-top:20px;border-top:2px solid #d8f3dc}
+    /* export */
+    .export-section{margin-top:22px;padding-top:18px;border-top:2px solid #d8f3dc}
     .export-section h3{font-size:0.85rem;font-weight:700;color:#1b4332;margin-bottom:10px}
+    .export-tabs{display:flex;gap:6px;margin-bottom:8px}
+    .etab{
+      padding:4px 12px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
+      font-size:0.72rem;font-weight:600;cursor:pointer;color:#2d6a4f;transition:all 0.2s
+    }
+    .etab.active{background:#1b4332;color:#fff;border-color:#1b4332}
     .export-box{
       background:#1a1a2e;color:#a7f3d0;border-radius:10px;padding:12px;
-      font-size:0.7rem;font-family:monospace;max-height:200px;overflow-y:auto;
-      white-space:pre-wrap;word-break:break-all
+      font-size:0.68rem;font-family:monospace;max-height:180px;overflow-y:auto;
+      white-space:pre-wrap;word-break:break-all;line-height:1.5
     }
     .btn-copy{
       width:100%;padding:9px;background:#40916c;color:#fff;border:none;border-radius:50px;
@@ -65,34 +96,27 @@
     .btn-copy:hover{background:#2d6a4f}
     .btn-clear{
       width:100%;padding:7px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;
-      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;margin-top:6px;
-      transition:all 0.2s
+      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;margin-top:6px
     }
-    .btn-clear:hover{background:#fff5f5}
 
-    /* ── CATALOGUE PANEL ── */
+    /* catalogue */
     .catalogue-panel{padding:24px;overflow-y:auto}
-    .catalogue-panel h2{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:16px}
-    .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .catalogue-panel h2{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:14px}
+    .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
     .cf-btn{
-      padding:5px 14px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
-      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;color:#2d6a4f;
-      transition:all 0.2s
+      padding:5px 13px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
+      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;color:#2d6a4f
     }
     .cf-btn.active{background:#1b4332;color:#fff;border-color:#1b4332}
-
-    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
-    .p-card{
-      background:#fff;border-radius:14px;overflow:hidden;
-      box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:box-shadow 0.2s;position:relative
-    }
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+    .p-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;transition:box-shadow 0.2s}
     .p-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.12)}
-    .p-card-img{height:140px;overflow:hidden;background:#eef8f2;position:relative}
+    .p-card-img{height:135px;overflow:hidden;background:#eef8f2;position:relative}
     .p-card-img img{width:100%;height:100%;object-fit:cover}
-    .p-card-img .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;background:#f0fdf4}
-    .p-card-info{padding:10px 12px 12px}
-    .p-card-name{font-size:0.78rem;font-weight:600;line-height:1.35;margin-bottom:6px}
-    .p-card-cat{font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 8px;border-radius:50px;display:inline-block}
+    .p-card-img .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:#f0fdf4}
+    .p-card-info{padding:9px 11px 11px}
+    .p-card-name{font-size:0.76rem;font-weight:600;line-height:1.35;margin-bottom:5px}
+    .p-card-cat{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 7px;border-radius:50px;display:inline-block;color:#fff}
     .p-card-del{
       position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;
       background:rgba(229,57,53,0.85);color:#fff;border:none;cursor:pointer;
@@ -100,18 +124,8 @@
       opacity:0;transition:opacity 0.2s
     }
     .p-card:hover .p-card-del{opacity:1}
-
-    .new-badge{
-      position:absolute;top:6px;left:6px;background:#ffd700;color:#1a1a2e;
-      font-size:0.55rem;font-weight:800;padding:2px 6px;border-radius:50px
-    }
-
-    .empty-state{
-      grid-column:1/-1;text-align:center;padding:60px 20px;color:#9999bb;
-      font-size:0.9rem
-    }
-
-    /* scrollbar */
+    .new-badge-card{position:absolute;top:6px;left:6px;background:#ffd700;color:#1a1a2e;font-size:0.55rem;font-weight:800;padding:2px 6px;border-radius:50px}
+    .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:#9999bb;font-size:0.9rem}
     ::-webkit-scrollbar{width:5px}
     ::-webkit-scrollbar-track{background:#f0fdf4}
     ::-webkit-scrollbar-thumb{background:#b7e4c7;border-radius:10px}
@@ -122,14 +136,16 @@
 <header>
   <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="logo" onerror="this.style.display='none'">
   <h1>ShroomLab 3D — Admin Panel</h1>
-  <span id="total-count">Loading...</span>
+  <span id="total-count">0 products added</span>
 </header>
 
 <div class="layout">
 
-  <!-- FORM -->
+  <!-- ── FORM PANEL ── -->
   <div class="form-panel">
-    <h2>➕ Add New Product</h2>
+
+    <!-- ADD PRODUCT -->
+    <div class="section-title">➕ Add New Product</div>
 
     <div class="field">
       <label>Product Name *</label>
@@ -138,180 +154,309 @@
 
     <div class="field">
       <label>Category *</label>
-      <select id="f-cat">
-        <option value="flexi">🐾 Flexi Toys</option>
-        <option value="kit">🃏 Kit Cards</option>
-        <option value="custom">🎨 Custom</option>
-        <option value="home">🏠 Home & More</option>
-        <option value="vases">🏺 Vases</option>
-        <option value="jewellery">💍 Jewellery</option>
-        <option value="idols">🎭 Idols</option>
-        <option value="assemble">🦜 Life-Size Prints</option>
-        <option value="keychains">🔑 Keychains</option>
-        <option value="namedecor">✏️ Name & Letters</option>
-      </select>
+      <select id="f-cat" onchange="onCatChange(this.value)"></select>
+    </div>
+
+    <!-- NEW CATEGORY CREATOR -->
+    <div class="new-cat-box" id="new-cat-box">
+      <div style="font-size:0.8rem;font-weight:700;color:#1b4332;margin-bottom:10px">🆕 Create New Category</div>
+      <div class="new-cat-row">
+        <div>
+          <label>Key (no spaces) *</label>
+          <input type="text" id="nc-key" placeholder="e.g. characters">
+        </div>
+        <div>
+          <label>Emoji *</label>
+          <input type="text" id="nc-emoji" placeholder="🎮" style="width:70px">
+        </div>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>Label (shown in filter tab) *</label>
+        <input type="text" id="nc-label" placeholder="e.g. Characters">
+      </div>
+      <div class="field">
+        <label>Badge Colour</label>
+        <div class="color-row">
+          <input type="color" id="nc-color-pick" value="#5d4037" oninput="document.getElementById('nc-color').value=this.value">
+          <input type="text" id="nc-color" value="#5d4037" placeholder="#5d4037" oninput="document.getElementById('nc-color-pick').value=this.value">
+        </div>
+      </div>
+      <button class="btn-save-cat" onclick="saveNewCategory()">✅ Save Category</button>
+      <div class="cat-saved-msg" id="cat-saved-msg">Category saved! Select it from the dropdown above.</div>
     </div>
 
     <div class="field">
       <label>Image URL (paste MakerWorld CDN link)</label>
-      <textarea id="f-img" placeholder="https://makerworld.bblmw.com/..." rows="3"></textarea>
+      <textarea id="f-img" placeholder="https://makerworld.bblmw.com/..." rows="2" oninput="previewImg(this.value)"></textarea>
       <div class="img-preview-box" id="img-preview">
-        <div class="placeholder">📷 Image preview appears here</div>
+        <div class="placeholder">📷 Paste an image URL above to preview</div>
       </div>
     </div>
 
     <div class="field">
-      <label>Icon (emoji, optional)</label>
+      <label>Icon emoji (optional)</label>
       <input type="text" id="f-icon" placeholder="🏺" style="width:80px">
     </div>
 
     <button class="btn-add" onclick="addProduct()">Add to Catalogue</button>
-    <div class="success-msg" id="success-msg">✅ Product added successfully!</div>
+    <div class="success-msg" id="success-msg">✅ Product added!</div>
 
     <!-- EXPORT -->
     <div class="export-section">
-      <h3>📋 Export new products (paste into index.html)</h3>
+      <h3>📋 Export & paste into index.html</h3>
+      <div class="export-tabs">
+        <button class="etab active" onclick="setExportTab('products',this)">Products JS</button>
+        <button class="etab" onclick="setExportTab('categories',this)">New Categories</button>
+      </div>
       <div class="export-box" id="export-box">// No new products yet</div>
       <button class="btn-copy" onclick="copyExport()">📋 Copy to Clipboard</button>
-      <button class="btn-clear" onclick="clearAll()">🗑️ Clear all new products</button>
+      <button class="btn-clear" onclick="clearAll()">🗑️ Clear all session data</button>
     </div>
+
   </div>
 
-  <!-- CATALOGUE PREVIEW -->
+  <!-- ── CATALOGUE PREVIEW ── -->
   <div class="catalogue-panel">
-    <h2 id="catalogue-heading">New Products Added This Session</h2>
+    <h2 id="catalogue-heading">New Products — This Session (0)</h2>
     <div class="cat-filter" id="cat-filter"></div>
     <div class="product-grid" id="product-grid">
-      <div class="empty-state">No products added yet.<br>Use the form on the left to add your first product.</div>
+      <div class="empty-state">No products added yet.<br>Use the form on the left to get started.</div>
     </div>
   </div>
 
 </div>
 
 <script>
-const BADGE_COLOR = {
-  flexi:'#ff7043', kit:'#5c6bc0', custom:'#40916c',
-  home:'#e91e63', vases:'#00796b', jewellery:'#ad1457',
-  idols:'#6a1b9a', assemble:'#f57c00', keychains:'#5d4037', namedecor:'#1565c0'
-};
-const BADGE_LABEL = {
-  flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom',
-  home:'🏠 Home & More', vases:'🏺 Vases', jewellery:'💍 Jewellery',
-  idols:'🎭 Idols', assemble:'🦜 Life-Size', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters'
+// ── Builtin categories (already in index.html) ──────────────────────
+const BUILTIN_CATS = {
+  flexi:     { label:'Flexi Toys',     emoji:'🐾', color:'#ff7043' },
+  kit:       { label:'Kit Cards',      emoji:'🃏', color:'#5c6bc0' },
+  custom:    { label:'Custom',         emoji:'🎨', color:'#40916c' },
+  home:      { label:'Home & More',    emoji:'🏠', color:'#e91e63' },
+  vases:     { label:'Vases',          emoji:'🏺', color:'#00796b' },
+  jewellery: { label:'Jewellery',      emoji:'💍', color:'#ad1457' },
+  idols:     { label:'Idols',          emoji:'🎭', color:'#6a1b9a' },
+  assemble:  { label:'Life-Size Prints',emoji:'🦜',color:'#f57c00' },
+  keychains: { label:'Keychains',      emoji:'🔑', color:'#5d4037' },
+  namedecor: { label:'Name & Letters', emoji:'✏️', color:'#1565c0' },
 };
 
-const STORAGE_KEY = 'shroomlab_new_products';
-let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let activeCat = 'all';
+const PROD_KEY = 'shroomlab_new_products';
+const CAT_KEY  = 'shroomlab_new_categories';
 
-// Live image preview
-document.getElementById('f-img').addEventListener('input', function() {
-  const url = this.value.trim();
-  const box = document.getElementById('img-preview');
-  if (url) {
-    box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>❌ Image not found</div>'">`;
+let products   = JSON.parse(localStorage.getItem(PROD_KEY)  || '[]');
+let customCats = JSON.parse(localStorage.getItem(CAT_KEY)   || '{}');
+let exportTab  = 'products';
+let activeCat  = 'all';
+
+// ── All categories (builtin + custom) ──────────────────────────────
+function allCats() {
+  return { ...BUILTIN_CATS, ...customCats };
+}
+
+function catInfo(key) {
+  return allCats()[key] || { label: key, emoji: '📦', color: '#888' };
+}
+
+// ── Populate category dropdown ──────────────────────────────────────
+function populateCatDropdown() {
+  const sel = document.getElementById('f-cat');
+  const prev = sel.value;
+  sel.innerHTML = '';
+  Object.entries(allCats()).forEach(([key, c]) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = `${c.emoji} ${c.label}`;
+    sel.appendChild(opt);
+  });
+  // Add "new" option at end
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = '➕ Create new category...';
+  sel.appendChild(newOpt);
+  if (prev) sel.value = prev;
+}
+
+function onCatChange(val) {
+  const box = document.getElementById('new-cat-box');
+  if (val === '__new__') {
+    box.classList.add('visible');
   } else {
-    box.innerHTML = `<div class="placeholder">📷 Image preview appears here</div>`;
+    box.classList.remove('visible');
+    document.getElementById('cat-saved-msg').style.display = 'none';
   }
-});
+}
 
+// ── Save new category ───────────────────────────────────────────────
+function saveNewCategory() {
+  const key   = document.getElementById('nc-key').value.trim().toLowerCase().replace(/\s+/g,'_');
+  const emoji = document.getElementById('nc-emoji').value.trim();
+  const label = document.getElementById('nc-label').value.trim();
+  const color = document.getElementById('nc-color').value.trim() || '#5d4037';
+
+  if (!key || !label) { alert('Category key and label are required'); return; }
+  if (BUILTIN_CATS[key]) { alert(`"${key}" is already a built-in category. Choose a different key.`); return; }
+
+  customCats[key] = { label, emoji: emoji || '📦', color };
+  localStorage.setItem(CAT_KEY, JSON.stringify(customCats));
+
+  populateCatDropdown();
+  document.getElementById('f-cat').value = key;
+  document.getElementById('new-cat-box').classList.remove('visible');
+  document.getElementById('cat-saved-msg').style.display = 'block';
+
+  // Reset fields
+  document.getElementById('nc-key').value = '';
+  document.getElementById('nc-emoji').value = '';
+  document.getElementById('nc-label').value = '';
+  document.getElementById('nc-color').value = '#5d4037';
+  document.getElementById('nc-color-pick').value = '#5d4037';
+
+  renderAll();
+}
+
+// ── Image preview ───────────────────────────────────────────────────
+function previewImg(url) {
+  const box = document.getElementById('img-preview');
+  url = url.trim();
+  if (url) {
+    box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>❌ Could not load image</div>'">`;
+  } else {
+    box.innerHTML = `<div class="placeholder">📷 Paste an image URL above to preview</div>`;
+  }
+}
+
+// ── Add product ─────────────────────────────────────────────────────
 function addProduct() {
   const name = document.getElementById('f-name').value.trim();
   const cat  = document.getElementById('f-cat').value;
   const img  = document.getElementById('f-img').value.trim();
   const icon = document.getElementById('f-icon').value.trim();
 
-  if (!name) { alert('Please enter a product name'); return; }
+  if (!name)         { alert('Product name is required'); return; }
+  if (cat==='__new__'){ alert('Please save your new category first, then add the product'); return; }
 
-  const product = { title: name, cat, image: img || null, icon: icon || null, isNew: true, price: '299', compare_at: '' };
-  products.push(product);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  products.push({ title: name, cat, image: img || null, icon: icon || null, isNew: true });
+  localStorage.setItem(PROD_KEY, JSON.stringify(products));
 
-  // Reset form
   document.getElementById('f-name').value = '';
-  document.getElementById('f-img').value = '';
+  document.getElementById('f-img').value  = '';
   document.getElementById('f-icon').value = '';
-  document.getElementById('img-preview').innerHTML = '<div class="placeholder">📷 Image preview appears here</div>';
+  previewImg('');
 
-  // Show success
   const msg = document.getElementById('success-msg');
   msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 2500);
+  setTimeout(() => msg.style.display = 'none', 2200);
 
   renderAll();
 }
 
+// ── Delete product ──────────────────────────────────────────────────
 function deleteProduct(idx) {
   products.splice(idx, 1);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  localStorage.setItem(PROD_KEY, JSON.stringify(products));
   renderAll();
 }
 
+// ── Render everything ───────────────────────────────────────────────
 function renderAll() {
   renderGrid();
-  renderExport();
+  renderExportBox();
   renderFilters();
-  document.getElementById('total-count').textContent = `${products.length} new product${products.length !== 1 ? 's' : ''} added`;
-  document.getElementById('catalogue-heading').textContent =
-    `New Products Added This Session (${products.length})`;
+  document.getElementById('total-count').textContent = `${products.length} product${products.length!==1?'s':''} added`;
+  document.getElementById('catalogue-heading').textContent = `New Products — This Session (${products.length})`;
 }
 
 function renderFilters() {
   const cats = ['all', ...new Set(products.map(p => p.cat))];
-  const fc = document.getElementById('cat-filter');
-  fc.innerHTML = cats.map(c => {
-    const label = c === 'all' ? `All (${products.length})` : `${BADGE_LABEL[c]||c} (${products.filter(p=>p.cat===c).length})`;
-    return `<button class="cf-btn ${activeCat===c?'active':''}" onclick="setFilter('${c}')">${label}</button>`;
+  document.getElementById('cat-filter').innerHTML = cats.map(c => {
+    const count = c === 'all' ? products.length : products.filter(p=>p.cat===c).length;
+    const ci = c === 'all' ? { emoji:'', label:'All' } : catInfo(c);
+    return `<button class="cf-btn ${activeCat===c?'active':''}" onclick="setFilter('${c}')">${ci.emoji} ${ci.label} (${count})</button>`;
   }).join('');
 }
 
-function setFilter(cat) {
-  activeCat = cat;
-  renderFilters();
-  renderGrid();
-}
+function setFilter(cat) { activeCat = cat; renderFilters(); renderGrid(); }
 
 function renderGrid() {
   const grid = document.getElementById('product-grid');
-  const filtered = activeCat === 'all' ? products : products.filter(p => p.cat === activeCat);
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state">No products added yet.<br>Use the form on the left to add your first product.</div>';
+  const list = activeCat === 'all' ? products : products.filter(p=>p.cat===activeCat);
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state">No products yet.<br>Use the form on the left to add some.</div>';
     return;
   }
-  grid.innerHTML = filtered.map((p, fi) => {
-    const realIdx = products.indexOf(p);
+  grid.innerHTML = list.map((p) => {
+    const ri  = products.indexOf(p);
+    const ci  = catInfo(p.cat);
     const img = p.image
       ? `<img src="${p.image}" onerror="this.style.display='none'">`
-      : `<div class="no-img">${p.icon || '📦'}</div>`;
-    const col = BADGE_COLOR[p.cat] || '#888';
-    const lbl = BADGE_LABEL[p.cat] || p.cat;
+      : `<div class="no-img">${p.icon || ci.emoji || '📦'}</div>`;
     return `<div class="p-card">
-      <div class="p-card-img">${img}<span class="new-badge">NEW</span></div>
-      <button class="p-card-del" onclick="deleteProduct(${realIdx})" title="Remove">✕</button>
+      <div class="p-card-img">${img}<span class="new-badge-card">NEW</span></div>
+      <button class="p-card-del" onclick="deleteProduct(${ri})">✕</button>
       <div class="p-card-info">
         <div class="p-card-name">${p.title}</div>
-        <span class="p-card-cat" style="background:${col};color:#fff">${lbl}</span>
+        <span class="p-card-cat" style="background:${ci.color}">${ci.emoji} ${ci.label}</span>
       </div>
     </div>`;
   }).join('');
 }
 
-function renderExport() {
+// ── Export tabs ─────────────────────────────────────────────────────
+function setExportTab(tab, btn) {
+  exportTab = tab;
+  document.querySelectorAll('.etab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderExportBox();
+}
+
+function renderExportBox() {
   const box = document.getElementById('export-box');
-  if (products.length === 0) { box.textContent = '// No new products yet'; return; }
-  const lines = products.map(p => {
-    let entry = `  {"title":${JSON.stringify(p.title)},"price":"299","compare_at":"","cat":"${p.cat}","isNew":true`;
-    if (p.icon) entry += `,"icon":"${p.icon}"`;
-    if (p.image) entry += `,"image":${JSON.stringify(p.image)}`;
-    entry += `}`;
-    return entry;
-  });
-  box.textContent = lines.join(',\n');
+  if (exportTab === 'products') {
+    if (!products.length) { box.textContent = '// No new products yet'; return; }
+    box.textContent = products.map(p => {
+      let e = `  {"title":${JSON.stringify(p.title)},"price":"299","compare_at":"","cat":"${p.cat}","isNew":true`;
+      if (p.icon)  e += `,"icon":"${p.icon}"`;
+      if (p.image) e += `,"image":${JSON.stringify(p.image)}`;
+      return e + '}';
+    }).join(',\n');
+  } else {
+    // categories export
+    if (!Object.keys(customCats).length) { box.textContent = '// No new categories created yet'; return; }
+    const lines = [];
+    lines.push('// 1. Add these CSS badge classes inside <style>:');
+    Object.entries(customCats).forEach(([k,c]) => {
+      lines.push(`    .badge-${k} { background: ${c.color}; color: #fff; }`);
+    });
+    lines.push('');
+    lines.push('// 2. Add these filter buttons in the filter bar:');
+    Object.entries(customCats).forEach(([k,c]) => {
+      lines.push(`    <button class="filter-btn" data-cat="${k}">${c.emoji} ${c.label} <span id="cnt-${k}"></span></button>`);
+    });
+    lines.push('');
+    lines.push('// 3. Add to BADGE object:');
+    Object.entries(customCats).forEach(([k,c]) => {
+      lines.push(`  ${k}:'${c.emoji} ${c.label}',`);
+    });
+    lines.push('');
+    lines.push('// 4. Add to BADGE_CLASS object:');
+    Object.entries(customCats).forEach(([k,c]) => {
+      lines.push(`  ${k}:'badge-${k}',`);
+    });
+    lines.push('');
+    lines.push('// 5. Add to counts object:');
+    Object.keys(customCats).forEach(k => lines.push(`  ${k}: 0,`));
+    lines.push('');
+    lines.push('// 6. Add count DOM update:');
+    Object.keys(customCats).forEach(k => {
+      lines.push(`  document.getElementById('cnt-${k}').textContent = \`(\${counts.${k}})\`;`);
+    });
+    box.textContent = lines.join('\n');
+  }
 }
 
 function copyExport() {
-  const text = document.getElementById('export-box').textContent;
-  navigator.clipboard.writeText(text).then(() => {
+  navigator.clipboard.writeText(document.getElementById('export-box').textContent).then(() => {
     const btn = document.querySelector('.btn-copy');
     btn.textContent = '✅ Copied!';
     setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2000);
@@ -319,14 +464,16 @@ function copyExport() {
 }
 
 function clearAll() {
-  if (!confirm('Clear all new products from this session?')) return;
-  products = [];
-  localStorage.removeItem(STORAGE_KEY);
+  if (!confirm('Clear ALL session products and custom categories?')) return;
+  products = []; customCats = {};
+  localStorage.removeItem(PROD_KEY); localStorage.removeItem(CAT_KEY);
   activeCat = 'all';
+  populateCatDropdown();
   renderAll();
 }
 
-// Init
+// ── Init ────────────────────────────────────────────────────────────
+populateCatDropdown();
 renderAll();
 </script>
 </body>
