@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShroomLab Admin — Add Products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:#f0fdf4;color:#1a1a2e;min-height:100vh}
+    header{background:#1b4332;color:#fff;padding:18px 32px;display:flex;align-items:center;gap:14px}
+    header img{width:40px;height:40px;border-radius:50%;object-fit:contain}
+    header h1{font-size:1.2rem;font-weight:700}
+    header span{font-size:0.8rem;color:#a7f3d0;margin-left:auto}
+
+    .layout{display:grid;grid-template-columns:420px 1fr;gap:0;min-height:calc(100vh - 65px)}
+
+    /* ── FORM PANEL ── */
+    .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:28px 28px 40px;overflow-y:auto}
+    .form-panel h2{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #d8f3dc}
+    .field{margin-bottom:16px}
+    label{display:block;font-size:0.78rem;font-weight:600;color:#2d6a4f;margin-bottom:5px}
+    input,select,textarea{
+      width:100%;padding:9px 13px;border:1.5px solid #ceeada;border-radius:10px;
+      font-family:'Poppins',sans-serif;font-size:0.85rem;color:#1a1a2e;
+      background:#f6fdf9;outline:none;transition:border 0.2s
+    }
+    input:focus,select:focus,textarea:focus{border-color:#40916c;background:#fff}
+    textarea{resize:vertical;min-height:70px}
+
+    .img-preview-box{
+      width:100%;height:160px;border-radius:10px;border:2px dashed #ceeada;
+      background:#f6fdf9;display:flex;align-items:center;justify-content:center;
+      overflow:hidden;margin-top:8px;position:relative
+    }
+    .img-preview-box img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+    .img-preview-box .placeholder{color:#9999bb;font-size:0.75rem;text-align:center;padding:10px}
+
+    .btn-add{
+      width:100%;padding:13px;background:#1b4332;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;
+      transition:all 0.2s;margin-top:8px
+    }
+    .btn-add:hover{background:#2d6a4f;transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,67,50,0.3)}
+    .btn-add:active{transform:none}
+
+    .success-msg{
+      display:none;background:#d1fae5;color:#065f46;padding:10px 14px;border-radius:10px;
+      font-size:0.8rem;font-weight:600;margin-top:10px;text-align:center
+    }
+
+    /* ── EXPORT SECTION ── */
+    .export-section{margin-top:24px;padding-top:20px;border-top:2px solid #d8f3dc}
+    .export-section h3{font-size:0.85rem;font-weight:700;color:#1b4332;margin-bottom:10px}
+    .export-box{
+      background:#1a1a2e;color:#a7f3d0;border-radius:10px;padding:12px;
+      font-size:0.7rem;font-family:monospace;max-height:200px;overflow-y:auto;
+      white-space:pre-wrap;word-break:break-all
+    }
+    .btn-copy{
+      width:100%;padding:9px;background:#40916c;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;
+      margin-top:8px;transition:all 0.2s
+    }
+    .btn-copy:hover{background:#2d6a4f}
+    .btn-clear{
+      width:100%;padding:7px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;margin-top:6px;
+      transition:all 0.2s
+    }
+    .btn-clear:hover{background:#fff5f5}
+
+    /* ── CATALOGUE PANEL ── */
+    .catalogue-panel{padding:24px;overflow-y:auto}
+    .catalogue-panel h2{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:16px}
+    .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .cf-btn{
+      padding:5px 14px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
+      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;color:#2d6a4f;
+      transition:all 0.2s
+    }
+    .cf-btn.active{background:#1b4332;color:#fff;border-color:#1b4332}
+
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+    .p-card{
+      background:#fff;border-radius:14px;overflow:hidden;
+      box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:box-shadow 0.2s;position:relative
+    }
+    .p-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+    .p-card-img{height:140px;overflow:hidden;background:#eef8f2;position:relative}
+    .p-card-img img{width:100%;height:100%;object-fit:cover}
+    .p-card-img .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;background:#f0fdf4}
+    .p-card-info{padding:10px 12px 12px}
+    .p-card-name{font-size:0.78rem;font-weight:600;line-height:1.35;margin-bottom:6px}
+    .p-card-cat{font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 8px;border-radius:50px;display:inline-block}
+    .p-card-del{
+      position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;
+      background:rgba(229,57,53,0.85);color:#fff;border:none;cursor:pointer;
+      font-size:0.75rem;display:flex;align-items:center;justify-content:center;
+      opacity:0;transition:opacity 0.2s
+    }
+    .p-card:hover .p-card-del{opacity:1}
+
+    .new-badge{
+      position:absolute;top:6px;left:6px;background:#ffd700;color:#1a1a2e;
+      font-size:0.55rem;font-weight:800;padding:2px 6px;border-radius:50px
+    }
+
+    .empty-state{
+      grid-column:1/-1;text-align:center;padding:60px 20px;color:#9999bb;
+      font-size:0.9rem
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:#f0fdf4}
+    ::-webkit-scrollbar-thumb{background:#b7e4c7;border-radius:10px}
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="logo" onerror="this.style.display='none'">
+  <h1>ShroomLab 3D — Admin Panel</h1>
+  <span id="total-count">Loading...</span>
+</header>
+
+<div class="layout">
+
+  <!-- FORM -->
+  <div class="form-panel">
+    <h2>➕ Add New Product</h2>
+
+    <div class="field">
+      <label>Product Name *</label>
+      <input type="text" id="f-name" placeholder="e.g. Butterfly Floral Vase">
+    </div>
+
+    <div class="field">
+      <label>Category *</label>
+      <select id="f-cat">
+        <option value="flexi">🐾 Flexi Toys</option>
+        <option value="kit">🃏 Kit Cards</option>
+        <option value="custom">🎨 Custom</option>
+        <option value="home">🏠 Home & More</option>
+        <option value="vases">🏺 Vases</option>
+        <option value="jewellery">💍 Jewellery</option>
+        <option value="idols">🎭 Idols</option>
+        <option value="assemble">🦜 Life-Size Prints</option>
+        <option value="keychains">🔑 Keychains</option>
+        <option value="namedecor">✏️ Name & Letters</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Image URL (paste MakerWorld CDN link)</label>
+      <textarea id="f-img" placeholder="https://makerworld.bblmw.com/..." rows="3"></textarea>
+      <div class="img-preview-box" id="img-preview">
+        <div class="placeholder">📷 Image preview appears here</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Icon (emoji, optional)</label>
+      <input type="text" id="f-icon" placeholder="🏺" style="width:80px">
+    </div>
+
+    <button class="btn-add" onclick="addProduct()">Add to Catalogue</button>
+    <div class="success-msg" id="success-msg">✅ Product added successfully!</div>
+
+    <!-- EXPORT -->
+    <div class="export-section">
+      <h3>📋 Export new products (paste into index.html)</h3>
+      <div class="export-box" id="export-box">// No new products yet</div>
+      <button class="btn-copy" onclick="copyExport()">📋 Copy to Clipboard</button>
+      <button class="btn-clear" onclick="clearAll()">🗑️ Clear all new products</button>
+    </div>
+  </div>
+
+  <!-- CATALOGUE PREVIEW -->
+  <div class="catalogue-panel">
+    <h2 id="catalogue-heading">New Products Added This Session</h2>
+    <div class="cat-filter" id="cat-filter"></div>
+    <div class="product-grid" id="product-grid">
+      <div class="empty-state">No products added yet.<br>Use the form on the left to add your first product.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const BADGE_COLOR = {
+  flexi:'#ff7043', kit:'#5c6bc0', custom:'#40916c',
+  home:'#e91e63', vases:'#00796b', jewellery:'#ad1457',
+  idols:'#6a1b9a', assemble:'#f57c00', keychains:'#5d4037', namedecor:'#1565c0'
+};
+const BADGE_LABEL = {
+  flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom',
+  home:'🏠 Home & More', vases:'🏺 Vases', jewellery:'💍 Jewellery',
+  idols:'🎭 Idols', assemble:'🦜 Life-Size', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters'
+};
+
+const STORAGE_KEY = 'shroomlab_new_products';
+let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let activeCat = 'all';
+
+// Live image preview
+document.getElementById('f-img').addEventListener('input', function() {
+  const url = this.value.trim();
+  const box = document.getElementById('img-preview');
+  if (url) {
+    box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>❌ Image not found</div>'">`;
+  } else {
+    box.innerHTML = `<div class="placeholder">📷 Image preview appears here</div>`;
+  }
+});
+
+function addProduct() {
+  const name = document.getElementById('f-name').value.trim();
+  const cat  = document.getElementById('f-cat').value;
+  const img  = document.getElementById('f-img').value.trim();
+  const icon = document.getElementById('f-icon').value.trim();
+
+  if (!name) { alert('Please enter a product name'); return; }
+
+  const product = { title: name, cat, image: img || null, icon: icon || null, isNew: true, price: '299', compare_at: '' };
+  products.push(product);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+
+  // Reset form
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-img').value = '';
+  document.getElementById('f-icon').value = '';
+  document.getElementById('img-preview').innerHTML = '<div class="placeholder">📷 Image preview appears here</div>';
+
+  // Show success
+  const msg = document.getElementById('success-msg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 2500);
+
+  renderAll();
+}
+
+function deleteProduct(idx) {
+  products.splice(idx, 1);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  renderAll();
+}
+
+function renderAll() {
+  renderGrid();
+  renderExport();
+  renderFilters();
+  document.getElementById('total-count').textContent = `${products.length} new product${products.length !== 1 ? 's' : ''} added`;
+  document.getElementById('catalogue-heading').textContent =
+    `New Products Added This Session (${products.length})`;
+}
+
+function renderFilters() {
+  const cats = ['all', ...new Set(products.map(p => p.cat))];
+  const fc = document.getElementById('cat-filter');
+  fc.innerHTML = cats.map(c => {
+    const label = c === 'all' ? `All (${products.length})` : `${BADGE_LABEL[c]||c} (${products.filter(p=>p.cat===c).length})`;
+    return `<button class="cf-btn ${activeCat===c?'active':''}" onclick="setFilter('${c}')">${label}</button>`;
+  }).join('');
+}
+
+function setFilter(cat) {
+  activeCat = cat;
+  renderFilters();
+  renderGrid();
+}
+
+function renderGrid() {
+  const grid = document.getElementById('product-grid');
+  const filtered = activeCat === 'all' ? products : products.filter(p => p.cat === activeCat);
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state">No products added yet.<br>Use the form on the left to add your first product.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map((p, fi) => {
+    const realIdx = products.indexOf(p);
+    const img = p.image
+      ? `<img src="${p.image}" onerror="this.style.display='none'">`
+      : `<div class="no-img">${p.icon || '📦'}</div>`;
+    const col = BADGE_COLOR[p.cat] || '#888';
+    const lbl = BADGE_LABEL[p.cat] || p.cat;
+    return `<div class="p-card">
+      <div class="p-card-img">${img}<span class="new-badge">NEW</span></div>
+      <button class="p-card-del" onclick="deleteProduct(${realIdx})" title="Remove">✕</button>
+      <div class="p-card-info">
+        <div class="p-card-name">${p.title}</div>
+        <span class="p-card-cat" style="background:${col};color:#fff">${lbl}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderExport() {
+  const box = document.getElementById('export-box');
+  if (products.length === 0) { box.textContent = '// No new products yet'; return; }
+  const lines = products.map(p => {
+    let entry = `  {"title":${JSON.stringify(p.title)},"price":"299","compare_at":"","cat":"${p.cat}","isNew":true`;
+    if (p.icon) entry += `,"icon":"${p.icon}"`;
+    if (p.image) entry += `,"image":${JSON.stringify(p.image)}`;
+    entry += `}`;
+    return entry;
+  });
+  box.textContent = lines.join(',\n');
+}
+
+function copyExport() {
+  const text = document.getElementById('export-box').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2000);
+  });
+}
+
+function clearAll() {
+  if (!confirm('Clear all new products from this session?')) return;
+  products = [];
+  localStorage.removeItem(STORAGE_KEY);
+  activeCat = 'all';
+  renderAll();
+}
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
