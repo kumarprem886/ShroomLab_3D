@@ -172,10 +172,11 @@
       padding: 3px 10px; border-radius: 50px;
       font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
     }
-    .badge-custom { background: var(--g-light); color: #fff; }
-    .badge-flexi  { background: #ff7043; color: #fff; }
-    .badge-kit    { background: #5c6bc0; color: #fff; }
-    .badge-home   { background: #e91e63; color: #fff; }
+    .badge-custom    { background: var(--g-light); color: #fff; }
+    .badge-flexi     { background: #ff7043; color: #fff; }
+    .badge-kit       { background: #5c6bc0; color: #fff; }
+    .badge-home      { background: #e91e63; color: #fff; }
+    .badge-assemble  { background: #f57c00; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -375,6 +376,7 @@
     <button class="filter-btn" data-cat="kit">🃏 Kit Cards <span id="cnt-kit"></span></button>
     <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
     <button class="filter-btn" data-cat="home">🏠 Home & More <span id="cnt-home"></span></button>
+    <button class="filter-btn" data-cat="assemble">🦜 Assemble Lab <span id="cnt-assemble"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -519,11 +521,33 @@ const PRODUCTS = [
   {"title":"Low Poly Pokémon Figure","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⭐","images":["https://makerworld.bblmw.com/makerworld/model/US3dcb3b9dce740d/design/2025-08-19_9f3208e6f76b2.jpg","images/pokemon-figure.jpg"]},
   {"title":"Articulated Groot Figure","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🌿","images":["https://makerworld.bblmw.com/makerworld/model/USfd0df5948b21ca/design/820e8249d93b5651.jpg","images/groot-figure.jpg"]},
   {"title":"Among Us Crewmate Figure","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"👾","images":["https://makerworld.bblmw.com/makerworld/model/USf78fcac573ae1/design/2024-06-07_0178fd9f18278.jpg","images/among-us.jpg"]},
-  {"title":"Low Poly Animal Trophy Head","price":"399","compare_at":"650","cat":"home","isNew":true,"icon":"🦌","images":["https://makerworld.bblmw.com/makerworld/model/USf549c5fa363094/design/2024-04-28_95dfb389f2cab.png","images/trophy-head.jpg"]}
+  {"title":"Low Poly Animal Trophy Head","price":"399","compare_at":"650","cat":"home","isNew":true,"icon":"🦌","images":["https://makerworld.bblmw.com/makerworld/model/USf549c5fa363094/design/2024-04-28_95dfb389f2cab.png","images/trophy-head.jpg"]},
+
+  // ── HOME & MORE — Organizers & Gadgets ───────────────────────
+  {"title":"Phone Stand","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"📱","image":"https://makerworld.bblmw.com/makerworld/model/USd29c5fed2a3245/design/2025-10-19_181b53bb4cf538.png"},
+  {"title":"Business Card Holder","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"💼","image":"https://makerworld.bblmw.com/makerworld/model/US9fa031a7d60302/design/2025-07-25_57b151dc1b178.png"},
+  {"title":"Desk Organizer","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"🗂️","image":"https://makerworld.bblmw.com/makerworld/model/US8dfe15f21acb17/design/2024-06-03_d7cfbcd76de4d.webp"},
+  {"title":"Infinity Marble Run","price":"349","compare_at":"","cat":"home","isNew":true,"icon":"🎱","image":"https://makerworld.bblmw.com/makerworld/model/US7f3a66b0602c7d/design/2025-05-25_5804b59bae88b.gif"},
+
+  // ── FLEXI — Dragons & Fantasy ────────────────────────────────
+  {"title":"Improved Crystal Dragon","price":"299","compare_at":"","cat":"flexi","isNew":true,"icon":"🐉","image":"https://makerworld.bblmw.com/makerworld/model/US899654d90119de/design/2025-03-23_7b57e1b7cf1f2.png"},
+  {"title":"Flexi Dragon","price":"249","compare_at":"","cat":"flexi","isNew":true,"icon":"🐉","image":"https://makerworld.bblmw.com/makerworld/model/US790acbbbf459a2/design/2026-01-10_0f089b46ba93f.jpg"},
+  {"title":"Dragon Egg – Print in Place","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🥚","image":"https://makerworld.bblmw.com/makerworld/model/US3ced16b1c82696/design/2024-11-25_7603eb91617da.jpeg"},
+
+  // ── FLEXI — More Animals ──────────────────────────────────────
+  {"title":"Dreaming Fox – Low Poly","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦊","image":"https://makerworld.bblmw.com/makerworld/model/USec020a406250e/design/2025-07-27_257d779a916488.png"},
+  {"title":"Articulated Cute Octopus","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🐙","image":"https://makerworld.bblmw.com/makerworld/model/USa9623939ffc422/design/2025-04-13_fd5cc2d17224f8.jpg"},
+  {"title":"Fluffy Tail Flexi Cat Keychain","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🐱","image":"https://makerworld.bblmw.com/makerworld/model/US6b941ba8302236/design/2c7d72fa7a1a4499.png"},
+  {"title":"Flexi Axolotl","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🦎","image":"https://makerworld.bblmw.com/makerworld/model/USdbcb8e77f5d232/design/2025-12-30_6959b5f1ec6718.png"},
+  {"title":"Mini Flexi Shark","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦈","image":"https://makerworld.bblmw.com/makerworld/model/US7aadb0b7460041/design/2025-01-20_9ec80ea87866.jpg"},
+  {"title":"Low-Poly Animal Collection","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🦁","image":"https://makerworld.bblmw.com/makerworld/model/US43317d53633ee6/design/2025-12-28_76ad956293753.png"},
+
+  // ── ASSEMBLE LAB ──────────────────────────────────────────────
+  {"title":"Assemble Lab: LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","image":"https://makerworld.bblmw.com/makerworld/model/US1b76a40a049258/design/67d4b4c40f5ca1c4.jpg"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Assemble Lab' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -589,13 +613,14 @@ function renderCard(p) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map(renderCard).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0 };
 PRODUCTS.forEach(p => counts[p.cat]++);
-document.getElementById('cnt-all').textContent   = `(${counts.all})`;
-document.getElementById('cnt-flexi').textContent = `(${counts.flexi})`;
-document.getElementById('cnt-kit').textContent   = `(${counts.kit})`;
-document.getElementById('cnt-custom').textContent= `(${counts.custom})`;
-document.getElementById('cnt-home').textContent  = `(${counts.home})`;
+document.getElementById('cnt-all').textContent      = `(${counts.all})`;
+document.getElementById('cnt-flexi').textContent    = `(${counts.flexi})`;
+document.getElementById('cnt-kit').textContent      = `(${counts.kit})`;
+document.getElementById('cnt-custom').textContent   = `(${counts.custom})`;
+document.getElementById('cnt-home').textContent     = `(${counts.home})`;
+document.getElementById('cnt-assemble').textContent = `(${counts.assemble})`;
 
 let activeCat = 'all', searchVal = '';
 
