@@ -177,6 +177,8 @@
     .badge-kit       { background: #5c6bc0; color: #fff; }
     .badge-home      { background: #e91e63; color: #fff; }
     .badge-assemble  { background: #f57c00; color: #fff; }
+    .badge-jewellery { background: #ad1457; color: #fff; }
+    .badge-idols     { background: #6a1b9a; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -377,6 +379,8 @@
     <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
     <button class="filter-btn" data-cat="home">🏠 Home & More <span id="cnt-home"></span></button>
     <button class="filter-btn" data-cat="assemble">🦜 Life-Size Prints <span id="cnt-assemble"></span></button>
+    <button class="filter-btn" data-cat="jewellery">💍 Jewellery <span id="cnt-jewellery"></span></button>
+    <button class="filter-btn" data-cat="idols">🎭 Idols <span id="cnt-idols"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -543,11 +547,39 @@ const PRODUCTS = [
   {"title":"Low-Poly Animal Collection","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🦁","image":"https://makerworld.bblmw.com/makerworld/model/US43317d53633ee6/design/2025-12-28_76ad956293753.png"},
 
   // ── LIFE-SIZE PRINTS ──────────────────────────────────────────
-  {"title":"LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","images":["images/macaw1.jpg","images/macaw2.jpg"]}
+  {"title":"LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","images":["images/macaw1.jpg","images/macaw2.jpg"]},
+
+  // ── CUSTOM — Characters ───────────────────────────────────────
+  {"title":"Sonic x Punisher","price":"349","compare_at":"","cat":"custom","isNew":true,"icon":"⚡","image":"https://makerworld.bblmw.com/makerworld/model/USb6c7efe595e7da/design/e92ed02508dede07.jpg?x-oss-process=image/resize,w_1000/format,webp"},
+
+  // ── FLEXI — Mini Toys ─────────────────────────────────────────
+  {"title":"Mini Ghost","price":"99","compare_at":"","cat":"flexi","isNew":true,"icon":"👻","image":"https://makerworld.bblmw.com/makerworld/model/US3ab738c6b1f90e/design/2025-08-23_99c372d7a62d98.jpg"},
+  {"title":"Cute Mini Unicorn","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦄","image":"https://makerworld.bblmw.com/makerworld/model/US9db1624d55e5bf/design/0442f57056ecdd26.jpeg"},
+  {"title":"Cute Mini Sloth","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦥","image":"https://makerworld.bblmw.com/makerworld/model/US7e9a61fe62e30a/design/2c82811b4e4f1ade.jpeg"},
+  {"title":"Bunny Easter Egg","price":"99","compare_at":"","cat":"flexi","isNew":true,"icon":"🐣","image":"https://makerworld.bblmw.com/makerworld/model/USeefbc42c4c0fc1/design/f6ab9e10b5477889.gif"},
+  {"title":"Pilates Keychain","price":"99","compare_at":"","cat":"flexi","isNew":true,"icon":"🤸","image":"https://makerworld.bblmw.com/makerworld/model/US52afb63c896d16/design/636d362cd2f4710a.png"},
+
+  // ── JEWELLERY — Earrings ──────────────────────────────────────
+  {"title":"Stitch Chomper Earrings","price":"149","compare_at":"","cat":"jewellery","isNew":true,"icon":"👂","image":"https://makerworld.bblmw.com/makerworld/model/USaa766662f26910/design/2025-06-16_895f1963ee29b8.jpg"},
+  {"title":"Summer Ice Cream Earrings","price":"99","compare_at":"","cat":"jewellery","isNew":true,"icon":"🍦","image":"https://makerworld.bblmw.com/makerworld/model/USf0ad1bcf0d09c0/design/2024-06-23_746aea4ee85e2.jpg"},
+  {"title":"Monstera Leaf Earrings","price":"149","compare_at":"","cat":"jewellery","isNew":true,"icon":"🌿","image":"https://makerworld.bblmw.com/makerworld/model/US2096846b6c92e7/design/2025-03-02_447dedfeb0f8d.jpg"},
+  {"title":"Elf Ear Cuff Earrings","price":"149","compare_at":"","cat":"jewellery","isNew":true,"icon":"🧝","image":"https://makerworld.bblmw.com/makerworld/model/USe49831d601069f/design/2025-10-21_f5e180b76030c8.png"},
+  {"title":"Goldfish Earrings","price":"149","compare_at":"","cat":"jewellery","isNew":true,"icon":"🐠","image":"https://makerworld.bblmw.com/makerworld/model/USd786c56c36edc6/design/2025-06-05_6bbbdefbadd85.jpg"},
+  {"title":"Cat Earrings","price":"99","compare_at":"","cat":"jewellery","isNew":true,"icon":"🐱","image":"https://makerworld.bblmw.com/makerworld/model/US85d01ccfde18ed/design/2023-11-29_489ca32446eef.jpg"},
+
+  // ── IDOLS ─────────────────────────────────────────────────────
+  {"title":"Collectible Idol Figure – I","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USfb20a2ee27b264/design/7da0c0bcce56c645.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – II","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USf78db9d8e637a4/design/44dcd4c43a841622.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – III","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/US2d428cb2268682/design/7107b69b51e1f600.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – IV","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/US7edac2424d4bf/design/fcf1d7d239d45489.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – V","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USbec5e83a64adeb/design/59c53d9ecedd02ee.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – VI","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/US26406b9256d7d2/design/08078f4e0985964d.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – VII","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/US9b63bb9c559a88/design/9d2bf24279a6fcc0.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Collectible Idol Figure – VIII","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USad2f48a161fb75/design/e861e716cca53a8a.png?x-oss-process=image/resize,w_1000/format,webp"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -613,14 +645,16 @@ function renderCard(p) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map(renderCard).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0 };
 PRODUCTS.forEach(p => counts[p.cat]++);
-document.getElementById('cnt-all').textContent      = `(${counts.all})`;
-document.getElementById('cnt-flexi').textContent    = `(${counts.flexi})`;
-document.getElementById('cnt-kit').textContent      = `(${counts.kit})`;
-document.getElementById('cnt-custom').textContent   = `(${counts.custom})`;
-document.getElementById('cnt-home').textContent     = `(${counts.home})`;
-document.getElementById('cnt-assemble').textContent = `(${counts.assemble})`;
+document.getElementById('cnt-all').textContent        = `(${counts.all})`;
+document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
+document.getElementById('cnt-kit').textContent        = `(${counts.kit})`;
+document.getElementById('cnt-custom').textContent     = `(${counts.custom})`;
+document.getElementById('cnt-home').textContent       = `(${counts.home})`;
+document.getElementById('cnt-assemble').textContent   = `(${counts.assemble})`;
+document.getElementById('cnt-jewellery').textContent  = `(${counts.jewellery})`;
+document.getElementById('cnt-idols').textContent      = `(${counts.idols})`;
 
 let activeCat = 'all', searchVal = '';
 
