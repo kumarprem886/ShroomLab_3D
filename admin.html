@@ -8,115 +8,148 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Poppins',sans-serif;background:#f0fdf4;color:#1a1a2e;min-height:100vh}
-    header{background:#1b4332;color:#fff;padding:18px 32px;display:flex;align-items:center;gap:14px}
-    header img{width:40px;height:40px;border-radius:50%;object-fit:contain}
-    header h1{font-size:1.2rem;font-weight:700}
-    header span{font-size:0.8rem;color:#a7f3d0;margin-left:auto}
+    header{background:#1b4332;color:#fff;padding:16px 28px;display:flex;align-items:center;gap:14px}
+    header img{width:38px;height:38px;border-radius:50%;object-fit:contain}
+    header h1{font-size:1.1rem;font-weight:700}
+    .header-right{margin-left:auto;display:flex;align-items:center;gap:18px}
+    .header-right a{color:#a7f3d0;font-size:0.8rem;text-decoration:none}
+    .header-right a:hover{color:#fff}
+    #total-count{font-size:0.78rem;color:#a7f3d0}
 
-    .layout{display:grid;grid-template-columns:440px 1fr;gap:0;min-height:calc(100vh - 65px)}
+    .layout{display:grid;grid-template-columns:450px 1fr;gap:0;min-height:calc(100vh - 61px)}
 
     /* ── FORM PANEL ── */
-    .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:28px 28px 40px;overflow-y:auto}
-    .section-title{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #d8f3dc}
-    .field{margin-bottom:14px}
-    label{display:block;font-size:0.78rem;font-weight:600;color:#2d6a4f;margin-bottom:5px}
-    input,select,textarea{
-      width:100%;padding:9px 13px;border:1.5px solid #ceeada;border-radius:10px;
-      font-family:'Poppins',sans-serif;font-size:0.85rem;color:#1a1a2e;
+    .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:24px 26px 40px;overflow-y:auto}
+    .section-title{font-size:0.95rem;font-weight:700;color:#1b4332;margin-bottom:16px;padding-bottom:9px;border-bottom:2px solid #d8f3dc}
+    .field{margin-bottom:13px}
+    label{display:block;font-size:0.76rem;font-weight:600;color:#2d6a4f;margin-bottom:4px}
+    input[type=text],input[type=color],select,textarea{
+      width:100%;padding:8px 12px;border:1.5px solid #ceeada;border-radius:10px;
+      font-family:'Poppins',sans-serif;font-size:0.84rem;color:#1a1a2e;
       background:#f6fdf9;outline:none;transition:border 0.2s
     }
     input:focus,select:focus,textarea:focus{border-color:#40916c;background:#fff}
-    textarea{resize:vertical;min-height:65px}
+    textarea{resize:vertical;min-height:55px}
+
+    /* image input tabs */
+    .img-tabs{display:flex;gap:0;margin-bottom:10px;border-radius:10px;overflow:hidden;border:1.5px solid #ceeada}
+    .img-tab{
+      flex:1;padding:7px;text-align:center;font-size:0.76rem;font-weight:600;
+      cursor:pointer;background:#f6fdf9;color:#2d6a4f;transition:all 0.2s;border:none;
+      font-family:'Poppins',sans-serif
+    }
+    .img-tab.active{background:#1b4332;color:#fff}
+
+    /* upload zone */
+    .upload-zone{
+      width:100%;min-height:160px;border:2.5px dashed #ceeada;border-radius:12px;
+      background:#f6fdf9;display:flex;flex-direction:column;align-items:center;
+      justify-content:center;gap:8px;cursor:pointer;transition:all 0.22s;position:relative;
+      overflow:hidden
+    }
+    .upload-zone.drag-over{border-color:#40916c;background:#e8f5e9}
+    .upload-zone.has-image{border-style:solid;border-color:#40916c;padding:0}
+    .upload-zone .uz-icon{font-size:2.4rem}
+    .upload-zone .uz-label{font-size:0.76rem;color:#5a5a7a;text-align:center;padding:0 12px}
+    .upload-zone .uz-label strong{color:#40916c}
+    .upload-zone img{width:100%;height:160px;object-fit:cover;border-radius:10px;display:block}
+    .upload-zone input[type=file]{
+      position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%
+    }
+    .uz-clear{
+      position:absolute;top:7px;right:7px;width:24px;height:24px;border-radius:50%;
+      background:rgba(229,57,53,0.85);color:#fff;border:none;cursor:pointer;
+      font-size:0.8rem;display:none;align-items:center;justify-content:center;z-index:5
+    }
+    .upload-zone.has-image .uz-clear{display:flex}
+    .upload-zone.has-image input[type=file]{display:none}
+    .img-info{font-size:0.68rem;color:#9999bb;margin-top:5px;text-align:right}
+
+    /* url pane */
+    #url-pane{display:none}
+    #url-pane .img-preview-box{
+      width:100%;height:140px;border-radius:10px;border:2px dashed #ceeada;
+      background:#f6fdf9;display:flex;align-items:center;justify-content:center;
+      overflow:hidden;margin-top:7px
+    }
+    #url-pane .img-preview-box img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+    #url-pane .placeholder{color:#9999bb;font-size:0.75rem;text-align:center;padding:10px}
 
     /* new category box */
     .new-cat-box{
       background:#f0fdf4;border:1.5px dashed #40916c;border-radius:12px;
-      padding:14px;margin-bottom:14px;display:none
+      padding:13px;margin-bottom:13px;display:none
     }
     .new-cat-box.visible{display:block}
-    .new-cat-box label{color:#1b4332}
-    .new-cat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .color-row{display:flex;align-items:center;gap:10px;margin-top:4px}
-    .color-row input[type=color]{width:46px;height:36px;padding:2px;border-radius:8px;cursor:pointer}
+    .new-cat-row{display:grid;grid-template-columns:1fr 80px;gap:10px}
+    .color-row{display:flex;align-items:center;gap:8px;margin-top:4px}
+    .color-row input[type=color]{width:44px;height:34px;padding:2px;border-radius:8px;cursor:pointer;border:1.5px solid #ceeada}
     .color-row input[type=text]{flex:1}
     .btn-save-cat{
-      width:100%;padding:9px;background:#40916c;color:#fff;border:none;border-radius:50px;
-      font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;margin-top:10px;
-      transition:all 0.2s
+      width:100%;padding:8px;background:#40916c;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;margin-top:9px
     }
-    .btn-save-cat:hover{background:#2d6a4f}
-    .cat-saved-msg{font-size:0.72rem;color:#065f46;font-weight:600;margin-top:6px;display:none;text-align:center}
-
-    /* existing categories chips */
-    .cat-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
-    .cat-chip{
-      font-size:0.65rem;font-weight:700;padding:3px 9px;border-radius:50px;
-      color:#fff;letter-spacing:0.3px
-    }
-
-    .img-preview-box{
-      width:100%;height:155px;border-radius:10px;border:2px dashed #ceeada;
-      background:#f6fdf9;display:flex;align-items:center;justify-content:center;
-      overflow:hidden;margin-top:7px
-    }
-    .img-preview-box img{width:100%;height:100%;object-fit:cover;border-radius:8px}
-    .img-preview-box .placeholder{color:#9999bb;font-size:0.75rem;text-align:center;padding:10px}
+    .cat-saved-msg{font-size:0.72rem;color:#065f46;font-weight:600;margin-top:5px;display:none;text-align:center}
 
     .btn-add{
-      width:100%;padding:13px;background:#1b4332;color:#fff;border:none;border-radius:50px;
-      font-family:'Poppins',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;
+      width:100%;padding:12px;background:#1b4332;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;
       transition:all 0.2s;margin-top:6px
     }
     .btn-add:hover{background:#2d6a4f;transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,67,50,0.3)}
-
     .success-msg{
-      display:none;background:#d1fae5;color:#065f46;padding:9px 14px;border-radius:10px;
-      font-size:0.8rem;font-weight:600;margin-top:10px;text-align:center
+      display:none;background:#d1fae5;color:#065f46;padding:8px 14px;border-radius:10px;
+      font-size:0.78rem;font-weight:600;margin-top:9px;text-align:center
     }
 
     /* export */
-    .export-section{margin-top:22px;padding-top:18px;border-top:2px solid #d8f3dc}
-    .export-section h3{font-size:0.85rem;font-weight:700;color:#1b4332;margin-bottom:10px}
-    .export-tabs{display:flex;gap:6px;margin-bottom:8px}
+    .export-section{margin-top:20px;padding-top:16px;border-top:2px solid #d8f3dc}
+    .export-section h3{font-size:0.83rem;font-weight:700;color:#1b4332;margin-bottom:9px}
+    .export-tabs{display:flex;gap:5px;margin-bottom:7px;flex-wrap:wrap}
     .etab{
-      padding:4px 12px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
-      font-size:0.72rem;font-weight:600;cursor:pointer;color:#2d6a4f;transition:all 0.2s
+      padding:4px 11px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
+      font-size:0.7rem;font-weight:600;cursor:pointer;color:#2d6a4f;transition:all 0.2s
     }
     .etab.active{background:#1b4332;color:#fff;border-color:#1b4332}
     .export-box{
-      background:#1a1a2e;color:#a7f3d0;border-radius:10px;padding:12px;
-      font-size:0.68rem;font-family:monospace;max-height:180px;overflow-y:auto;
+      background:#1a1a2e;color:#a7f3d0;border-radius:10px;padding:11px;
+      font-size:0.67rem;font-family:monospace;max-height:170px;overflow-y:auto;
       white-space:pre-wrap;word-break:break-all;line-height:1.5
     }
+    .btn-row{display:flex;gap:7px;margin-top:7px}
     .btn-copy{
-      width:100%;padding:9px;background:#40916c;color:#fff;border:none;border-radius:50px;
-      font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;
-      margin-top:8px;transition:all 0.2s
+      flex:1;padding:8px;background:#40916c;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer
     }
-    .btn-copy:hover{background:#2d6a4f}
+    .btn-dl-imgs{
+      flex:1;padding:8px;background:#1565c0;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer
+    }
+    .btn-dl-imgs:disabled{background:#b0bec5;cursor:not-allowed}
     .btn-clear{
-      width:100%;padding:7px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;
-      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;margin-top:6px
+      width:100%;padding:6px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.73rem;font-weight:600;cursor:pointer;margin-top:5px
     }
 
     /* catalogue */
-    .catalogue-panel{padding:24px;overflow-y:auto}
-    .catalogue-panel h2{font-size:1rem;font-weight:700;color:#1b4332;margin-bottom:14px}
-    .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .catalogue-panel{padding:22px;overflow-y:auto}
+    .catalogue-panel h2{font-size:0.95rem;font-weight:700;color:#1b4332;margin-bottom:13px}
+    .cat-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
     .cf-btn{
-      padding:5px 13px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
-      font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;color:#2d6a4f
+      padding:5px 12px;border-radius:50px;border:1.5px solid #ceeada;background:#fff;
+      font-family:'Poppins',sans-serif;font-size:0.73rem;font-weight:600;cursor:pointer;color:#2d6a4f
     }
     .cf-btn.active{background:#1b4332;color:#fff;border-color:#1b4332}
-    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-    .p-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;transition:box-shadow 0.2s}
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px}
+    .p-card{background:#fff;border-radius:13px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;transition:box-shadow 0.2s}
     .p-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.12)}
-    .p-card-img{height:135px;overflow:hidden;background:#eef8f2;position:relative}
+    .p-card-img{height:130px;overflow:hidden;background:#eef8f2;position:relative}
     .p-card-img img{width:100%;height:100%;object-fit:cover}
     .p-card-img .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:#f0fdf4}
     .p-card-info{padding:9px 11px 11px}
-    .p-card-name{font-size:0.76rem;font-weight:600;line-height:1.35;margin-bottom:5px}
-    .p-card-cat{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 7px;border-radius:50px;display:inline-block;color:#fff}
+    .p-card-name{font-size:0.75rem;font-weight:600;line-height:1.35;margin-bottom:5px}
+    .p-card-cat{font-size:0.61rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 7px;border-radius:50px;display:inline-block;color:#fff}
+    .p-card-src{font-size:0.6rem;color:#9999bb;margin-top:4px}
     .p-card-del{
       position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;
       background:rgba(229,57,53,0.85);color:#fff;border:none;cursor:pointer;
@@ -125,7 +158,10 @@
     }
     .p-card:hover .p-card-del{opacity:1}
     .new-badge-card{position:absolute;top:6px;left:6px;background:#ffd700;color:#1a1a2e;font-size:0.55rem;font-weight:800;padding:2px 6px;border-radius:50px}
-    .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:#9999bb;font-size:0.9rem}
+    .src-badge{position:absolute;bottom:6px;right:6px;font-size:0.58rem;font-weight:700;padding:2px 6px;border-radius:50px}
+    .src-badge.uploaded{background:rgba(21,101,192,0.85);color:#fff}
+    .src-badge.url{background:rgba(0,121,107,0.85);color:#fff}
+    .empty-state{grid-column:1/-1;text-align:center;padding:50px 20px;color:#9999bb;font-size:0.88rem}
     ::-webkit-scrollbar{width:5px}
     ::-webkit-scrollbar-track{background:#f0fdf4}
     ::-webkit-scrollbar-thumb{background:#b7e4c7;border-radius:10px}
@@ -135,17 +171,17 @@
 
 <header>
   <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="logo" onerror="this.style.display='none'">
-  <h1>ShroomLab 3D — Admin Panel</h1>
-  <a href="index.html" style="color:#a7f3d0;font-size:0.8rem;text-decoration:none;margin-left:auto;margin-right:16px">← Back to Catalogue</a>
-  <span id="total-count">0 products added</span>
+  <h1>ShroomLab 3D — Admin</h1>
+  <div class="header-right">
+    <a href="index.html">← Catalogue</a>
+    <span id="total-count">0 products</span>
+  </div>
 </header>
 
 <div class="layout">
 
-  <!-- ── FORM PANEL ── -->
+  <!-- ── FORM ── -->
   <div class="form-panel">
-
-    <!-- ADD PRODUCT -->
     <div class="section-title">➕ Add New Product</div>
 
     <div class="field">
@@ -158,45 +194,62 @@
       <select id="f-cat" onchange="onCatChange(this.value)"></select>
     </div>
 
-    <!-- NEW CATEGORY CREATOR -->
+    <!-- NEW CATEGORY -->
     <div class="new-cat-box" id="new-cat-box">
-      <div style="font-size:0.8rem;font-weight:700;color:#1b4332;margin-bottom:10px">🆕 Create New Category</div>
+      <div style="font-size:0.78rem;font-weight:700;color:#1b4332;margin-bottom:9px">🆕 Create New Category</div>
       <div class="new-cat-row">
-        <div>
-          <label>Key (no spaces) *</label>
-          <input type="text" id="nc-key" placeholder="e.g. characters">
-        </div>
-        <div>
-          <label>Emoji *</label>
-          <input type="text" id="nc-emoji" placeholder="🎮" style="width:70px">
-        </div>
+        <div><label>Key (no spaces)*</label><input type="text" id="nc-key" placeholder="characters"></div>
+        <div><label>Emoji *</label><input type="text" id="nc-emoji" placeholder="🎮"></div>
       </div>
-      <div class="field" style="margin-top:10px">
-        <label>Label (shown in filter tab) *</label>
+      <div class="field" style="margin-top:9px">
+        <label>Tab label *</label>
         <input type="text" id="nc-label" placeholder="e.g. Characters">
       </div>
       <div class="field">
-        <label>Badge Colour</label>
+        <label>Badge colour</label>
         <div class="color-row">
           <input type="color" id="nc-color-pick" value="#5d4037" oninput="document.getElementById('nc-color').value=this.value">
-          <input type="text" id="nc-color" value="#5d4037" placeholder="#5d4037" oninput="document.getElementById('nc-color-pick').value=this.value">
+          <input type="text" id="nc-color" value="#5d4037" oninput="document.getElementById('nc-color-pick').value=this.value">
         </div>
       </div>
       <button class="btn-save-cat" onclick="saveNewCategory()">✅ Save Category</button>
-      <div class="cat-saved-msg" id="cat-saved-msg">Category saved! Select it from the dropdown above.</div>
+      <div class="cat-saved-msg" id="cat-saved-msg">✅ Category saved! Select it above.</div>
     </div>
 
+    <!-- IMAGE INPUT -->
     <div class="field">
-      <label>Image URL (paste MakerWorld CDN link)</label>
-      <textarea id="f-img" placeholder="https://makerworld.bblmw.com/..." rows="2" oninput="previewImg(this.value)"></textarea>
-      <div class="img-preview-box" id="img-preview">
-        <div class="placeholder">📷 Paste an image URL above to preview</div>
+      <label>Product Image</label>
+      <div class="img-tabs">
+        <button class="img-tab active" onclick="switchImgTab('upload',this)">📁 Upload File</button>
+        <button class="img-tab" onclick="switchImgTab('url',this)">🔗 Paste URL</button>
+      </div>
+
+      <!-- Upload pane -->
+      <div id="upload-pane">
+        <div class="upload-zone" id="upload-zone"
+             ondragover="event.preventDefault();this.classList.add('drag-over')"
+             ondragleave="this.classList.remove('drag-over')"
+             ondrop="handleDrop(event)">
+          <input type="file" id="file-input" accept="image/*" onchange="handleFileInput(this.files[0])">
+          <div class="uz-icon">🖼️</div>
+          <div class="uz-label"><strong>Click to browse</strong> or drag & drop<br><small>JPG, PNG, WEBP — compressed automatically</small></div>
+          <button class="uz-clear" onclick="clearUpload(event)">✕</button>
+        </div>
+        <div class="img-info" id="img-info"></div>
+      </div>
+
+      <!-- URL pane -->
+      <div id="url-pane">
+        <textarea id="f-img-url" placeholder="https://makerworld.bblmw.com/..." rows="2" oninput="previewUrl(this.value)"></textarea>
+        <div class="img-preview-box" id="url-preview">
+          <div class="placeholder">📷 Paste a URL above to preview</div>
+        </div>
       </div>
     </div>
 
     <div class="field">
       <label>Icon emoji (optional)</label>
-      <input type="text" id="f-icon" placeholder="🏺" style="width:80px">
+      <input type="text" id="f-icon" placeholder="🏺" style="width:74px">
     </div>
 
     <button class="btn-add" onclick="addProduct()">Add to Catalogue</button>
@@ -204,276 +257,337 @@
 
     <!-- EXPORT -->
     <div class="export-section">
-      <h3>📋 Export & paste into index.html</h3>
+      <h3>📋 Export — paste into index.html</h3>
       <div class="export-tabs">
         <button class="etab active" onclick="setExportTab('products',this)">Products JS</button>
         <button class="etab" onclick="setExportTab('categories',this)">New Categories</button>
       </div>
-      <div class="export-box" id="export-box">// No new products yet</div>
-      <button class="btn-copy" onclick="copyExport()">📋 Copy to Clipboard</button>
+      <div class="export-box" id="export-box">// No products added yet</div>
+      <div class="btn-row">
+        <button class="btn-copy" onclick="copyExport()">📋 Copy JS</button>
+        <button class="btn-dl-imgs" id="btn-dl" onclick="downloadAllImages()" disabled>📥 Download Images (0)</button>
+      </div>
       <button class="btn-clear" onclick="clearAll()">🗑️ Clear all session data</button>
     </div>
-
   </div>
 
-  <!-- ── CATALOGUE PREVIEW ── -->
+  <!-- ── CATALOGUE ── -->
   <div class="catalogue-panel">
     <h2 id="catalogue-heading">New Products — This Session (0)</h2>
     <div class="cat-filter" id="cat-filter"></div>
     <div class="product-grid" id="product-grid">
-      <div class="empty-state">No products added yet.<br>Use the form on the left to get started.</div>
+      <div class="empty-state">No products yet.<br>Use the form on the left to add some.</div>
     </div>
   </div>
-
 </div>
 
 <script>
-// ── Builtin categories (already in index.html) ──────────────────────
-const BUILTIN_CATS = {
-  flexi:     { label:'Flexi Toys',     emoji:'🐾', color:'#ff7043' },
-  kit:       { label:'Kit Cards',      emoji:'🃏', color:'#5c6bc0' },
-  custom:    { label:'Custom',         emoji:'🎨', color:'#40916c' },
-  home:      { label:'Home & More',    emoji:'🏠', color:'#e91e63' },
-  vases:     { label:'Vases',          emoji:'🏺', color:'#00796b' },
-  jewellery: { label:'Jewellery',      emoji:'💍', color:'#ad1457' },
-  idols:     { label:'Idols',          emoji:'🎭', color:'#6a1b9a' },
-  assemble:  { label:'Life-Size Prints',emoji:'🦜',color:'#f57c00' },
-  keychains: { label:'Keychains',      emoji:'🔑', color:'#5d4037' },
-  namedecor: { label:'Name & Letters', emoji:'✏️', color:'#1565c0' },
+// ── Built-in categories ────────────────────────────────────────────
+const BUILTIN = {
+  flexi:     {label:'Flexi Toys',     emoji:'🐾',color:'#ff7043'},
+  kit:       {label:'Kit Cards',      emoji:'🃏',color:'#5c6bc0'},
+  custom:    {label:'Custom',         emoji:'🎨',color:'#40916c'},
+  home:      {label:'Home & More',    emoji:'🏠',color:'#e91e63'},
+  vases:     {label:'Vases',          emoji:'🏺',color:'#00796b'},
+  jewellery: {label:'Jewellery',      emoji:'💍',color:'#ad1457'},
+  idols:     {label:'Idols',          emoji:'🎭',color:'#6a1b9a'},
+  assemble:  {label:'Life-Size Prints',emoji:'🦜',color:'#f57c00'},
+  keychains: {label:'Keychains',      emoji:'🔑',color:'#5d4037'},
+  namedecor: {label:'Name & Letters', emoji:'✏️',color:'#1565c0'},
 };
 
-const PROD_KEY = 'shroomlab_new_products';
-const CAT_KEY  = 'shroomlab_new_categories';
-
-let products   = JSON.parse(localStorage.getItem(PROD_KEY)  || '[]');
-let customCats = JSON.parse(localStorage.getItem(CAT_KEY)   || '{}');
+const PROD_KEY='shroomlab_new_products', CAT_KEY='shroomlab_new_categories';
+let products   = JSON.parse(localStorage.getItem(PROD_KEY)||'[]');
+let customCats = JSON.parse(localStorage.getItem(CAT_KEY)||'{}');
 let exportTab  = 'products';
 let activeCat  = 'all';
+let imgMode    = 'upload';  // 'upload' | 'url'
+let uploadedDataURL = null; // current compressed image
 
-// ── All categories (builtin + custom) ──────────────────────────────
-function allCats() {
-  return { ...BUILTIN_CATS, ...customCats };
-}
+// ── Category helpers ───────────────────────────────────────────────
+function allCats(){ return {...BUILTIN,...customCats}; }
+function catInfo(k){ return allCats()[k]||{label:k,emoji:'📦',color:'#888'}; }
 
-function catInfo(key) {
-  return allCats()[key] || { label: key, emoji: '📦', color: '#888' };
-}
-
-// ── Populate category dropdown ──────────────────────────────────────
-function populateCatDropdown() {
-  const sel = document.getElementById('f-cat');
-  const prev = sel.value;
-  sel.innerHTML = '';
-  Object.entries(allCats()).forEach(([key, c]) => {
-    const opt = document.createElement('option');
-    opt.value = key;
-    opt.textContent = `${c.emoji} ${c.label}`;
-    sel.appendChild(opt);
+function populateCatDropdown(){
+  const sel=document.getElementById('f-cat');
+  const prev=sel.value;
+  sel.innerHTML='';
+  Object.entries(allCats()).forEach(([k,c])=>{
+    const o=document.createElement('option');
+    o.value=k; o.textContent=`${c.emoji} ${c.label}`; sel.appendChild(o);
   });
-  // Add "new" option at end
-  const newOpt = document.createElement('option');
-  newOpt.value = '__new__';
-  newOpt.textContent = '➕ Create new category...';
-  sel.appendChild(newOpt);
-  if (prev) sel.value = prev;
+  const newOpt=document.createElement('option');
+  newOpt.value='__new__'; newOpt.textContent='➕ Create new category...'; sel.appendChild(newOpt);
+  if(prev) sel.value=prev;
 }
 
-function onCatChange(val) {
-  const box = document.getElementById('new-cat-box');
-  if (val === '__new__') {
-    box.classList.add('visible');
-  } else {
-    box.classList.remove('visible');
-    document.getElementById('cat-saved-msg').style.display = 'none';
-  }
+function onCatChange(v){
+  document.getElementById('new-cat-box').classList.toggle('visible',v==='__new__');
+  if(v!=='__new__') document.getElementById('cat-saved-msg').style.display='none';
 }
 
-// ── Save new category ───────────────────────────────────────────────
-function saveNewCategory() {
-  const key   = document.getElementById('nc-key').value.trim().toLowerCase().replace(/\s+/g,'_');
-  const emoji = document.getElementById('nc-emoji').value.trim();
-  const label = document.getElementById('nc-label').value.trim();
-  const color = document.getElementById('nc-color').value.trim() || '#5d4037';
-
-  if (!key || !label) { alert('Category key and label are required'); return; }
-  if (BUILTIN_CATS[key]) { alert(`"${key}" is already a built-in category. Choose a different key.`); return; }
-
-  customCats[key] = { label, emoji: emoji || '📦', color };
-  localStorage.setItem(CAT_KEY, JSON.stringify(customCats));
-
+function saveNewCategory(){
+  const key  =document.getElementById('nc-key').value.trim().toLowerCase().replace(/\s+/g,'_');
+  const emoji=document.getElementById('nc-emoji').value.trim();
+  const label=document.getElementById('nc-label').value.trim();
+  const color=document.getElementById('nc-color').value.trim()||'#5d4037';
+  if(!key||!label){alert('Key and label are required');return;}
+  if(BUILTIN[key]){alert(`"${key}" is already built-in. Use a different key.`);return;}
+  customCats[key]={label,emoji:emoji||'📦',color};
+  localStorage.setItem(CAT_KEY,JSON.stringify(customCats));
   populateCatDropdown();
-  document.getElementById('f-cat').value = key;
+  document.getElementById('f-cat').value=key;
   document.getElementById('new-cat-box').classList.remove('visible');
-  document.getElementById('cat-saved-msg').style.display = 'block';
-
-  // Reset fields
-  document.getElementById('nc-key').value = '';
-  document.getElementById('nc-emoji').value = '';
-  document.getElementById('nc-label').value = '';
-  document.getElementById('nc-color').value = '#5d4037';
-  document.getElementById('nc-color-pick').value = '#5d4037';
-
+  document.getElementById('cat-saved-msg').style.display='block';
+  ['nc-key','nc-emoji','nc-label'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('nc-color').value='#5d4037';
+  document.getElementById('nc-color-pick').value='#5d4037';
   renderAll();
 }
 
-// ── Image preview ───────────────────────────────────────────────────
-function previewImg(url) {
-  const box = document.getElementById('img-preview');
-  url = url.trim();
-  if (url) {
-    box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>❌ Could not load image</div>'">`;
+// ── Image tab switching ────────────────────────────────────────────
+function switchImgTab(mode, btn){
+  imgMode=mode;
+  document.querySelectorAll('.img-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('upload-pane').style.display = mode==='upload'?'block':'none';
+  document.getElementById('url-pane').style.display    = mode==='url'?'block':'none';
+}
+
+// ── Image upload ───────────────────────────────────────────────────
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag-over');
+  const file=e.dataTransfer.files[0];
+  if(file&&file.type.startsWith('image/')) processFile(file);
+}
+function handleFileInput(file){ if(file) processFile(file); }
+
+function processFile(file){
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const img=new Image();
+    img.onload=function(){
+      // Compress: max 900px, quality 0.85
+      const MAX=900;
+      let {width:w,height:h}=img;
+      if(w>h){ if(w>MAX){h=Math.round(h*MAX/w);w=MAX;} }
+      else    { if(h>MAX){w=Math.round(w*MAX/h);h=MAX;} }
+      const canvas=document.createElement('canvas');
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const dataURL=canvas.toDataURL('image/jpeg',0.85);
+      uploadedDataURL=dataURL;
+      // Show preview
+      const zone=document.getElementById('upload-zone');
+      zone.classList.add('has-image');
+      const existing=zone.querySelector('img.preview-img');
+      if(existing) existing.remove();
+      const previewImg=document.createElement('img');
+      previewImg.src=dataURL; previewImg.className='preview-img';
+      zone.insertBefore(previewImg,zone.querySelector('.uz-clear'));
+      // Hide upload content
+      zone.querySelector('.uz-icon').style.display='none';
+      zone.querySelector('.uz-label').style.display='none';
+      // File info
+      const kb=Math.round(dataURL.length*0.75/1024);
+      document.getElementById('img-info').textContent=
+        `✅ ${file.name} → compressed to ~${kb}KB (${w}×${h}px)`;
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearUpload(e){
+  e.stopPropagation();
+  uploadedDataURL=null;
+  const zone=document.getElementById('upload-zone');
+  zone.classList.remove('has-image');
+  const pi=zone.querySelector('img.preview-img');
+  if(pi) pi.remove();
+  zone.querySelector('.uz-icon').style.display='';
+  zone.querySelector('.uz-label').style.display='';
+  document.getElementById('img-info').textContent='';
+  document.getElementById('file-input').value='';
+}
+
+// ── URL preview ────────────────────────────────────────────────────
+function previewUrl(url){
+  const box=document.getElementById('url-preview');
+  url=url.trim();
+  if(url){
+    box.innerHTML=`<img src="${url}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>❌ Could not load</div>'">`;
   } else {
-    box.innerHTML = `<div class="placeholder">📷 Paste an image URL above to preview</div>`;
+    box.innerHTML=`<div class="placeholder">📷 Paste a URL above to preview</div>`;
   }
 }
 
-// ── Add product ─────────────────────────────────────────────────────
-function addProduct() {
-  const name = document.getElementById('f-name').value.trim();
-  const cat  = document.getElementById('f-cat').value;
-  const img  = document.getElementById('f-img').value.trim();
-  const icon = document.getElementById('f-icon').value.trim();
+// ── Add product ────────────────────────────────────────────────────
+function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
 
-  if (!name)         { alert('Product name is required'); return; }
-  if (cat==='__new__'){ alert('Please save your new category first, then add the product'); return; }
+function addProduct(){
+  const name=document.getElementById('f-name').value.trim();
+  const cat =document.getElementById('f-cat').value;
+  const icon=document.getElementById('f-icon').value.trim();
+  if(!name){alert('Product name is required');return;}
+  if(cat==='__new__'){alert('Save the new category first');return;}
 
-  products.push({ title: name, cat, image: img || null, icon: icon || null, isNew: true });
-  localStorage.setItem(PROD_KEY, JSON.stringify(products));
+  let imgSrc=null, imgType='none', filename=null;
+  if(imgMode==='upload' && uploadedDataURL){
+    filename=slugify(name)+'.jpg';
+    imgSrc=uploadedDataURL;
+    imgType='uploaded';
+  } else if(imgMode==='url'){
+    const url=document.getElementById('f-img-url').value.trim();
+    if(url){imgSrc=url;imgType='url';}
+  }
 
-  document.getElementById('f-name').value = '';
-  document.getElementById('f-img').value  = '';
-  document.getElementById('f-icon').value = '';
-  previewImg('');
+  products.push({title:name,cat,icon:icon||null,imgSrc,imgType,filename,isNew:true});
+  localStorage.setItem(PROD_KEY,JSON.stringify(products));
 
-  const msg = document.getElementById('success-msg');
-  msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 2200);
+  // Reset
+  document.getElementById('f-name').value='';
+  document.getElementById('f-icon').value='';
+  clearUpload({stopPropagation:()=>{}});
+  document.getElementById('f-img-url').value='';
+  previewUrl('');
+  uploadedDataURL=null;
 
+  const m=document.getElementById('success-msg');
+  m.style.display='block'; setTimeout(()=>m.style.display='none',2200);
   renderAll();
 }
 
-// ── Delete product ──────────────────────────────────────────────────
-function deleteProduct(idx) {
-  products.splice(idx, 1);
-  localStorage.setItem(PROD_KEY, JSON.stringify(products));
+// ── Delete ─────────────────────────────────────────────────────────
+function deleteProduct(idx){
+  products.splice(idx,1);
+  localStorage.setItem(PROD_KEY,JSON.stringify(products));
   renderAll();
 }
 
-// ── Render everything ───────────────────────────────────────────────
-function renderAll() {
-  renderGrid();
-  renderExportBox();
-  renderFilters();
-  document.getElementById('total-count').textContent = `${products.length} product${products.length!==1?'s':''} added`;
-  document.getElementById('catalogue-heading').textContent = `New Products — This Session (${products.length})`;
+// ── Download uploaded images ───────────────────────────────────────
+function downloadAllImages(){
+  const uploaded=products.filter(p=>p.imgType==='uploaded'&&p.imgSrc);
+  if(!uploaded.length){alert('No uploaded images to download');return;}
+  uploaded.forEach((p,i)=>{
+    setTimeout(()=>{
+      const a=document.createElement('a');
+      a.href=p.imgSrc;
+      a.download=p.filename||`product-${i+1}.jpg`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    },i*400); // stagger so browser doesn't block
+  });
 }
 
-function renderFilters() {
-  const cats = ['all', ...new Set(products.map(p => p.cat))];
-  document.getElementById('cat-filter').innerHTML = cats.map(c => {
-    const count = c === 'all' ? products.length : products.filter(p=>p.cat===c).length;
-    const ci = c === 'all' ? { emoji:'', label:'All' } : catInfo(c);
+// ── Render ─────────────────────────────────────────────────────────
+function renderAll(){
+  renderGrid(); renderExportBox(); renderFilters();
+  const uploaded=products.filter(p=>p.imgType==='uploaded').length;
+  document.getElementById('total-count').textContent=`${products.length} product${products.length!==1?'s':''}`;
+  document.getElementById('catalogue-heading').textContent=`New Products — This Session (${products.length})`;
+  const dlBtn=document.getElementById('btn-dl');
+  dlBtn.textContent=`📥 Download Images (${uploaded})`;
+  dlBtn.disabled=uploaded===0;
+}
+
+function renderFilters(){
+  const cats=['all',...new Set(products.map(p=>p.cat))];
+  document.getElementById('cat-filter').innerHTML=cats.map(c=>{
+    const count=c==='all'?products.length:products.filter(p=>p.cat===c).length;
+    const ci=c==='all'?{emoji:'',label:'All'}:catInfo(c);
     return `<button class="cf-btn ${activeCat===c?'active':''}" onclick="setFilter('${c}')">${ci.emoji} ${ci.label} (${count})</button>`;
   }).join('');
 }
 
-function setFilter(cat) { activeCat = cat; renderFilters(); renderGrid(); }
+function setFilter(c){activeCat=c;renderFilters();renderGrid();}
 
-function renderGrid() {
-  const grid = document.getElementById('product-grid');
-  const list = activeCat === 'all' ? products : products.filter(p=>p.cat===activeCat);
-  if (!list.length) {
-    grid.innerHTML = '<div class="empty-state">No products yet.<br>Use the form on the left to add some.</div>';
+function renderGrid(){
+  const grid=document.getElementById('product-grid');
+  const list=activeCat==='all'?products:products.filter(p=>p.cat===activeCat);
+  if(!list.length){
+    grid.innerHTML='<div class="empty-state">No products yet.<br>Add some using the form.</div>';
     return;
   }
-  grid.innerHTML = list.map((p) => {
-    const ri  = products.indexOf(p);
-    const ci  = catInfo(p.cat);
-    const img = p.image
-      ? `<img src="${p.image}" onerror="this.style.display='none'">`
-      : `<div class="no-img">${p.icon || ci.emoji || '📦'}</div>`;
+  grid.innerHTML=list.map(p=>{
+    const ri=products.indexOf(p);
+    const ci=catInfo(p.cat);
+    let imgHtml='';
+    if(p.imgSrc){
+      imgHtml=`<img src="${p.imgSrc}" onerror="this.style.display='none'">`;
+    } else {
+      imgHtml=`<div class="no-img">${p.icon||ci.emoji||'📦'}</div>`;
+    }
+    const srcBadge=p.imgType==='uploaded'
+      ? `<span class="src-badge uploaded">📁 local</span>`
+      : p.imgType==='url'
+      ? `<span class="src-badge url">🔗 url</span>` : '';
     return `<div class="p-card">
-      <div class="p-card-img">${img}<span class="new-badge-card">NEW</span></div>
+      <div class="p-card-img">${imgHtml}<span class="new-badge-card">NEW</span>${srcBadge}</div>
       <button class="p-card-del" onclick="deleteProduct(${ri})">✕</button>
       <div class="p-card-info">
         <div class="p-card-name">${p.title}</div>
         <span class="p-card-cat" style="background:${ci.color}">${ci.emoji} ${ci.label}</span>
+        ${p.imgType==='uploaded'?`<div class="p-card-src">📁 ${p.filename}</div>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
-// ── Export tabs ─────────────────────────────────────────────────────
-function setExportTab(tab, btn) {
-  exportTab = tab;
-  document.querySelectorAll('.etab').forEach(b => b.classList.remove('active'));
+// ── Export ─────────────────────────────────────────────────────────
+function setExportTab(tab,btn){
+  exportTab=tab;
+  document.querySelectorAll('.etab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderExportBox();
 }
 
-function renderExportBox() {
-  const box = document.getElementById('export-box');
-  if (exportTab === 'products') {
-    if (!products.length) { box.textContent = '// No new products yet'; return; }
-    box.textContent = products.map(p => {
-      let e = `  {"title":${JSON.stringify(p.title)},"price":"299","compare_at":"","cat":"${p.cat}","isNew":true`;
-      if (p.icon)  e += `,"icon":"${p.icon}"`;
-      if (p.image) e += `,"image":${JSON.stringify(p.image)}`;
-      return e + '}';
+function renderExportBox(){
+  const box=document.getElementById('export-box');
+  if(exportTab==='products'){
+    if(!products.length){box.textContent='// No products added yet';return;}
+    box.textContent=products.map(p=>{
+      let e=`  {"title":${JSON.stringify(p.title)},"price":"299","compare_at":"","cat":"${p.cat}","isNew":true`;
+      if(p.icon) e+=`,"icon":"${p.icon}"`;
+      if(p.imgType==='uploaded'&&p.filename) e+=`,"image":"images/${p.filename}"`;
+      else if(p.imgType==='url'&&p.imgSrc)   e+=`,"image":${JSON.stringify(p.imgSrc)}`;
+      return e+'}';
     }).join(',\n');
   } else {
-    // categories export
-    if (!Object.keys(customCats).length) { box.textContent = '// No new categories created yet'; return; }
-    const lines = [];
-    lines.push('// 1. Add these CSS badge classes inside <style>:');
-    Object.entries(customCats).forEach(([k,c]) => {
-      lines.push(`    .badge-${k} { background: ${c.color}; color: #fff; }`);
-    });
-    lines.push('');
-    lines.push('// 2. Add these filter buttons in the filter bar:');
-    Object.entries(customCats).forEach(([k,c]) => {
-      lines.push(`    <button class="filter-btn" data-cat="${k}">${c.emoji} ${c.label} <span id="cnt-${k}"></span></button>`);
-    });
-    lines.push('');
-    lines.push('// 3. Add to BADGE object:');
-    Object.entries(customCats).forEach(([k,c]) => {
-      lines.push(`  ${k}:'${c.emoji} ${c.label}',`);
-    });
-    lines.push('');
-    lines.push('// 4. Add to BADGE_CLASS object:');
-    Object.entries(customCats).forEach(([k,c]) => {
-      lines.push(`  ${k}:'badge-${k}',`);
-    });
-    lines.push('');
-    lines.push('// 5. Add to counts object:');
-    Object.keys(customCats).forEach(k => lines.push(`  ${k}: 0,`));
-    lines.push('');
-    lines.push('// 6. Add count DOM update:');
-    Object.keys(customCats).forEach(k => {
-      lines.push(`  document.getElementById('cnt-${k}').textContent = \`(\${counts.${k}})\`;`);
-    });
-    box.textContent = lines.join('\n');
+    if(!Object.keys(customCats).length){box.textContent='// No new categories';return;}
+    const L=[];
+    L.push('// 1. CSS badge classes:');
+    Object.entries(customCats).forEach(([k,c])=>L.push(`    .badge-${k} { background: ${c.color}; color: #fff; }`));
+    L.push('\n// 2. Filter buttons:');
+    Object.entries(customCats).forEach(([k,c])=>L.push(`    <button class="filter-btn" data-cat="${k}">${c.emoji} ${c.label} <span id="cnt-${k}"></span></button>`));
+    L.push('\n// 3. BADGE entries:');
+    Object.entries(customCats).forEach(([k,c])=>L.push(`  ${k}:'${c.emoji} ${c.label}',`));
+    L.push('\n// 4. BADGE_CLASS entries:');
+    Object.keys(customCats).forEach(k=>L.push(`  ${k}:'badge-${k}',`));
+    L.push('\n// 5. counts + DOM:');
+    Object.keys(customCats).forEach(k=>L.push(`  ${k}: 0,  // add to counts object\n  document.getElementById('cnt-${k}').textContent = \`(\${counts.${k}})\`;`));
+    box.textContent=L.join('\n');
   }
 }
 
-function copyExport() {
-  navigator.clipboard.writeText(document.getElementById('export-box').textContent).then(() => {
-    const btn = document.querySelector('.btn-copy');
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2000);
+function copyExport(){
+  navigator.clipboard.writeText(document.getElementById('export-box').textContent).then(()=>{
+    const b=document.querySelector('.btn-copy');
+    b.textContent='✅ Copied!';
+    setTimeout(()=>b.textContent='📋 Copy JS',2000);
   });
 }
 
-function clearAll() {
-  if (!confirm('Clear ALL session products and custom categories?')) return;
-  products = []; customCats = {};
-  localStorage.removeItem(PROD_KEY); localStorage.removeItem(CAT_KEY);
-  activeCat = 'all';
-  populateCatDropdown();
-  renderAll();
+function clearAll(){
+  if(!confirm('Clear ALL products and categories from this session?'))return;
+  products=[];customCats={};
+  localStorage.removeItem(PROD_KEY);localStorage.removeItem(CAT_KEY);
+  activeCat='all'; uploadedDataURL=null;
+  populateCatDropdown(); renderAll();
 }
 
-// ── Init ────────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────
+document.getElementById('url-pane').style.display='none';
 populateCatDropdown();
 renderAll();
 </script>
