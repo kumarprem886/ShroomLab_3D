@@ -179,6 +179,7 @@
     .badge-assemble  { background: #f57c00; color: #fff; }
     .badge-jewellery { background: #ad1457; color: #fff; }
     .badge-idols     { background: #6a1b9a; color: #fff; }
+    .badge-vases     { background: #00796b; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -381,6 +382,7 @@
     <button class="filter-btn" data-cat="assemble">🦜 Life-Size Prints <span id="cnt-assemble"></span></button>
     <button class="filter-btn" data-cat="jewellery">💍 Jewellery <span id="cnt-jewellery"></span></button>
     <button class="filter-btn" data-cat="idols">🎭 Idols <span id="cnt-idols"></span></button>
+    <button class="filter-btn" data-cat="vases">🏺 Vases <span id="cnt-vases"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -575,11 +577,28 @@ const PRODUCTS = [
   {"title":"Collectible Idol Figure – V","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USbec5e83a64adeb/design/59c53d9ecedd02ee.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Collectible Idol Figure – VI","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/US26406b9256d7d2/design/08078f4e0985964d.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Collectible Idol Figure – VII","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/US9b63bb9c559a88/design/9d2bf24279a6fcc0.png?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Collectible Idol Figure – VIII","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USad2f48a161fb75/design/e861e716cca53a8a.png?x-oss-process=image/resize,w_1000/format,webp"}
+  {"title":"Collectible Idol Figure – VIII","price":"299","compare_at":"","cat":"idols","isNew":true,"icon":"🎭","image":"https://makerworld.bblmw.com/makerworld/model/USad2f48a161fb75/design/e861e716cca53a8a.png?x-oss-process=image/resize,w_1000/format,webp"},
+
+  // ── VASES ─────────────────────────────────────────────────────
+  {"title":"Blue Peacock Feather Pitcher Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🏺","image":"https://makerworld.bblmw.com/makerworld/model/USac79740cafc68a/design/619901d6735b139b.jpg"},
+  {"title":"Red Tiger Jungle Pitcher Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🏺","image":"https://makerworld.bblmw.com/makerworld/model/US21dd53b7f7ea08/design/332d05909748e1b0.jpg"},
+  {"title":"White Owl Library Pitcher Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🏺","image":"https://makerworld.bblmw.com/makerworld/model/US6e58f4f4b4d544/design/e5bd494072f95861.jpg"},
+  {"title":"Fairy Lily Garden Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/USf240fb695408c5/design/fba0786e53829bd3.jpg"},
+  {"title":"Orchid Grace Fantasy Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/USab5868ccc9cbcc/design/2a762e4c11609ce0.jpg"},
+  {"title":"Ethereal Lily Fairy Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/US53919902fce20f/design/c37d270568669e52.jpg"},
+  {"title":"Lily Dream Fairy Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/US2c61c67606fb24/design/5527bcb1e9189eb7.jpg"},
+  {"title":"Petal Wing Fairy Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/US687e18e2c14ae4/design/807c1e29f73c8b16.jpg"},
+  {"title":"Ivy Whisper Enchantress Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌿","image":"https://makerworld.bblmw.com/makerworld/model/US67f5c1ee14d5c5/design/bee968148bbec1ef.jpg"},
+  {"title":"Rose Spirit Elegance Vase","price":"349","compare_at":"","cat":"vases","isNew":true,"icon":"🌹","image":"https://makerworld.bblmw.com/makerworld/model/US6c7770d8aac8d1/design/a320d8cfb03ca92b.jpg"},
+  {"title":"Queen of Bloom Sculpture Vase","price":"449","compare_at":"","cat":"vases","isNew":true,"icon":"👑","image":"https://makerworld.bblmw.com/makerworld/model/USa7e97f1f78d198/design/db5d9989c2d8c7c8.jpg"},
+  {"title":"Fairy Blossom Throne Vase","price":"449","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/USa2a0ea6eaf344d/design/32ebbcf6e91aafdd.jpg"},
+  {"title":"Elegant Petal Muse Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/US87d00fd9ec3a9d/design/b9668f28e082b016.jpg"},
+  {"title":"Flowing Blossom Spirit Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌸","image":"https://makerworld.bblmw.com/makerworld/model/UScf6863e3c2e20a/design/382a46c03be9c220.jpg"},
+  {"title":"Forest Lily Spirit Vase","price":"399","compare_at":"","cat":"vases","isNew":true,"icon":"🌿","image":"https://makerworld.bblmw.com/makerworld/model/US537f907eb4959a/design/b4356684d43b0d4e.jpg"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -645,7 +664,7 @@ function renderCard(p) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map(renderCard).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0 };
 PRODUCTS.forEach(p => counts[p.cat]++);
 document.getElementById('cnt-all').textContent        = `(${counts.all})`;
 document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
@@ -655,6 +674,7 @@ document.getElementById('cnt-home').textContent       = `(${counts.home})`;
 document.getElementById('cnt-assemble').textContent   = `(${counts.assemble})`;
 document.getElementById('cnt-jewellery').textContent  = `(${counts.jewellery})`;
 document.getElementById('cnt-idols').textContent      = `(${counts.idols})`;
+document.getElementById('cnt-vases').textContent      = `(${counts.vases})`;
 
 let activeCat = 'all', searchVal = '';
 
