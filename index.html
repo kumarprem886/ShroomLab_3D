@@ -190,6 +190,33 @@
     .img-placeholder span { font-size: 3.6rem; }
     .img-placeholder small { font-size: 0.65rem; color: var(--muted); font-weight: 500; }
 
+    /* IMAGE CAROUSEL */
+    .img-carousel { position: relative; width: 100%; height: 100%; cursor: pointer; }
+    .img-carousel img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; transition: opacity 0.38s ease;
+      pointer-events: none;
+    }
+    .img-carousel img.active { opacity: 1; }
+    .product-card:hover .img-carousel img.active { transform: scale(1.06); transition: opacity 0.38s ease, transform 0.35s ease; }
+    .img-dots {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 5px; z-index: 6;
+    }
+    .img-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,0.55); cursor: pointer;
+      transition: background 0.2s, transform 0.2s; border: 1px solid rgba(0,0,0,0.15);
+    }
+    .img-dot.active { background: #fff; transform: scale(1.35); }
+    .img-more-badge {
+      position: absolute; bottom: 8px; right: 10px;
+      background: rgba(0,0,0,0.48); color: #fff;
+      font-size: 0.6rem; font-weight: 700; padding: 2px 7px;
+      border-radius: 50px; letter-spacing: 0.3px; z-index: 6;
+    }
+
     .product-info { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
     .product-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
     .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
@@ -465,34 +492,34 @@ const PRODUCTS = [
   {"title":"T-34 Tank Kit Card","price":"149","compare_at":"","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/T-34Tank.webp?v=1777727462","cat":"kit"},
 
   // ── HOME & MORE — Fidget Toys ────────────────────────────────
-  {"title":"Fidget Cube – Click & Stress Relief","price":"149","compare_at":"299","cat":"home","isNew":true,"icon":"🎲","image":"images/fidget-cube.jpg"},
-  {"title":"Print-in-Place Planetary Gear Spinner","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⚙️","image":"images/gear-spinner.jpg"},
-  {"title":"Infinity Flip Fidget Ring","price":"99","compare_at":"199","cat":"home","isNew":true,"icon":"💫","image":"images/flip-ring.jpg"},
-  {"title":"Butterfly Knife Fidget Trainer","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"🪃","image":"images/butterfly-knife.jpg"},
-  {"title":"Print-in-Place Gyroscope Desk Toy","price":"249","compare_at":"","cat":"home","isNew":true,"icon":"🌀","image":"images/gyroscope.jpg"},
-  {"title":"Snap Fit Fidget Spinner","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🌪️","image":"images/snap-spinner.jpg"},
+  {"title":"Fidget Cube – Click & Stress Relief","price":"149","compare_at":"299","cat":"home","isNew":true,"icon":"🎲","images":["https://makerworld.bblmw.com/makerworld/model/US2ecaa913482ae4/design/6262bb404aee281b.jpg","images/fidget-cube.jpg"]},
+  {"title":"Print-in-Place Planetary Gear Spinner","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⚙️","images":["https://makerworld.bblmw.com/makerworld/model/US704045ae589908/design/2023-11-06_8df0f406c74fc.png","images/gear-spinner.jpg"]},
+  {"title":"Infinity Flip Fidget Ring","price":"99","compare_at":"199","cat":"home","isNew":true,"icon":"💫","images":["https://makerworld.bblmw.com/makerworld/model/USb841962ab00d79/design/2025-05-13_ec948ff17a108.jpeg","images/flip-ring.jpg"]},
+  {"title":"Butterfly Knife Fidget Trainer","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"🪃","images":["https://makerworld.bblmw.com/makerworld/model/USa440000a993cf4/design/2025-02-03_83281fd4ac498.gif","images/butterfly-knife.jpg"]},
+  {"title":"Print-in-Place Gyroscope Desk Toy","price":"249","compare_at":"","cat":"home","isNew":true,"icon":"🌀","images":["https://makerworld.bblmw.com/makerworld/model/US113dc8d3747b71/design/d7d60e9238d9fb33.jpg","images/gyroscope.jpg"]},
+  {"title":"Snap Fit Fidget Spinner","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🌪️","images":["https://makerworld.bblmw.com/makerworld/model/USc7ec287ae4eef9/design/f6147d2bf31b6502.png","images/snap-spinner.jpg"]},
 
   // ── HOME & MORE — Home Decor ─────────────────────────────────
-  {"title":"Geometric Voronoi Vase","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🏺","image":"images/voronoi-vase.jpg"},
-  {"title":"Succulent Planter Pot","price":"249","compare_at":"450","cat":"home","isNew":true,"icon":"🌵","image":"images/succulent-pot.jpg"},
-  {"title":"Geometric Lamp Shade","price":"499","compare_at":"900","cat":"home","isNew":true,"icon":"💡","image":"images/lamp-shade.jpg"},
-  {"title":"Hexagon Wall Art Panel","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🔷","image":"images/hexagon-wall.jpg"},
-  {"title":"Moon Phase Wall Decor","price":"349","compare_at":"","cat":"home","isNew":true,"icon":"🌙","image":"images/moon-phase.jpg"},
-  {"title":"Twisted Spiral Candle Holder","price":"299","compare_at":"","cat":"home","isNew":true,"icon":"🕯️","image":"images/candle-holder.jpg"},
+  {"title":"Geometric Voronoi Vase","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🏺","images":["https://makerworld.bblmw.com/makerworld/model/US75a6d468de01a3/design/2025-06-19_cbf5294c9a5508.png","images/voronoi-vase.jpg"]},
+  {"title":"Succulent Planter Pot","price":"249","compare_at":"450","cat":"home","isNew":true,"icon":"🌵","images":["https://makerworld.bblmw.com/makerworld/model/DSM00000000221344/design/2024-03-03_1307899d677ac8.jpg","images/succulent-pot.jpg"]},
+  {"title":"Geometric Lamp Shade","price":"499","compare_at":"900","cat":"home","isNew":true,"icon":"💡","images":["https://makerworld.bblmw.com/makerworld/model/US6220d2002d7281/design/2025-10-09_3516def4d7d6d.jpg","images/lamp-shade.jpg"]},
+  {"title":"Hexagon Wall Art Panel","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🔷","images":["https://makerworld.bblmw.com/makerworld/model/USa49f2a479d9efa/design/2025-01-08_60888984bf8588.jpg","images/hexagon-wall.jpg"]},
+  {"title":"Moon Phase Wall Decor","price":"349","compare_at":"","cat":"home","isNew":true,"icon":"🌙","images":["https://makerworld.bblmw.com/makerworld/model/US7606f6756884db/design/902e3388f82f07d4.jpg","images/moon-phase.jpg"]},
+  {"title":"Twisted Spiral Candle Holder","price":"299","compare_at":"","cat":"home","isNew":true,"icon":"🕯️","images":["https://makerworld.bblmw.com/makerworld/model/USe21c6d88e2dbfd/design/0015d1fd532a4220.png","images/candle-holder.jpg"]},
 
   // ── HOME & MORE — Desk & Gaming ──────────────────────────────
-  {"title":"Headphone Stand","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🎧","image":"images/headphone-stand.jpg"},
-  {"title":"Gaming Controller Stand","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🎮","image":"images/controller-stand.jpg"},
-  {"title":"Desk Pen & Pencil Holder","price":"249","compare_at":"400","cat":"home","isNew":true,"icon":"✏️","image":"images/pen-holder.jpg"},
-  {"title":"Cable Clips — Set of 6","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🔌","image":"images/cable-clips.jpg"},
-  {"title":"Dice Tower (Tabletop RPG)","price":"449","compare_at":"750","cat":"home","isNew":true,"icon":"🎲","image":"images/dice-tower.jpg"},
-  {"title":"D&D 7-Piece Dice Set","price":"499","compare_at":"","cat":"home","isNew":true,"icon":"🎯","image":"images/dnd-dice.jpg"},
+  {"title":"Headphone Stand","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🎧","images":["https://makerworld.bblmw.com/makerworld/model/US19d903e9e65d3c/design/2024-07-11_43f9df21685038.jpg","images/headphone-stand.jpg"]},
+  {"title":"Gaming Controller Stand","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🎮","images":["https://makerworld.bblmw.com/makerworld/model/US7bdc40ca4836d5/design/2025-11-21_30b2e60ea8736.jpg","images/controller-stand.jpg"]},
+  {"title":"Desk Pen & Pencil Holder","price":"249","compare_at":"400","cat":"home","isNew":true,"icon":"✏️","images":["https://makerworld.bblmw.com/makerworld/model/USac1fc331e84677/design/2024-04-09_3aedadcb26d32.jpeg","images/pen-holder.jpg"]},
+  {"title":"Cable Clips — Set of 6","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🔌","images":["https://makerworld.bblmw.com/makerworld/model/USbf72885d90180d/design/2025-09-08_48b5725ca88db.png","images/cable-clips.jpg"]},
+  {"title":"Dice Tower (Tabletop RPG)","price":"449","compare_at":"750","cat":"home","isNew":true,"icon":"🎲","images":["https://makerworld.bblmw.com/makerworld/model/USa34b97645ed7ef/design/2026-01-11_df4998e1b12e1.jpg","images/dice-tower.jpg"]},
+  {"title":"D&D 7-Piece Dice Set","price":"499","compare_at":"","cat":"home","isNew":true,"icon":"🎯","images":["https://makerworld.bblmw.com/makerworld/model/DSM00000002306754/design/9a533d083c1c86ec.jpg","images/dnd-dice.jpg"]},
 
   // ── HOME & MORE — Miniatures ─────────────────────────────────
-  {"title":"Low Poly Pokémon Figure","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⭐","image":"images/pokemon-figure.jpg"},
-  {"title":"Articulated Groot Figure","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🌿","image":"images/groot-figure.jpg"},
-  {"title":"Among Us Crewmate Figure","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"👾","image":"images/among-us.jpg"},
-  {"title":"Low Poly Animal Trophy Head","price":"399","compare_at":"650","cat":"home","isNew":true,"icon":"🦌","image":"images/trophy-head.jpg"}
+  {"title":"Low Poly Pokémon Figure","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⭐","images":["https://makerworld.bblmw.com/makerworld/model/US3dcb3b9dce740d/design/2025-08-19_9f3208e6f76b2.jpg","images/pokemon-figure.jpg"]},
+  {"title":"Articulated Groot Figure","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🌿","images":["https://makerworld.bblmw.com/makerworld/model/USfd0df5948b21ca/design/820e8249d93b5651.jpg","images/groot-figure.jpg"]},
+  {"title":"Among Us Crewmate Figure","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"👾","images":["https://makerworld.bblmw.com/makerworld/model/USf78fcac573ae1/design/2024-06-07_0178fd9f18278.jpg","images/among-us.jpg"]},
+  {"title":"Low Poly Animal Trophy Head","price":"399","compare_at":"650","cat":"home","isNew":true,"icon":"🦌","images":["https://makerworld.bblmw.com/makerworld/model/USf549c5fa363094/design/2024-04-28_95dfb389f2cab.png","images/trophy-head.jpg"]}
 ];
 
 const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More' };
@@ -502,16 +529,49 @@ function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
 }
 
+// Cycle image carousel on click
+function cycleImg(el, dir) {
+  const carousel = el.closest ? el.closest('.img-carousel') : el.parentElement;
+  const imgs = carousel.querySelectorAll('img');
+  const dots = carousel.querySelectorAll('.img-dot');
+  let cur = 0;
+  imgs.forEach((img, i) => { if (img.classList.contains('active')) cur = i; });
+  const next = (cur + dir + imgs.length) % imgs.length;
+  imgs[cur].classList.remove('active');
+  imgs[next].classList.add('active');
+  if (dots.length) { dots[cur].classList.remove('active'); dots[next].classList.add('active'); }
+}
+
 function renderCard(p) {
   const old = p.compare_at ? `<span class="price-old">₹${p.compare_at}</span>` : '';
   const newBadge = p.isNew ? `<span class="badge-new-label">NEW</span>` : '';
   const catEmoji = {flexi:'🐾', kit:'🃏', custom:'🎨', home:'🏠'}[p.cat];
-  const imgContent = p.image
-    ? `<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-       <div class="img-fallback" style="display:none"><div class="img-placeholder"><span>${p.icon||catEmoji}</span><small>Photo Coming Soon</small></div></div>`
-    : `<div class="img-placeholder" style="background:${p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'}"><span>${p.icon||catEmoji}</span><small>Available to Order</small></div>`;
+
+  // Build image sources array — supports new multi-image or legacy single
+  const srcs = p.images ? p.images : (p.image ? [p.image] : []);
+
+  let imgContent;
+  if (srcs.length > 1) {
+    const slides = srcs.map((src, i) =>
+      `<img src="${src}" alt="${p.title}" loading="lazy" class="${i===0?'active':''}" onerror="this.classList.remove('active');this.style.display='none'">`
+    ).join('');
+    const dots = srcs.map((_, i) =>
+      `<span class="img-dot${i===0?' active':''}" onclick="event.stopPropagation();cycleImg(this.parentElement.parentElement,1)"></span>`
+    ).join('');
+    imgContent = `<div class="img-carousel" onclick="cycleImg(this,1)">
+      ${slides}
+      <div class="img-dots">${dots}</div>
+      <span class="img-more-badge">📷 ${srcs.length}</span>
+    </div>`;
+  } else if (srcs.length === 1) {
+    imgContent = `<img src="${srcs[0]}" alt="${p.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="img-fallback" style="display:none"><div class="img-placeholder"><span>${p.icon||catEmoji}</span><small>Photo Coming Soon</small></div></div>`;
+  } else {
+    imgContent = `<div class="img-placeholder" style="background:${p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'}"><span>${p.icon||catEmoji}</span><small>Available to Order</small></div>`;
+  }
+
   return `<div class="product-card" data-cat="${p.cat}" data-title="${p.title.toLowerCase()}">
-    <div class="product-img" style="${!p.image?'background:'+( p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'):''}">
+    <div class="product-img" style="${srcs.length===0?'background:'+( p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'):''}">
       ${imgContent}
       <span class="cat-badge ${BADGE_CLASS[p.cat]}">${BADGE[p.cat]}</span>
       ${newBadge}
