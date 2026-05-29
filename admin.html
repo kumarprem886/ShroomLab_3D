@@ -3,11 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShroomLab Admin — Add Products</title>
+  <title>ShroomLab Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Poppins',sans-serif;background:#f0fdf4;color:#1a1a2e;min-height:100vh}
+
+    /* ── LOGIN SCREEN ── */
+    #login-screen{
+      position:fixed;inset:0;background:linear-gradient(135deg,#1b4332,#2d6a4f);
+      display:flex;align-items:center;justify-content:center;z-index:9999
+    }
+    #login-screen.hidden{display:none}
+    .login-card{
+      background:#fff;border-radius:20px;padding:40px 36px;width:340px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center
+    }
+    .login-card img{width:64px;height:64px;border-radius:50%;object-fit:contain;margin-bottom:14px}
+    .login-card h2{font-size:1.1rem;font-weight:700;color:#1b4332;margin-bottom:4px}
+    .login-card p{font-size:0.78rem;color:#5a5a7a;margin-bottom:22px}
+    .login-card input{
+      width:100%;padding:10px 14px;border:1.5px solid #ceeada;border-radius:10px;
+      font-family:'Poppins',sans-serif;font-size:0.88rem;color:#1a1a2e;
+      background:#f6fdf9;outline:none;transition:border 0.2s;margin-bottom:10px;
+      text-align:center;letter-spacing:2px
+    }
+    .login-card input:focus{border-color:#40916c;background:#fff}
+    .login-card input.shake{animation:shake 0.35s}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+    .btn-login{
+      width:100%;padding:11px;background:#1b4332;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;
+      transition:all 0.2s;margin-top:2px
+    }
+    .btn-login:hover{background:#2d6a4f;transform:translateY(-1px);box-shadow:0 6px 18px rgba(27,67,50,0.3)}
+    .login-err{font-size:0.74rem;color:#e53935;margin-top:8px;height:16px;font-weight:600}
+
+    /* ── HEADER ── */
     header{background:#1b4332;color:#fff;padding:16px 28px;display:flex;align-items:center;gap:14px}
     header img{width:38px;height:38px;border-radius:50%;object-fit:contain}
     header h1{font-size:1.1rem;font-weight:700}
@@ -15,12 +47,21 @@
     .header-right a{color:#a7f3d0;font-size:0.8rem;text-decoration:none}
     .header-right a:hover{color:#fff}
     #total-count{font-size:0.78rem;color:#a7f3d0}
+    .btn-logout{
+      background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);
+      padding:5px 13px;border-radius:50px;font-family:'Poppins',sans-serif;
+      font-size:0.74rem;font-weight:600;cursor:pointer;transition:all 0.2s
+    }
+    .btn-logout:hover{background:rgba(229,57,53,0.7)}
 
     .layout{display:grid;grid-template-columns:450px 1fr;gap:0;min-height:calc(100vh - 61px)}
 
     /* ── FORM PANEL ── */
     .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:24px 26px 40px;overflow-y:auto}
-    .section-title{font-size:0.95rem;font-weight:700;color:#1b4332;margin-bottom:16px;padding-bottom:9px;border-bottom:2px solid #d8f3dc}
+    .section-title{
+      font-size:0.95rem;font-weight:700;color:#1b4332;margin-bottom:16px;
+      padding-bottom:9px;border-bottom:2px solid #d8f3dc;display:flex;align-items:center;gap:8px
+    }
     .field{margin-bottom:13px}
     label{display:block;font-size:0.76rem;font-weight:600;color:#2d6a4f;margin-bottom:4px}
     input[type=text],input[type=color],select,textarea{
@@ -44,8 +85,7 @@
     .upload-zone{
       width:100%;min-height:160px;border:2.5px dashed #ceeada;border-radius:12px;
       background:#f6fdf9;display:flex;flex-direction:column;align-items:center;
-      justify-content:center;gap:8px;cursor:pointer;transition:all 0.22s;position:relative;
-      overflow:hidden
+      justify-content:center;gap:8px;cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden
     }
     .upload-zone.drag-over{border-color:#40916c;background:#e8f5e9}
     .upload-zone.has-image{border-style:solid;border-color:#40916c;padding:0}
@@ -53,9 +93,7 @@
     .upload-zone .uz-label{font-size:0.76rem;color:#5a5a7a;text-align:center;padding:0 12px}
     .upload-zone .uz-label strong{color:#40916c}
     .upload-zone img{width:100%;height:160px;object-fit:cover;border-radius:10px;display:block}
-    .upload-zone input[type=file]{
-      position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%
-    }
+    .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
     .uz-clear{
       position:absolute;top:7px;right:7px;width:24px;height:24px;border-radius:50%;
       background:rgba(229,57,53,0.85);color:#fff;border:none;cursor:pointer;
@@ -91,16 +129,31 @@
     }
     .cat-saved-msg{font-size:0.72rem;color:#065f46;font-weight:600;margin-top:5px;display:none;text-align:center}
 
+    /* add / update buttons */
+    .btn-row-form{display:flex;gap:8px;margin-top:6px}
     .btn-add{
-      width:100%;padding:12px;background:#1b4332;color:#fff;border:none;border-radius:50px;
-      font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;
-      transition:all 0.2s;margin-top:6px
+      flex:1;padding:12px;background:#1b4332;color:#fff;border:none;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.2s
     }
     .btn-add:hover{background:#2d6a4f;transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,67,50,0.3)}
+    .btn-add.update-mode{background:#1565c0}
+    .btn-add.update-mode:hover{background:#0d47a1}
+    .btn-cancel-edit{
+      padding:12px 16px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;
+      font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:none
+    }
+    .btn-cancel-edit:hover{background:#ffebee}
     .success-msg{
       display:none;background:#d1fae5;color:#065f46;padding:8px 14px;border-radius:10px;
       font-size:0.78rem;font-weight:600;margin-top:9px;text-align:center
     }
+
+    /* edit banner */
+    .edit-banner{
+      display:none;background:#e3f2fd;border:1.5px solid #90caf9;border-radius:10px;
+      padding:8px 14px;margin-bottom:12px;font-size:0.76rem;color:#0d47a1;font-weight:600
+    }
+    .edit-banner.visible{display:block}
 
     /* export */
     .export-section{margin-top:20px;padding-top:16px;border-top:2px solid #d8f3dc}
@@ -131,7 +184,7 @@
       font-family:'Poppins',sans-serif;font-size:0.73rem;font-weight:600;cursor:pointer;margin-top:5px
     }
 
-    /* catalogue */
+    /* catalogue panel */
     .catalogue-panel{padding:22px;overflow-y:auto}
     .catalogue-panel h2{font-size:0.95rem;font-weight:700;color:#1b4332;margin-bottom:13px}
     .cat-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
@@ -143,6 +196,7 @@
     .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px}
     .p-card{background:#fff;border-radius:13px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;transition:box-shadow 0.2s}
     .p-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+    .p-card.editing-highlight{outline:2.5px solid #1565c0;box-shadow:0 0 0 4px rgba(21,101,192,0.15)}
     .p-card-img{height:130px;overflow:hidden;background:#eef8f2;position:relative}
     .p-card-img img{width:100%;height:100%;object-fit:cover}
     .p-card-img .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:#f0fdf4}
@@ -150,13 +204,20 @@
     .p-card-name{font-size:0.75rem;font-weight:600;line-height:1.35;margin-bottom:5px}
     .p-card-cat{font-size:0.61rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 7px;border-radius:50px;display:inline-block;color:#fff}
     .p-card-src{font-size:0.6rem;color:#9999bb;margin-top:4px}
-    .p-card-del{
-      position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;
-      background:rgba(229,57,53,0.85);color:#fff;border:none;cursor:pointer;
-      font-size:0.75rem;display:flex;align-items:center;justify-content:center;
+
+    /* card action buttons — show on hover */
+    .p-card-actions{
+      position:absolute;top:6px;right:6px;display:flex;gap:4px;
       opacity:0;transition:opacity 0.2s
     }
-    .p-card:hover .p-card-del{opacity:1}
+    .p-card:hover .p-card-actions{opacity:1}
+    .p-card-btn{
+      width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;
+      font-size:0.72rem;display:flex;align-items:center;justify-content:center
+    }
+    .p-card-del{background:rgba(229,57,53,0.85);color:#fff}
+    .p-card-edit{background:rgba(21,101,192,0.85);color:#fff}
+
     .new-badge-card{position:absolute;top:6px;left:6px;background:#ffd700;color:#1a1a2e;font-size:0.55rem;font-weight:800;padding:2px 6px;border-radius:50px}
     .src-badge{position:absolute;bottom:6px;right:6px;font-size:0.58rem;font-weight:700;padding:2px 6px;border-radius:50px}
     .src-badge.uploaded{background:rgba(21,101,192,0.85);color:#fff}
@@ -169,12 +230,27 @@
 </head>
 <body>
 
+<!-- ── LOGIN SCREEN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="logo" onerror="this.style.display='none'">
+    <h2>ShroomLab Admin</h2>
+    <p>Enter your password to continue</p>
+    <input type="password" id="pw-input" placeholder="••••••••••••"
+           onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-login" onclick="doLogin()">🔐 Login</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
 <header>
   <img src="https://shroomlab-3d.myshopify.com/cdn/shop/files/shroomlab_circle_transparent.png?v=1777714799" alt="logo" onerror="this.style.display='none'">
   <h1>ShroomLab 3D — Admin</h1>
   <div class="header-right">
     <a href="index.html">← Catalogue</a>
     <span id="total-count">0 products</span>
+    <button class="btn-logout" onclick="doLogout()">🔓 Logout</button>
   </div>
 </header>
 
@@ -182,7 +258,9 @@
 
   <!-- ── FORM ── -->
   <div class="form-panel">
-    <div class="section-title">➕ Add New Product</div>
+    <div class="section-title" id="form-title">➕ Add New Product</div>
+
+    <div class="edit-banner" id="edit-banner">✏️ Editing: <span id="edit-name-label"></span></div>
 
     <div class="field">
       <label>Product Name *</label>
@@ -252,8 +330,11 @@
       <input type="text" id="f-icon" placeholder="🏺" style="width:74px">
     </div>
 
-    <button class="btn-add" onclick="addProduct()">Add to Catalogue</button>
-    <div class="success-msg" id="success-msg">✅ Product added!</div>
+    <div class="btn-row-form">
+      <button class="btn-add" id="btn-save" onclick="saveProduct()">Add to Catalogue</button>
+      <button class="btn-cancel-edit" id="btn-cancel" onclick="cancelEdit()">✕ Cancel</button>
+    </div>
+    <div class="success-msg" id="success-msg"></div>
 
     <!-- EXPORT -->
     <div class="export-section">
@@ -282,18 +363,51 @@
 </div>
 
 <script>
-// ── Built-in categories ────────────────────────────────────────────
+// ── Password ───────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = 'shroomlab@123';  // Change this to update the password
+const SESSION_KEY    = 'shroomlab_admin_auth';
+
+function doLogin(){
+  const pw = document.getElementById('pw-input').value;
+  const err = document.getElementById('login-err');
+  if(pw === ADMIN_PASSWORD){
+    sessionStorage.setItem(SESSION_KEY,'1');
+    document.getElementById('login-screen').classList.add('hidden');
+    err.textContent='';
+  } else {
+    err.textContent='❌ Wrong password. Try again.';
+    const inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value='';
+    setTimeout(()=>inp.classList.remove('shake'),400);
+  }
+}
+
+function doLogout(){
+  if(!confirm('Log out of admin panel?')) return;
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('pw-input').value='';
+  document.getElementById('login-err').textContent='';
+}
+
+// Check session on load
+if(sessionStorage.getItem(SESSION_KEY)==='1'){
+  document.getElementById('login-screen').classList.add('hidden');
+}
+
+// ── Built-in categories ────────────────────────────────────────────────
 const BUILTIN = {
-  flexi:     {label:'Flexi Toys',     emoji:'🐾',color:'#ff7043'},
-  kit:       {label:'Kit Cards',      emoji:'🃏',color:'#5c6bc0'},
-  custom:    {label:'Custom',         emoji:'🎨',color:'#40916c'},
-  home:      {label:'Home & More',    emoji:'🏠',color:'#e91e63'},
-  vases:     {label:'Vases',          emoji:'🏺',color:'#00796b'},
-  jewellery: {label:'Jewellery',      emoji:'💍',color:'#ad1457'},
-  idols:     {label:'Idols',          emoji:'🎭',color:'#6a1b9a'},
+  flexi:     {label:'Flexi Toys',      emoji:'🐾',color:'#ff7043'},
+  kit:       {label:'Kit Cards',       emoji:'🃏',color:'#5c6bc0'},
+  custom:    {label:'Custom',          emoji:'🎨',color:'#40916c'},
+  home:      {label:'Home & More',     emoji:'🏠',color:'#e91e63'},
+  vases:     {label:'Vases',           emoji:'🏺',color:'#00796b'},
+  jewellery: {label:'Jewellery',       emoji:'💍',color:'#ad1457'},
+  idols:     {label:'Idols',           emoji:'🎭',color:'#6a1b9a'},
   assemble:  {label:'Life-Size Prints',emoji:'🦜',color:'#f57c00'},
-  keychains: {label:'Keychains',      emoji:'🔑',color:'#5d4037'},
-  namedecor: {label:'Name & Letters', emoji:'✏️',color:'#1565c0'},
+  keychains: {label:'Keychains',       emoji:'🔑',color:'#5d4037'},
+  namedecor: {label:'Name & Letters',  emoji:'✏️',color:'#1565c0'},
 };
 
 const PROD_KEY='shroomlab_new_products', CAT_KEY='shroomlab_new_categories';
@@ -301,10 +415,11 @@ let products   = JSON.parse(localStorage.getItem(PROD_KEY)||'[]');
 let customCats = JSON.parse(localStorage.getItem(CAT_KEY)||'{}');
 let exportTab  = 'products';
 let activeCat  = 'all';
-let imgMode    = 'upload';  // 'upload' | 'url'
-let uploadedDataURL = null; // current compressed image
+let imgMode    = 'upload';
+let uploadedDataURL = null;
+let editingIdx = null;   // null = adding new, number = editing existing
 
-// ── Category helpers ───────────────────────────────────────────────
+// ── Category helpers ───────────────────────────────────────────────────
 function allCats(){ return {...BUILTIN,...customCats}; }
 function catInfo(k){ return allCats()[k]||{label:k,emoji:'📦',color:'#888'}; }
 
@@ -345,7 +460,7 @@ function saveNewCategory(){
   renderAll();
 }
 
-// ── Image tab switching ────────────────────────────────────────────
+// ── Image tab switching ────────────────────────────────────────────────
 function switchImgTab(mode, btn){
   imgMode=mode;
   document.querySelectorAll('.img-tab').forEach(b=>b.classList.remove('active'));
@@ -354,7 +469,7 @@ function switchImgTab(mode, btn){
   document.getElementById('url-pane').style.display    = mode==='url'?'block':'none';
 }
 
-// ── Image upload ───────────────────────────────────────────────────
+// ── Image upload ───────────────────────────────────────────────────────
 function handleDrop(e){
   e.preventDefault();
   document.getElementById('upload-zone').classList.remove('drag-over');
@@ -368,7 +483,6 @@ function processFile(file){
   reader.onload=function(ev){
     const img=new Image();
     img.onload=function(){
-      // Compress: max 900px, quality 0.85
       const MAX=900;
       let {width:w,height:h}=img;
       if(w>h){ if(w>MAX){h=Math.round(h*MAX/w);w=MAX;} }
@@ -378,7 +492,6 @@ function processFile(file){
       canvas.getContext('2d').drawImage(img,0,0,w,h);
       const dataURL=canvas.toDataURL('image/jpeg',0.85);
       uploadedDataURL=dataURL;
-      // Show preview
       const zone=document.getElementById('upload-zone');
       zone.classList.add('has-image');
       const existing=zone.querySelector('img.preview-img');
@@ -386,10 +499,8 @@ function processFile(file){
       const previewImg=document.createElement('img');
       previewImg.src=dataURL; previewImg.className='preview-img';
       zone.insertBefore(previewImg,zone.querySelector('.uz-clear'));
-      // Hide upload content
       zone.querySelector('.uz-icon').style.display='none';
       zone.querySelector('.uz-label').style.display='none';
-      // File info
       const kb=Math.round(dataURL.length*0.75/1024);
       document.getElementById('img-info').textContent=
         `✅ ${file.name} → compressed to ~${kb}KB (${w}×${h}px)`;
@@ -412,7 +523,7 @@ function clearUpload(e){
   document.getElementById('file-input').value='';
 }
 
-// ── URL preview ────────────────────────────────────────────────────
+// ── URL preview ────────────────────────────────────────────────────────
 function previewUrl(url){
   const box=document.getElementById('url-preview');
   url=url.trim();
@@ -423,10 +534,10 @@ function previewUrl(url){
   }
 }
 
-// ── Add product ────────────────────────────────────────────────────
+// ── Save product (add or update) ───────────────────────────────────────
 function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
 
-function addProduct(){
+function saveProduct(){
   const name=document.getElementById('f-name').value.trim();
   const cat =document.getElementById('f-cat').value;
   const icon=document.getElementById('f-icon').value.trim();
@@ -443,30 +554,107 @@ function addProduct(){
     if(url){imgSrc=url;imgType='url';}
   }
 
-  products.push({title:name,cat,icon:icon||null,imgSrc,imgType,filename,isNew:true});
-  localStorage.setItem(PROD_KEY,JSON.stringify(products));
+  const entry = {title:name,cat,icon:icon||null,imgSrc,imgType,filename,isNew:true};
 
-  // Reset
+  if(editingIdx !== null){
+    // Update existing
+    products[editingIdx] = entry;
+    showMsg('✅ Product updated!');
+    cancelEdit();
+  } else {
+    // Add new
+    products.push(entry);
+    showMsg('✅ Product added!');
+    resetForm();
+  }
+
+  localStorage.setItem(PROD_KEY,JSON.stringify(products));
+  renderAll();
+}
+
+function showMsg(text){
+  const m=document.getElementById('success-msg');
+  m.textContent=text;
+  m.style.display='block';
+  setTimeout(()=>m.style.display='none',2400);
+}
+
+function resetForm(){
   document.getElementById('f-name').value='';
   document.getElementById('f-icon').value='';
   clearUpload({stopPropagation:()=>{}});
   document.getElementById('f-img-url').value='';
   previewUrl('');
   uploadedDataURL=null;
-
-  const m=document.getElementById('success-msg');
-  m.style.display='block'; setTimeout(()=>m.style.display='none',2200);
-  renderAll();
 }
 
-// ── Delete ─────────────────────────────────────────────────────────
+// ── Edit product ───────────────────────────────────────────────────────
+function editProduct(idx){
+  const p = products[idx];
+  editingIdx = idx;
+
+  // Fill form
+  document.getElementById('f-name').value = p.title;
+  document.getElementById('f-cat').value  = p.cat;
+  document.getElementById('f-icon').value = p.icon||'';
+
+  // Image
+  if(p.imgType==='url' && p.imgSrc){
+    switchImgTab('url', document.querySelectorAll('.img-tab')[1]);
+    document.getElementById('f-img-url').value = p.imgSrc;
+    previewUrl(p.imgSrc);
+  } else if(p.imgType==='uploaded' && p.imgSrc){
+    switchImgTab('upload', document.querySelectorAll('.img-tab')[0]);
+    uploadedDataURL = p.imgSrc;
+    const zone=document.getElementById('upload-zone');
+    zone.classList.add('has-image');
+    const existing=zone.querySelector('img.preview-img');
+    if(existing) existing.remove();
+    const previewImg=document.createElement('img');
+    previewImg.src=p.imgSrc; previewImg.className='preview-img';
+    zone.insertBefore(previewImg,zone.querySelector('.uz-clear'));
+    zone.querySelector('.uz-icon').style.display='none';
+    zone.querySelector('.uz-label').style.display='none';
+    document.getElementById('img-info').textContent=`✅ ${p.filename||'uploaded image'}`;
+  } else {
+    switchImgTab('upload', document.querySelectorAll('.img-tab')[0]);
+  }
+
+  // UI: switch to edit mode
+  document.getElementById('form-title').textContent='✏️ Edit Product';
+  document.getElementById('edit-banner').classList.add('visible');
+  document.getElementById('edit-name-label').textContent=p.title;
+  document.getElementById('btn-save').textContent='💾 Update Product';
+  document.getElementById('btn-save').classList.add('update-mode');
+  document.getElementById('btn-cancel').style.display='block';
+
+  // Scroll form into view & highlight card
+  document.querySelector('.form-panel').scrollTo({top:0,behavior:'smooth'});
+  renderGrid(); // re-render to show highlight
+}
+
+function cancelEdit(){
+  editingIdx=null;
+  resetForm();
+  document.getElementById('form-title').textContent='➕ Add New Product';
+  document.getElementById('edit-banner').classList.remove('visible');
+  document.getElementById('btn-save').textContent='Add to Catalogue';
+  document.getElementById('btn-save').classList.remove('update-mode');
+  document.getElementById('btn-cancel').style.display='none';
+  renderGrid();
+}
+
+// ── Delete ─────────────────────────────────────────────────────────────
 function deleteProduct(idx){
+  if(!confirm(`Delete "${products[idx].title}"?`)) return;
+  if(editingIdx===idx) cancelEdit();
+  else if(editingIdx!==null && editingIdx>idx) editingIdx--;
   products.splice(idx,1);
   localStorage.setItem(PROD_KEY,JSON.stringify(products));
   renderAll();
 }
 
-// ── Download uploaded images ───────────────────────────────────────
+// ── Download uploaded images ───────────────────────────────────────────
 function downloadAllImages(){
   const uploaded=products.filter(p=>p.imgType==='uploaded'&&p.imgSrc);
   if(!uploaded.length){alert('No uploaded images to download');return;}
@@ -476,11 +664,11 @@ function downloadAllImages(){
       a.href=p.imgSrc;
       a.download=p.filename||`product-${i+1}.jpg`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    },i*400); // stagger so browser doesn't block
+    },i*400);
   });
 }
 
-// ── Render ─────────────────────────────────────────────────────────
+// ── Render ─────────────────────────────────────────────────────────────
 function renderAll(){
   renderGrid(); renderExportBox(); renderFilters();
   const uploaded=products.filter(p=>p.imgType==='uploaded').length;
@@ -512,6 +700,7 @@ function renderGrid(){
   grid.innerHTML=list.map(p=>{
     const ri=products.indexOf(p);
     const ci=catInfo(p.cat);
+    const isEditing = editingIdx===ri;
     let imgHtml='';
     if(p.imgSrc){
       imgHtml=`<img src="${p.imgSrc}" onerror="this.style.display='none'">`;
@@ -522,9 +711,12 @@ function renderGrid(){
       ? `<span class="src-badge uploaded">📁 local</span>`
       : p.imgType==='url'
       ? `<span class="src-badge url">🔗 url</span>` : '';
-    return `<div class="p-card">
+    return `<div class="p-card ${isEditing?'editing-highlight':''}">
       <div class="p-card-img">${imgHtml}<span class="new-badge-card">NEW</span>${srcBadge}</div>
-      <button class="p-card-del" onclick="deleteProduct(${ri})">✕</button>
+      <div class="p-card-actions">
+        <button class="p-card-btn p-card-edit" title="Edit" onclick="editProduct(${ri})">✏️</button>
+        <button class="p-card-btn p-card-del"  title="Delete" onclick="deleteProduct(${ri})">✕</button>
+      </div>
       <div class="p-card-info">
         <div class="p-card-name">${p.title}</div>
         <span class="p-card-cat" style="background:${ci.color}">${ci.emoji} ${ci.label}</span>
@@ -534,7 +726,7 @@ function renderGrid(){
   }).join('');
 }
 
-// ── Export ─────────────────────────────────────────────────────────
+// ── Export ─────────────────────────────────────────────────────────────
 function setExportTab(tab,btn){
   exportTab=tab;
   document.querySelectorAll('.etab').forEach(b=>b.classList.remove('active'));
@@ -583,10 +775,11 @@ function clearAll(){
   products=[];customCats={};
   localStorage.removeItem(PROD_KEY);localStorage.removeItem(CAT_KEY);
   activeCat='all'; uploadedDataURL=null;
+  cancelEdit();
   populateCatDropdown(); renderAll();
 }
 
-// ── Init ───────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────────
 document.getElementById('url-pane').style.display='none';
 populateCatDropdown();
 renderAll();
