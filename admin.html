@@ -333,7 +333,7 @@ async function loadSiteProducts(){
     const m = html.match(/const PRODUCTS = \[([\s\S]+?)\];/);
     if(!m) throw new Error('PRODUCTS not found');
     // Strip JS comments, then JSON parse
-    let raw = m[1].replace(/\/\/[^\n]*/g,'').replace(/,(\s*[\]}])/g,'$1').trim();
+    let raw = m[1].replace(/^\s*\/\/[^\n]*/gm,'').replace(/,(\s*[\]}])/g,'$1').trim();
     // Remove trailing comma if any
     if(raw.endsWith(',')) raw=raw.slice(0,-1);
     siteProducts = JSON.parse('['+raw+']');
