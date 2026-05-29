@@ -96,6 +96,28 @@
     .btn-dl-imgs:disabled{background:#b0bec5;cursor:not-allowed}
     .btn-clear{width:100%;padding:6px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.73rem;font-weight:600;cursor:pointer;margin-top:5px}
 
+    /* ── SETTINGS ── */
+    .settings-section{margin-top:18px;padding-top:15px;border-top:2px solid #d8f3dc}
+    .settings-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+    .settings-toggle h3{font-size:0.82rem;font-weight:700;color:#1b4332}
+    .settings-toggle span{font-size:0.8rem;color:#9999bb;transition:transform 0.2s}
+    .settings-body{display:none;margin-top:12px}
+    .settings-body.open{display:block}
+    .token-row{display:flex;gap:6px;align-items:center}
+    .token-row input{flex:1;font-family:monospace;font-size:0.78rem;letter-spacing:0.5px}
+    .btn-eye{padding:8px 11px;background:#f6fdf9;border:1.5px solid #ceeada;border-radius:10px;cursor:pointer;font-size:0.8rem;transition:background 0.2s}
+    .btn-eye:hover{background:#e8f5e9}
+    .btn-save-settings{width:100%;padding:9px;background:#2d6a4f;color:#fff;border:none;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;margin-top:10px;transition:all 0.2s}
+    .btn-save-settings:hover{background:#1b4332}
+    .settings-msg{font-size:0.72rem;color:#065f46;font-weight:600;text-align:center;margin-top:6px;display:none}
+    .btn-push{width:100%;padding:11px;background:linear-gradient(135deg,#6a1b9a,#4a148c);color:#fff;border:none;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;margin-top:8px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-push:hover{opacity:0.9;transform:translateY(-1px)}
+    .btn-push:disabled{background:#b0bec5;cursor:not-allowed;transform:none}
+    .push-status{font-size:0.74rem;font-weight:600;text-align:center;margin-top:7px;padding:7px;border-radius:8px;display:none}
+    .push-status.success{background:#d1fae5;color:#065f46;display:block}
+    .push-status.error{background:#fee2e2;color:#b91c1c;display:block}
+    .push-status.loading{background:#e3f2fd;color:#1565c0;display:block}
+
     /* ── CATALOGUE PANEL ── */
     .catalogue-panel{padding:20px;overflow-y:auto}
     .panel-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
@@ -244,7 +266,40 @@
       </div>
       <button class="btn-clear" onclick="clearChanges()">↩️ Discard all pending changes</button>
     </div>
+
+    <!-- SETTINGS -->
+    <div class="settings-section">
+      <div class="settings-toggle" onclick="toggleSettings()">
+        <h3>⚙️ GitHub Settings</h3>
+        <span id="settings-arrow">▼</span>
+      </div>
+      <div class="settings-body" id="settings-body">
+        <div class="field" style="margin-top:10px">
+          <label>GitHub Token</label>
+          <div class="token-row">
+            <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+            <button class="btn-eye" onclick="toggleTokenVisibility()" title="Show / Hide">👁️</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Repository (owner/repo)</label>
+          <input type="text" id="gh-repo" value="kumarprem886/ShroomLab_3D">
+        </div>
+        <div class="field">
+          <label>Branch</label>
+          <input type="text" id="gh-branch" value="main" style="width:100px">
+        </div>
+        <button class="btn-save-settings" onclick="saveGitHubSettings()">💾 Save Settings</button>
+        <div class="settings-msg" id="settings-msg">✅ Settings saved!</div>
+
+        <button class="btn-push" id="btn-push" onclick="pushToGitHub()">
+          🚀 Push Changes to GitHub
+        </button>
+        <div class="push-status" id="push-status"></div>
+      </div>
+    </div>
   </div>
+  <!-- end form panel -->
 
   <!-- CATALOGUE -->
   <div class="catalogue-panel">
@@ -737,6 +792,146 @@ function clearChanges(){
   localStorage.removeItem(K_DELS); localStorage.removeItem(K_CATS);
   activeCat='all'; uploadedDataURL=null;
   cancelEdit(); populateCatDropdown(); renderAll();
+}
+
+// ── GITHUB SETTINGS ───────────────────────────────────────────────────
+const K_GH = 'shroomlab_github_settings';
+
+function getGitHubSettings(){
+  const saved = JSON.parse(localStorage.getItem(K_GH)||'{}');
+  return {
+    token:  saved.token  || '',
+    repo:   saved.repo   || 'kumarprem886/ShroomLab_3D',
+    branch: saved.branch || 'main',
+  };
+}
+
+function loadGitHubSettingsUI(){
+  const s = getGitHubSettings();
+  document.getElementById('gh-token').value  = s.token;
+  document.getElementById('gh-repo').value   = s.repo;
+  document.getElementById('gh-branch').value = s.branch;
+}
+
+function saveGitHubSettings(){
+  const token  = document.getElementById('gh-token').value.trim();
+  const repo   = document.getElementById('gh-repo').value.trim();
+  const branch = document.getElementById('gh-branch').value.trim();
+  localStorage.setItem(K_GH, JSON.stringify({token, repo, branch}));
+  const msg = document.getElementById('settings-msg');
+  msg.style.display = 'block';
+  setTimeout(()=>msg.style.display='none', 2000);
+}
+
+function toggleTokenVisibility(){
+  const inp = document.getElementById('gh-token');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function toggleSettings(){
+  const body  = document.getElementById('settings-body');
+  const arrow = document.getElementById('settings-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲' : '▼';
+  if(open) loadGitHubSettingsUI();
+}
+
+// ── PUSH TO GITHUB ─────────────────────────────────────────────────────
+function generateFullProductsJS(){
+  // All site products (with edits, minus deletes) + new products
+  const siteParts = siteProducts
+    .filter(p => !pendingDels.includes(p.title))
+    .map(p => productToJS(pendingEdits[p.title] || p));
+  const newParts = newProducts.map(productToJS);
+  return [...siteParts, ...newParts].join(',\n');
+}
+
+function toBase64Unicode(str){
+  // Handle Unicode (emoji etc) correctly for btoa
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary);
+}
+
+function setPushStatus(type, text){
+  const el = document.getElementById('push-status');
+  el.className = 'push-status ' + type;
+  el.textContent = text;
+}
+
+async function pushToGitHub(){
+  const s = getGitHubSettings();
+  if(!s.token){ alert('Please enter your GitHub token in Settings first.'); return; }
+  if(!s.repo)  { alert('Please enter the repository name in Settings.'); return; }
+
+  const btn = document.getElementById('btn-push');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Pushing…';
+  setPushStatus('loading', '⏳ Connecting to GitHub…');
+
+  try {
+    const apiBase = `https://api.github.com/repos/${s.repo}/contents/index.html`;
+    const headers = {
+      'Authorization': `token ${s.token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    };
+
+    // 1. Get current SHA + content
+    setPushStatus('loading', '📥 Fetching current index.html from GitHub…');
+    const getRes = await fetch(`${apiBase}?ref=${s.branch}`, { headers });
+    if(!getRes.ok) throw new Error(`GitHub API error ${getRes.status}: ${(await getRes.json()).message}`);
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // Decode current content (GitHub returns base64)
+    const currentBytes = Uint8Array.from(atob(fileData.content.replace(/\n/g,'')), c=>c.charCodeAt(0));
+    const currentHTML  = new TextDecoder().decode(currentBytes);
+
+    // 2. Replace PRODUCTS array
+    const newProductsJS = generateFullProductsJS();
+    const newHTML = currentHTML.replace(
+      /const PRODUCTS = \[[\s\S]+?\];/,
+      `const PRODUCTS = [\n${newProductsJS}\n];`
+    );
+
+    if(newHTML === currentHTML){
+      setPushStatus('error', '⚠️ No changes detected — nothing to push.');
+      return;
+    }
+
+    // 3. Push updated content
+    setPushStatus('loading', '🚀 Pushing to GitHub…');
+    const now = new Date().toLocaleDateString('en-IN');
+    const pushRes = await fetch(apiBase, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        message: `Admin: update products (${now})`,
+        content: toBase64Unicode(newHTML),
+        sha,
+        branch: s.branch
+      })
+    });
+    if(!pushRes.ok) throw new Error(`Push failed ${pushRes.status}: ${(await pushRes.json()).message}`);
+
+    setPushStatus('success', '✅ Pushed! GitHub Pages will update in ~1 minute.');
+
+    // Clear pending changes after successful push
+    pendingEdits={}; pendingDels=[]; newProducts=[];
+    localStorage.removeItem(K_EDITS); localStorage.removeItem(K_DELS); localStorage.removeItem(K_NEW);
+    cancelEdit();
+
+    // Reload site products to reflect the push
+    await loadSiteProducts();
+
+  } catch(e){
+    setPushStatus('error', '❌ ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🚀 Push Changes to GitHub';
+  }
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────
