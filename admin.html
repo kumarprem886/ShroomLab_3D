@@ -37,10 +37,10 @@
     .btn-logout{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:5px 13px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.74rem;font-weight:600;cursor:pointer;transition:all 0.2s}
     .btn-logout:hover{background:rgba(229,57,53,0.7)}
 
-    .layout{display:grid;grid-template-columns:450px 1fr;gap:0;min-height:calc(100vh - 62px)}
+    .layout{display:grid;grid-template-columns:450px 1fr;gap:0;height:calc(100vh - 62px);overflow:hidden}
 
     /* ── FORM PANEL ── */
-    .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:22px 24px 40px;overflow-y:auto}
+    .form-panel{background:#fff;border-right:1px solid #dff0e6;padding:22px 24px 40px;overflow-y:auto;height:100%}
     .section-title{font-size:0.93rem;font-weight:700;color:#1b4332;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #d8f3dc}
     .field{margin-bottom:12px}
     label{display:block;font-size:0.76rem;font-weight:600;color:#2d6a4f;margin-bottom:4px}
@@ -135,7 +135,7 @@
     .push-status.loading{background:#e3f2fd;color:#1565c0;display:block}
 
     /* ── CATALOGUE PANEL ── */
-    .catalogue-panel{padding:20px;overflow-y:auto}
+    .catalogue-panel{padding:20px;overflow-y:auto;height:100%}
     .panel-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
     .panel-top h2{font-size:0.93rem;font-weight:700;color:#1b4332}
     .load-status{font-size:0.72rem;color:#5a5a7a;margin-left:4px}
