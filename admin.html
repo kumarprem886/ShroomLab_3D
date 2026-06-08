@@ -212,7 +212,7 @@
                onfocus="showCatOptions()"
                onblur="hideCatOptionsDelay()"
                onkeydown="catSearchKey(event)">
-        <input type="hidden" id="f-cat" value="flexi">
+        <input type="hidden" id="f-cat" value="">
         <div class="cat-dropdown" id="cat-dropdown"></div>
       </div>
     </div>
@@ -588,6 +588,7 @@ function saveProduct(){
   const cat =document.getElementById('f-cat').value;
   const icon=document.getElementById('f-icon').value.trim();
   if(!name){alert('Product name is required');return;}
+  if(!cat){alert('Please select a category');document.getElementById('f-cat-search').focus();return;}
   if(cat==='__new__'){alert('Save the new category first');return;}
 
   let imgSrc=null,imgType='none',filename=null;
@@ -628,11 +629,8 @@ function showMsg(text){
 function resetForm(){
   document.getElementById('f-name').value='';
   document.getElementById('f-icon').value='';
-  // Reset category to first builtin
-  const firstCat = Object.keys(BUILTIN)[0];
-  const firstCi  = BUILTIN[firstCat];
-  document.getElementById('f-cat').value = firstCat;
-  document.getElementById('f-cat-search').value = `${firstCi.emoji} ${firstCi.label}`;
+  document.getElementById('f-cat').value='';
+  document.getElementById('f-cat-search').value='';
   clearUpload({stopPropagation:()=>{}});
   document.getElementById('f-img-url').value='';
   previewUrl(''); uploadedDataURL=null;
