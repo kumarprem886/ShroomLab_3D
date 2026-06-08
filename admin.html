@@ -112,6 +112,22 @@
     .btn-dl-imgs:disabled{background:#b0bec5;cursor:not-allowed}
     .btn-clear{width:100%;padding:6px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.73rem;font-weight:600;cursor:pointer;margin-top:5px}
 
+    /* ── CATEGORY MANAGER ── */
+    .cat-mgr-row{margin-bottom:7px}
+    .cat-row-display{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f6fdf9;border-radius:10px;border:1.5px solid #dff0e6}
+    .cat-color-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.1)}
+    .cat-row-label{font-size:0.8rem;font-weight:600;color:#1a1a2e;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cat-row-key{font-size:0.62rem;color:#9999bb;font-family:monospace;background:#eef8f2;padding:1px 5px;border-radius:4px;flex-shrink:0}
+    .cat-act-btn{width:26px;height:26px;border-radius:50%;border:none;cursor:pointer;font-size:0.7rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+    .cat-act-btn:hover{opacity:.7}
+    .cat-edit-btn{background:#e3f2fd}
+    .cat-del-btn{background:#ffebee}
+    .cat-edit-form{background:#f6fdf9;border:1.5px solid #ceeada;border-radius:10px;padding:12px;margin-top:4px}
+    .cat-edit-row{display:grid;grid-template-columns:56px 1fr;gap:7px;margin-bottom:7px}
+    .cat-edit-actions{display:flex;gap:6px;margin-top:2px}
+    .btn-save-cat-edit{flex:1;padding:7px;background:#1b4332;color:#fff;border:none;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer}
+    .btn-cancel-cat-edit{padding:7px 12px;background:#fff;color:#e53935;border:1.5px solid #ef9a9a;border-radius:50px;font-family:'Poppins',sans-serif;font-size:0.76rem;cursor:pointer}
+
     /* ── SETTINGS ── */
     .settings-section{margin-top:18px;padding-top:15px;border-top:2px solid #d8f3dc}
     .settings-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
@@ -292,6 +308,17 @@
       <button class="btn-clear" onclick="clearChanges()">↩️ Discard all pending changes</button>
     </div>
 
+    <!-- MANAGE CATEGORIES -->
+    <div class="settings-section">
+      <div class="settings-toggle" onclick="toggleCatMgr()">
+        <h3>🏷️ Manage Categories</h3>
+        <span id="catmgr-arrow">▼</span>
+      </div>
+      <div class="settings-body" id="catmgr-body">
+        <div id="cat-mgr-list" style="margin-top:10px"></div>
+      </div>
+    </div>
+
     <!-- SETTINGS -->
     <div class="settings-section">
       <div class="settings-toggle" onclick="toggleSettings()">
@@ -384,20 +411,26 @@ const BUILTIN={
   namedecor:{label:'Name & Letters',  emoji:'✏️',color:'#1565c0'},
   goofyeyes:{label:'Goofy Eyes',      emoji:'👀',color:'#e65100'},
 };
-function allCats(){ return {...BUILTIN,...customCats}; }
+function allCats(){
+  const base = {...BUILTIN,...customCats};
+  Object.entries(catOverrides).forEach(([k,v])=>{ if(base[k]) base[k]={...base[k],...v}; });
+  return base;
+}
 function catInfo(k){ return allCats()[k]||{label:k,emoji:'📦',color:'#888'}; }
 
 // ── STORAGE KEYS ──────────────────────────────────────────────────────
-const K_NEW   = 'shroomlab_new_products';
-const K_EDITS = 'shroomlab_admin_edits';   // {title: editedObj}
-const K_DELS  = 'shroomlab_admin_deletes'; // [title]
-const K_CATS  = 'shroomlab_new_categories';
+const K_NEW    = 'shroomlab_new_products';
+const K_EDITS  = 'shroomlab_admin_edits';   // {title: editedObj}
+const K_DELS   = 'shroomlab_admin_deletes'; // [title]
+const K_CATS   = 'shroomlab_new_categories';
+const K_CAT_OV = 'shroomlab_cat_overrides'; // overrides for both builtin & custom
 
-let siteProducts = [];  // loaded from index.html
-let newProducts  = JSON.parse(localStorage.getItem(K_NEW)  ||'[]');
-let pendingEdits = JSON.parse(localStorage.getItem(K_EDITS)||'{}');
-let pendingDels  = JSON.parse(localStorage.getItem(K_DELS) ||'[]');
-let customCats   = JSON.parse(localStorage.getItem(K_CATS) ||'{}');
+let siteProducts  = [];  // loaded from index.html
+let newProducts   = JSON.parse(localStorage.getItem(K_NEW)   ||'[]');
+let pendingEdits  = JSON.parse(localStorage.getItem(K_EDITS) ||'{}');
+let pendingDels   = JSON.parse(localStorage.getItem(K_DELS)  ||'[]');
+let customCats    = JSON.parse(localStorage.getItem(K_CATS)  ||'{}');
+let catOverrides  = JSON.parse(localStorage.getItem(K_CAT_OV)||'{}');
 
 let activeCat     = 'all';
 let imgMode       = 'upload';
@@ -521,6 +554,105 @@ function saveNewCategory(){
   ['nc-key','nc-emoji','nc-label'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('nc-color').value='#5d4037';
   document.getElementById('nc-color-pick').value='#5d4037';
+  renderAll();
+}
+
+// ── CATEGORY MANAGER ──────────────────────────────────────────────────
+let editingCatKey = null;
+
+function toggleCatMgr(){
+  const body  = document.getElementById('catmgr-body');
+  const arrow = document.getElementById('catmgr-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲' : '▼';
+  if(open) renderCatMgrList();
+}
+
+function renderCatMgrList(){
+  const cats = allCats();
+  document.getElementById('cat-mgr-list').innerHTML =
+    Object.entries(cats).map(([k,c]) => {
+      const isBuiltin = !!BUILTIN[k];
+      const isEditing = editingCatKey === k;
+      return `<div class="cat-mgr-row" id="catrow-${k}">
+        <div class="cat-row-display">
+          <div class="cat-color-dot" style="background:${c.color}"></div>
+          <span style="font-size:1rem">${c.emoji}</span>
+          <span class="cat-row-label">${c.label}</span>
+          <span class="cat-row-key">${k}</span>
+          <button class="cat-act-btn cat-edit-btn" title="Edit" onclick="openCatEdit('${k}')">✏️</button>
+          ${!isBuiltin?`<button class="cat-act-btn cat-del-btn" title="Delete" onclick="deleteCatEntry('${k}')">✕</button>`:''}
+        </div>
+        ${isEditing ? `
+        <div class="cat-edit-form">
+          <div class="cat-edit-row">
+            <div><label style="font-size:.7rem;font-weight:600;color:#2d6a4f;display:block;margin-bottom:3px">Emoji</label>
+              <input type="text" id="ce-emoji-${k}" value="${c.emoji}" style="text-align:center"></div>
+            <div><label style="font-size:.7rem;font-weight:600;color:#2d6a4f;display:block;margin-bottom:3px">Label *</label>
+              <input type="text" id="ce-label-${k}" value="${c.label}" placeholder="Category name"></div>
+          </div>
+          <div style="margin-bottom:9px">
+            <label style="font-size:.7rem;font-weight:600;color:#2d6a4f;display:block;margin-bottom:4px">Badge colour</label>
+            <div class="color-row">
+              <input type="color" id="ce-cpick-${k}" value="${c.color}" oninput="document.getElementById('ce-color-${k}').value=this.value">
+              <input type="text"  id="ce-color-${k}" value="${c.color}" style="width:90px" oninput="document.getElementById('ce-cpick-${k}').value=this.value">
+            </div>
+          </div>
+          <div class="cat-edit-actions">
+            <button class="btn-save-cat-edit" onclick="saveCatEdit('${k}')">✅ Save</button>
+            <button class="btn-cancel-cat-edit" onclick="closeCatEdit()">✕ Cancel</button>
+          </div>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+}
+
+function openCatEdit(key){
+  editingCatKey = key;
+  renderCatMgrList();
+  setTimeout(()=>document.getElementById(`catrow-${key}`)?.scrollIntoView({behavior:'smooth',block:'nearest'}), 60);
+}
+
+function closeCatEdit(){
+  editingCatKey = null;
+  renderCatMgrList();
+}
+
+function saveCatEdit(key){
+  const emoji = document.getElementById(`ce-emoji-${key}`).value.trim();
+  const label = document.getElementById(`ce-label-${key}`).value.trim();
+  const color = document.getElementById(`ce-color-${key}`).value.trim()||'#888';
+  if(!label){ alert('Label is required'); return; }
+  const updated = {label, emoji:emoji||'📦', color};
+  if(customCats[key]){
+    customCats[key] = updated;
+    localStorage.setItem(K_CATS, JSON.stringify(customCats));
+  } else {
+    catOverrides[key] = updated;
+    localStorage.setItem(K_CAT_OV, JSON.stringify(catOverrides));
+  }
+  editingCatKey = null;
+  renderCatMgrList();
+  populateCatDropdown();
+  renderAll();
+  document.getElementById('pending-pill').classList.add('visible');
+}
+
+function deleteCatEntry(key){
+  if(BUILTIN[key]){ alert('Built-in categories cannot be deleted.'); return; }
+  const c = allCats()[key];
+  const used = [...siteProducts,...newProducts].filter(p=>p.cat===key).length;
+  const msg = used
+    ? `Delete "${c?.label}"?\n⚠️ ${used} product(s) use this category and will become uncategorised.`
+    : `Delete category "${c?.label}"?`;
+  if(!confirm(msg)) return;
+  delete customCats[key];
+  delete catOverrides[key];
+  localStorage.setItem(K_CATS, JSON.stringify(customCats));
+  localStorage.setItem(K_CAT_OV, JSON.stringify(catOverrides));
+  editingCatKey = null;
+  renderCatMgrList();
+  populateCatDropdown();
   renderAll();
 }
 
@@ -975,6 +1107,35 @@ function generateFullProductsJS(){
   return [...siteParts, ...newParts].join(',\n');
 }
 
+// Apply edited category definitions (label, emoji, color) to existing index.html entries
+function updateExistingCategories(html){
+  // Collect all categories that have overrides or updated custom defs
+  const toUpdate = {...catOverrides};
+  Object.entries(customCats).forEach(([k,c])=>{ toUpdate[k]=allCats()[k]; });
+  if(!Object.keys(toUpdate).length) return html;
+  let result = html;
+  Object.entries(toUpdate).forEach(([key, c]) => {
+    if(!c) return;
+    const {emoji='📦', label='', color='#888'} = c;
+    // 1. Badge CSS colour
+    result = result.replace(
+      new RegExp(`(\\.badge-${key}\\s*\\{\\s*background:\\s*)[^;]+(;)`),
+      `$1${color}$2`
+    );
+    // 2. BADGE label+emoji
+    result = result.replace(
+      new RegExp(`(${key}:')[^']*(')`),
+      `$1${emoji} ${label}$2`
+    );
+    // 3. Filter button text (between data-cat="key"> and <span)
+    result = result.replace(
+      new RegExp(`(data-cat="${key}">)[^<]+(<span)`),
+      `$1${emoji} ${label} $2`
+    );
+  });
+  return result;
+}
+
 // Automatically inject new custom categories into index.html (all 5 spots)
 function injectNewCategories(html){
   const newCats = Object.entries(customCats).filter(([key]) => !BUILTIN[key]);
@@ -1075,9 +1236,10 @@ async function pushToGitHub(){
       `const PRODUCTS = [\n${newProductsJS}\n];`
     );
 
-    // 3. Inject any new custom categories (badge CSS, filter btn, BADGE, BADGE_CLASS, counts)
-    setPushStatus('loading', '🔧 Injecting new categories…');
+    // 3. Inject new categories + apply edits to existing ones
+    setPushStatus('loading', '🔧 Applying category changes…');
     newHTML = injectNewCategories(newHTML);
+    newHTML = updateExistingCategories(newHTML);
 
     if(newHTML === currentHTML){
       setPushStatus('error', '⚠️ No changes detected — nothing to push.');
@@ -1102,8 +1264,9 @@ async function pushToGitHub(){
     setPushStatus('success', '✅ Pushed! GitHub Pages will update in ~1 minute.');
 
     // Clear pending changes after successful push
-    pendingEdits={}; pendingDels=[]; newProducts=[];
-    localStorage.removeItem(K_EDITS); localStorage.removeItem(K_DELS); localStorage.removeItem(K_NEW);
+    pendingEdits={}; pendingDels=[]; newProducts=[]; catOverrides={};
+    localStorage.removeItem(K_EDITS); localStorage.removeItem(K_DELS);
+    localStorage.removeItem(K_NEW);   localStorage.removeItem(K_CAT_OV);
     cancelEdit();
 
     // Reload site products to reflect the push
