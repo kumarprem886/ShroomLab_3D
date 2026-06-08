@@ -722,7 +722,8 @@ function cycleImg(el, dir) {
 function renderCard(p, i) {
   const old = p.compare_at ? `<span class="price-old">₹${p.compare_at}</span>` : '';
   const newBadge = p.isNew ? `<span class="badge-new-label">NEW</span>` : '';
-  const catEmoji = {flexi:'🐾', kit:'🃏', custom:'🎨', home:'🏠'}[p.cat];
+  const pCats = p.cats || (p.cat ? [p.cat] : []);
+  const catEmoji = pCats.length ? ({flexi:'🐾', kit:'🃏', custom:'🎨', home:'🏠'}[pCats[0]] || '📦') : '📦';
 
   // Build image sources array — supports new multi-image or legacy single
   const srcs = p.images ? p.images : (p.image ? [p.image] : []);
@@ -747,10 +748,11 @@ function renderCard(p, i) {
     imgContent = `<div class="img-placeholder" style="background:${p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'}"><span>${p.icon||catEmoji}</span><small>Available to Order</small></div>`;
   }
 
-  return `<div class="product-card" data-cat="${p.cat}" data-title="${p.title.toLowerCase()}" onclick="openModal(${i})" style="cursor:pointer">
+  const badgesHtml = pCats.map(c => `<span class="cat-badge ${BADGE_CLASS[c]||''}">${BADGE[c]||c}</span>`).join('');
+  return `<div class="product-card" data-cats="${pCats.join(',')}" data-title="${p.title.toLowerCase()}" onclick="openModal(${i})" style="cursor:pointer">
     <div class="product-img" style="${srcs.length===0?'background:'+( p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'):''}">
       ${imgContent}
-      <span class="cat-badge ${BADGE_CLASS[p.cat]}">${BADGE[p.cat]}</span>
+      ${badgesHtml}
       ${newBadge}
     </div>
     <div class="product-info">
@@ -767,7 +769,10 @@ const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map((p,i) => renderCard(p,i)).join('');
 
 const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0 , flexidino: 0 };
-PRODUCTS.forEach(p => { if (counts[p.cat] !== undefined) counts[p.cat]++; });
+PRODUCTS.forEach(p => {
+  const pcs = p.cats || (p.cat ? [p.cat] : []);
+  pcs.forEach(c => { if (counts[c] !== undefined) counts[c]++; });
+});
 document.getElementById('cnt-all').textContent        = `(${counts.all})`;
 document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
 document.getElementById('cnt-kit').textContent        = `(${counts.kit})`;
@@ -787,7 +792,8 @@ let activeCat = 'all', searchVal = '';
 function applyFilters() {
   let visible = 0;
   document.querySelectorAll('.product-card').forEach(card => {
-    const catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
+    const cardCats = (card.dataset.cats||'').split(',').filter(Boolean);
+    const catMatch = activeCat === 'all' || cardCats.includes(activeCat);
     const searchMatch = !searchVal || card.dataset.title.includes(searchVal);
     const show = catMatch && searchMatch;
     card.classList.toggle('hidden', !show);
@@ -821,10 +827,12 @@ function openModal(i) {
   modalSrcs = p.images ? p.images : (p.image ? [p.image] : []);
   modalIdx = 0;
 
-  // Badge
-  const badge = document.getElementById('modal-badge');
-  badge.textContent = BADGE[p.cat] || p.cat;
-  badge.className = `cat-badge ${BADGE_CLASS[p.cat] || ''}`;
+  // Badges (multi-cat)
+  const mCats = p.cats || (p.cat ? [p.cat] : []);
+  const badgeEl = document.getElementById('modal-badge');
+  badgeEl.outerHTML = mCats.map(c =>
+    `<span class="cat-badge ${BADGE_CLASS[c]||''}" id="modal-badge">${BADGE[c]||c}</span>`
+  ).join(' ') || '<span id="modal-badge"></span>';
 
   document.getElementById('modal-title').textContent = p.title;
   document.getElementById('modal-wa').href = waLink(p.title);

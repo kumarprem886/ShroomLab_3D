@@ -82,6 +82,12 @@
     .cat-option.selected-opt{background:#d8f3dc;font-weight:600}
     .cat-option.new-cat-opt{border-top:1px solid #dff0e6;color:#40916c;font-weight:600}
     .cat-no-match{padding:9px 14px;font-size:0.78rem;color:#9999bb;cursor:default}
+    /* ── CAT TAGS (multi-select) ── */
+    .cat-tags-row{display:flex;flex-wrap:wrap;gap:5px;min-height:34px;padding:6px 10px;border:1.5px solid #ceeada;border-radius:10px;background:#f6fdf9;margin-bottom:6px;align-items:center}
+    .cat-tag{display:inline-flex;align-items:center;gap:3px;padding:3px 8px 3px 7px;border-radius:50px;font-size:0.72rem;font-weight:700;color:#fff;white-space:nowrap}
+    .cat-tag-rm{background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;font-size:0.75rem;padding:0 0 0 2px;line-height:1;font-weight:700}
+    .cat-tag-rm:hover{color:#fff}
+    .cat-tags-ph{font-size:0.75rem;color:#9999bb}
     .new-cat-box{background:#f0fdf4;border:1.5px dashed #40916c;border-radius:12px;padding:13px;margin-bottom:13px;display:none}
     .new-cat-box.visible{display:block}
     .new-cat-row{display:grid;grid-template-columns:1fr 80px;gap:10px}
@@ -227,14 +233,16 @@
       <input type="text" id="f-name" placeholder="e.g. Butterfly Floral Vase">
     </div>
     <div class="field">
-      <label>Category *</label>
+      <label>Categories * <span style="font-size:.7rem;color:#9999bb;font-weight:400">(pick one or more)</span></label>
+      <div class="cat-tags-row" id="cat-tags-row">
+        <span class="cat-tags-ph" id="cat-tags-ph">No categories selected</span>
+      </div>
       <div class="cat-search-wrap" id="cat-search-wrap">
-        <input type="text" id="f-cat-search" placeholder="Search category…" autocomplete="off"
+        <input type="text" id="f-cat-search" placeholder="Search & add category…" autocomplete="off"
                oninput="filterCatOptions(this.value)"
                onfocus="showCatOptions()"
                onblur="hideCatOptionsDelay()"
                onkeydown="catSearchKey(event)">
-        <input type="hidden" id="f-cat" value="">
         <div class="cat-dropdown" id="cat-dropdown"></div>
       </div>
     </div>
@@ -438,6 +446,7 @@ let uploadedDataURL = null;
 let editingKey    = null;  // null | {type:'site',title} | {type:'new',idx}
 let exportTab     = 'all';
 let imageUrls     = [''];  // array of URLs for multi-image support
+let selectedCats  = [];    // array of selected category keys (multi-cat support)
 
 // ── LOAD PRODUCTS FROM index.html ─────────────────────────────────────
 async function loadSiteProducts(){
@@ -461,17 +470,39 @@ async function loadSiteProducts(){
   renderAll();
 }
 
-// ── SEARCHABLE CATEGORY DROPDOWN ─────────────────────────────────────
+// ── SEARCHABLE MULTI-CATEGORY DROPDOWN ───────────────────────────────
 let catHighlightIdx = -1;
 
 function populateCatDropdown(){
-  // Refresh display label to match current hidden value
-  const val = document.getElementById('f-cat').value;
-  const ci  = allCats()[val];
-  if(ci) document.getElementById('f-cat-search').value = `${ci.emoji} ${ci.label}`;
-  // If dropdown is open, re-render it
+  renderCatTags();
   const dd = document.getElementById('cat-dropdown');
   if(dd.style.display === 'block') renderCatOptions(document.getElementById('f-cat-search').value);
+}
+
+function renderCatTags(){
+  const row = document.getElementById('cat-tags-row');
+  if(!selectedCats.length){
+    row.innerHTML = '<span class="cat-tags-ph" id="cat-tags-ph">No categories selected</span>';
+    return;
+  }
+  row.innerHTML = selectedCats.map(k => {
+    const c = catInfo(k);
+    return `<span class="cat-tag" style="background:${c.color}">${c.emoji} ${c.label}<button class="cat-tag-rm" onmousedown="event.preventDefault();removeCatTag('${k}')">×</button></span>`;
+  }).join('');
+}
+
+function addCatTag(key){
+  if(!selectedCats.includes(key)){
+    selectedCats.push(key);
+    renderCatTags();
+  }
+  document.getElementById('f-cat-search').value = '';
+  document.getElementById('cat-dropdown').style.display = 'none';
+}
+
+function removeCatTag(key){
+  selectedCats = selectedCats.filter(k => k !== key);
+  renderCatTags();
 }
 
 function renderCatOptions(search){
@@ -479,18 +510,15 @@ function renderCatOptions(search){
   const cats = Object.entries(allCats());
   const q    = search.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim();
   const filtered = q
-    ? cats.filter(([k,c]) =>
-        c.label.toLowerCase().includes(q) || k.toLowerCase().includes(q)
-      )
+    ? cats.filter(([k,c]) => c.label.toLowerCase().includes(q) || k.toLowerCase().includes(q))
     : cats;
-  const curVal = document.getElementById('f-cat').value;
+  // Exclude already-selected
+  const available = filtered.filter(([k]) => !selectedCats.includes(k));
   catHighlightIdx = -1;
-
-  let html = filtered.map(([k,c]) =>
-    `<div class="cat-option${k===curVal?' selected-opt':''}" data-val="${k}"
-          onmousedown="selectCatOption('${k}','${c.emoji} ${c.label}')">${c.emoji} ${c.label}</div>`
+  let html = available.map(([k,c]) =>
+    `<div class="cat-option" data-val="${k}" onmousedown="addCatTag('${k}')">${c.emoji} ${c.label}</div>`
   ).join('');
-  if(!filtered.length) html = '<div class="cat-no-match">No categories match</div>';
+  if(!available.length) html = '<div class="cat-no-match">No more categories</div>';
   html += `<div class="cat-option new-cat-opt" onmousedown="selectCatOption('__new__','')">➕ Create new category…</div>`;
   dd.innerHTML = html;
   dd.style.display = 'block';
@@ -510,10 +538,13 @@ function filterCatOptions(val){
 }
 
 function selectCatOption(val, label){
-  document.getElementById('f-cat').value = val;
-  document.getElementById('f-cat-search').value = val==='__new__' ? '' : label;
-  document.getElementById('cat-dropdown').style.display = 'none';
-  onCatChange(val);
+  if(val === '__new__'){
+    document.getElementById('f-cat-search').value = '';
+    document.getElementById('cat-dropdown').style.display = 'none';
+    onCatChange('__new__');
+    return;
+  }
+  addCatTag(val);
 }
 
 function catSearchKey(e){
@@ -547,8 +578,9 @@ function saveNewCategory(){
   if(BUILTIN[key]){alert(`"${key}" is already built-in.`);return;}
   customCats[key]={label,emoji:emoji||'📦',color};
   localStorage.setItem(K_CATS,JSON.stringify(customCats));
-  document.getElementById('f-cat').value=key;
-  document.getElementById('f-cat-search').value=`${emoji||'📦'} ${label}`;
+  if(!selectedCats.includes(key)) selectedCats.push(key);
+  renderCatTags();
+  document.getElementById('f-cat-search').value='';
   document.getElementById('new-cat-box').classList.remove('visible');
   document.getElementById('cat-saved-msg').style.display='block';
   ['nc-key','nc-emoji','nc-label'].forEach(id=>document.getElementById(id).value='');
@@ -757,11 +789,9 @@ function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^
 
 function saveProduct(){
   const name=document.getElementById('f-name').value.trim();
-  const cat =document.getElementById('f-cat').value;
   const icon=document.getElementById('f-icon').value.trim();
   if(!name){alert('Product name is required');return;}
-  if(!cat){alert('Please select a category');document.getElementById('f-cat-search').focus();return;}
-  if(cat==='__new__'){alert('Save the new category first');return;}
+  if(!selectedCats.length){alert('Please select at least one category');document.getElementById('f-cat-search').focus();return;}
 
   let imgSrc=null,imgType='none',filename=null,imgMulti=null;
   if(imgMode==='upload'&&uploadedDataURL){
@@ -772,7 +802,7 @@ function saveProduct(){
     else if(valid.length>1){ imgSrc=valid[0]; imgMulti=valid; imgType='url-multi'; }
   }
 
-  const entry={title:name,cat,icon:icon||null,imgSrc,imgType,imgMulti,filename,isNew:true};
+  const entry={title:name,cats:[...selectedCats],icon:icon||null,imgSrc,imgType,imgMulti,filename,isNew:true};
 
   if(editingKey){
     if(editingKey.type==='site'){
@@ -802,7 +832,8 @@ function showMsg(text){
 function resetForm(){
   document.getElementById('f-name').value='';
   document.getElementById('f-icon').value='';
-  document.getElementById('f-cat').value='';
+  selectedCats=[];
+  renderCatTags();
   document.getElementById('f-cat-search').value='';
   clearUpload({stopPropagation:()=>{}});
   imageUrls=[''];
@@ -824,10 +855,9 @@ function editProduct(type,ref){
   if(!p) return;
 
   document.getElementById('f-name').value=p.title||'';
-  const editCat = p.cat||'flexi';
-  const editCi  = catInfo(editCat);
-  document.getElementById('f-cat').value       = editCat;
-  document.getElementById('f-cat-search').value = `${editCi.emoji} ${editCi.label}`;
+  selectedCats = p.cats ? [...p.cats] : (p.cat ? [p.cat] : []);
+  renderCatTags();
+  document.getElementById('f-cat-search').value = '';
   document.getElementById('f-icon').value=p.icon||'';
 
   // Image
@@ -997,7 +1027,9 @@ function setExportTab(tab,btn){
 function productToJS(p){
   // Convert a product object to a JS line for PRODUCTS array
   let e=`  {"title":${JSON.stringify(p.title)},"price":"${p.price||'299'}","compare_at":"${p.compare_at||''}"`;
-  e+=`,"cat":"${p.cat}"`;
+  const pCats = p.cats || (p.cat ? [p.cat] : ['custom']);
+  if(pCats.length===1) e+=`,"cat":"${pCats[0]}"`;
+  else e+=`,"cats":${JSON.stringify(pCats)}`;
   if(p.isNew) e+=`,"isNew":true`;
   if(p.icon)  e+=`,"icon":"${p.icon}"`;
   if(p.bg)    e+=`,"bg":"${p.bg}"`;
