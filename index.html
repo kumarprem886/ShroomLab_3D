@@ -183,6 +183,7 @@
     .badge-keychains  { background: #5d4037; color: #fff; }
     .badge-namedecor  { background: #1565c0; color: #fff; }
     .badge-goofyeyes  { background: #e65100; color: #fff; }
+    .badge-flexidino { background: #d0e246; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -416,6 +417,7 @@
     <button class="filter-btn" data-cat="keychains">🔑 Keychains <span id="cnt-keychains"></span></button>
     <button class="filter-btn" data-cat="namedecor">✏️ Name & Letters <span id="cnt-namedecor"></span></button>
     <button class="filter-btn" data-cat="goofyeyes">👀 Goofy Eyes <span id="cnt-goofyeyes"></span></button>
+    <button class="filter-btn" data-cat="flexidino">🦖 Flexi Dino <span id="cnt-flexidino"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -665,13 +667,13 @@ const PRODUCTS = [
   {"title":"Goofy series – BEAR MOM Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US611913869284af/748407931/instance/5941d65fd3470db9.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy series – PUGGY Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US4afb191d1ec937/design/e1e81320213d8527.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy series – FRENCHIE Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US9283d67fb1fad/743491072/instance/c05a2bc2c5d83080.png?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Goofy series – BLOBFISH Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USc01cd6ab4de5b5/740189981/instance/3668e707c984e59d.jpg?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Goofy series – BLOBFISH Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USc01cd6ab4de5b5/design/717ec1e32447f7bd.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Mini Goofy series – DOG flexi, Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US5e32d75029a9a1/739938796/instance/0690b0d86999cd23.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy series – DOG Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USf08cdabd3a101f/736747300/instance/c1f6eed2b36e9bef.png?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Mini Goofy series – CAT flexi, Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USa59f2489dc0f46/735126963/instance/1714e2e292302f20.jpg?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Goofy series – FOXIE Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US3795b19b34ba50/733152718/instance/f71ae51eb499422d.jpg?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Goofy series – TOOTHLESS dragon Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US296c3324b8a13b/731205427/instance/cc66e1e802c382c1.jpg?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Goofy series – KOALA Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US8f072ae3cd2d38/729816588/instance/4ec3e9006c794157.jpg?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Mini Goofy series – CAT flexi, Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USa59f2489dc0f46/design/b135d5ce3363ec8b.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Goofy series – FOXIE Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US3795b19b34ba50/design/04cb532de0eb45fc.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Goofy series – TOOTHLESS dragon Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US296c3324b8a13b/design/32c81f05c3e200ca.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Goofy series – KOALA Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US8f072ae3cd2d38/design/5cdd5a8032bd3d06.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy series – AXOLOTL Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US12998ee58683f1/722942678/instance/93d39f8dc5dbefd7.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy series – COW Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USced9d1d1e650db/718987946/instance/81310db2682c2541.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy series – TRICERATOPS Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USf3fc6359f1cfc7/716704460/instance/45b5a66b5adcde18.png?x-oss-process=image/resize,w_1000/format,webp"},
@@ -685,11 +687,20 @@ const PRODUCTS = [
   {"title":"GOOFY SERIES – VENOM! Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6b1341c1a6cd84/692546690/instance/b10af25b8ce1fc1a.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Goofy Series – Pig Cute & Goofy","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USe5c3e6d553f2c4/702093700/instance/67ce307a579c6ba5.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"GOOFY SERIES – BEAVER Movable Eyes NOAMS","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US8ed29b78b814be/700506422/instance/e083b15e2fb0788a.png?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Goofy series – CHAMELEON Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6f65a0374a2785/design/e8356927785aa78a.png?x-oss-process=image/resize,w_1000/format,webp"}
+  {"title":"Goofy series – CHAMELEON Movable Eyes","price":"299","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6f65a0374a2785/design/e8356927785aa78a.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Flexi Skeleton T-Rex Dinosaur","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/UScad4f84b36c974/design/2025-07-24_dd8326393ae9b8.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Flexi Skeletal Articulated Velociraptor","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US5b8861daa4de6f/design/6513d1057d90dd68.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Skeletal Articulated Pteranodon with Nest & Eggs","price":"299","compare_at":"","cat":"flexidino","isNew":true,"images":["https://makerworld.bblmw.com/makerworld/model/USa1286dd7ebc894/design/a906bce86daab0b4.png?x-oss-process=image/resize,w_1000/format,webp","https://makerworld.bblmw.com/makerworld/model/USa1286dd7ebc894/design/8021b4776b76485d.png?x-oss-process=image/resize,w_1000/format,webp"]},
+  {"title":"Flexi Skeletal Spinosaurus Dinosaur Cute Style","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US716bb3adbe0c81/design/3a406cf2ce939035.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Articulated Skeletal Ankylosaurus","price":"299","compare_at":"","cat":"flexidino","isNew":true,"images":["https://makerworld.bblmw.com/makerworld/model/USc4b08099ee533f/design/3c6d1d98ec9a8bd3.png?x-oss-process=image/resize,w_1000/format,webp","https://makerworld.bblmw.com/makerworld/model/USc4b08099ee533f/design/25bcb4905927985b.png?x-oss-process=image/resize,w_1000/format,webp","https://makerworld.bblmw.com/makerworld/model/USc4b08099ee533f/design/2ad340eda5921920.png?x-oss-process=image/resize,w_1000/format,webp"]},
+  {"title":"Mosasaurus Skeletal , Articulated , Flexi","price":"299","compare_at":"","cat":"flexidino","isNew":true,"images":["https://makerworld.bblmw.com/makerworld/model/US5cbbec3d6beb94/design/2026-01-08_2d27c23ee9e588.png?x-oss-process=image/resize,w_1000/format,webp","https://makerworld.bblmw.com/makerworld/model/US5cbbec3d6beb94/design/2026-01-08_80c9df34c49ba8.png?x-oss-process=image/resize,w_1000/format,webp"]},
+  {"title":"Flexi Skeleton Triceratops Dinosaur","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US8c1ad111d905ce/design/2025-09-28_1d1cc18f54783.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Articulated Pyroraptor","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USb510ad3d9fe3e8/design/e0f9f1c27664fc16.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Flexi Skeleton Spinosaurus dinosaur","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US2231ef8c57ac4b/design/2025-08-03_8ed3f6a08b03b.png?x-oss-process=image/resize,w_1000/format,webp"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -755,7 +766,7 @@ function renderCard(p, i) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map((p,i) => renderCard(p,i)).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0 , flexidino: 0 };
 PRODUCTS.forEach(p => { if (counts[p.cat] !== undefined) counts[p.cat]++; });
 document.getElementById('cnt-all').textContent        = `(${counts.all})`;
 document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
@@ -770,6 +781,7 @@ document.getElementById('cnt-keychains').textContent  = `(${counts.keychains})`;
 document.getElementById('cnt-namedecor').textContent  = `(${counts.namedecor})`;
 document.getElementById('cnt-goofyeyes').textContent  = `(${counts.goofyeyes})`;
 
+document.getElementById('cnt-flexidino').textContent  = `(${counts.flexidino})`;
 let activeCat = 'all', searchVal = '';
 
 function applyFilters() {
