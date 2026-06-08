@@ -66,6 +66,16 @@
     #url-pane .img-preview-box{width:100%;height:130px;border-radius:10px;border:2px dashed #ceeada;background:#f6fdf9;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:7px}
     #url-pane .img-preview-box img{width:100%;height:100%;object-fit:cover;border-radius:8px}
     #url-pane .placeholder{color:#9999bb;font-size:0.75rem;text-align:center;padding:10px}
+    /* ── SEARCHABLE CAT DROPDOWN ── */
+    .cat-search-wrap{position:relative}
+    .cat-search-wrap input[type=text]{width:100%;padding:8px 12px 8px 34px;border:1.5px solid #ceeada;border-radius:10px;font-family:'Poppins',sans-serif;font-size:0.84rem;color:#1a1a2e;background:#f6fdf9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2340916c' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;outline:none;transition:border 0.2s}
+    .cat-search-wrap input[type=text]:focus{border-color:#40916c;background-color:#fff}
+    .cat-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid #40916c;border-radius:12px;max-height:210px;overflow-y:auto;z-index:300;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.13)}
+    .cat-option{padding:9px 14px;cursor:pointer;font-size:0.82rem;color:#1a1a2e;transition:background 0.12s}
+    .cat-option:hover,.cat-option.highlighted{background:#f0fdf4}
+    .cat-option.selected-opt{background:#d8f3dc;font-weight:600}
+    .cat-option.new-cat-opt{border-top:1px solid #dff0e6;color:#40916c;font-weight:600}
+    .cat-no-match{padding:9px 14px;font-size:0.78rem;color:#9999bb;cursor:default}
     .new-cat-box{background:#f0fdf4;border:1.5px dashed #40916c;border-radius:12px;padding:13px;margin-bottom:13px;display:none}
     .new-cat-box.visible{display:block}
     .new-cat-row{display:grid;grid-template-columns:1fr 80px;gap:10px}
@@ -196,7 +206,15 @@
     </div>
     <div class="field">
       <label>Category *</label>
-      <select id="f-cat" onchange="onCatChange(this.value)"></select>
+      <div class="cat-search-wrap" id="cat-search-wrap">
+        <input type="text" id="f-cat-search" placeholder="Search category…" autocomplete="off"
+               oninput="filterCatOptions(this.value)"
+               onfocus="showCatOptions()"
+               onblur="hideCatOptionsDelay()"
+               onkeydown="catSearchKey(event)">
+        <input type="hidden" id="f-cat" value="flexi">
+        <div class="cat-dropdown" id="cat-dropdown"></div>
+      </div>
     </div>
 
     <div class="new-cat-box" id="new-cat-box">
@@ -402,19 +420,79 @@ async function loadSiteProducts(){
   renderAll();
 }
 
-// ── CATEGORY DROPDOWN ─────────────────────────────────────────────────
+// ── SEARCHABLE CATEGORY DROPDOWN ─────────────────────────────────────
+let catHighlightIdx = -1;
+
 function populateCatDropdown(){
-  const sel=document.getElementById('f-cat');
-  const prev=sel.value;
-  sel.innerHTML='';
-  Object.entries(allCats()).forEach(([k,c])=>{
-    const o=document.createElement('option');
-    o.value=k; o.textContent=`${c.emoji} ${c.label}`; sel.appendChild(o);
-  });
-  const no=document.createElement('option');
-  no.value='__new__'; no.textContent='➕ Create new category…'; sel.appendChild(no);
-  if(prev) sel.value=prev;
+  // Refresh display label to match current hidden value
+  const val = document.getElementById('f-cat').value;
+  const ci  = allCats()[val];
+  if(ci) document.getElementById('f-cat-search').value = `${ci.emoji} ${ci.label}`;
+  // If dropdown is open, re-render it
+  const dd = document.getElementById('cat-dropdown');
+  if(dd.style.display !== 'none') renderCatOptions(document.getElementById('f-cat-search').value);
 }
+
+function renderCatOptions(search){
+  const dd   = document.getElementById('cat-dropdown');
+  const cats = Object.entries(allCats());
+  const q    = search.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim();
+  const filtered = q
+    ? cats.filter(([k,c]) =>
+        c.label.toLowerCase().includes(q) || k.toLowerCase().includes(q)
+      )
+    : cats;
+  const curVal = document.getElementById('f-cat').value;
+  catHighlightIdx = -1;
+
+  let html = filtered.map(([k,c]) =>
+    `<div class="cat-option${k===curVal?' selected-opt':''}" data-val="${k}"
+          onmousedown="selectCatOption('${k}','${c.emoji} ${c.label}')">${c.emoji} ${c.label}</div>`
+  ).join('');
+  if(!filtered.length) html = '<div class="cat-no-match">No categories match</div>';
+  html += `<div class="cat-option new-cat-opt" onmousedown="selectCatOption('__new__','')">➕ Create new category…</div>`;
+  dd.innerHTML = html;
+  dd.style.display = 'block';
+}
+
+function showCatOptions(){
+  renderCatOptions(document.getElementById('f-cat-search').value);
+}
+
+function hideCatOptionsDelay(){
+  setTimeout(()=>{ document.getElementById('cat-dropdown').style.display='none'; }, 180);
+}
+
+function filterCatOptions(val){
+  document.getElementById('cat-dropdown').style.display = 'block';
+  renderCatOptions(val);
+}
+
+function selectCatOption(val, label){
+  document.getElementById('f-cat').value = val;
+  document.getElementById('f-cat-search').value = val==='__new__' ? '' : label;
+  document.getElementById('cat-dropdown').style.display = 'none';
+  onCatChange(val);
+}
+
+function catSearchKey(e){
+  const dd   = document.getElementById('cat-dropdown');
+  const opts = [...dd.querySelectorAll('.cat-option')];
+  if(!opts.length) return;
+  if(e.key==='ArrowDown'){
+    catHighlightIdx = Math.min(catHighlightIdx+1, opts.length-1);
+  } else if(e.key==='ArrowUp'){
+    catHighlightIdx = Math.max(catHighlightIdx-1, 0);
+  } else if(e.key==='Enter' && catHighlightIdx>=0){
+    opts[catHighlightIdx].dispatchEvent(new MouseEvent('mousedown'));
+    e.preventDefault(); return;
+  } else if(e.key==='Escape'){
+    dd.style.display='none'; return;
+  }
+  opts.forEach((o,i)=>o.classList.toggle('highlighted', i===catHighlightIdx));
+  opts[catHighlightIdx]?.scrollIntoView({block:'nearest'});
+}
+
 function onCatChange(v){
   document.getElementById('new-cat-box').classList.toggle('visible',v==='__new__');
   if(v!=='__new__') document.getElementById('cat-saved-msg').style.display='none';
@@ -428,8 +506,8 @@ function saveNewCategory(){
   if(BUILTIN[key]){alert(`"${key}" is already built-in.`);return;}
   customCats[key]={label,emoji:emoji||'📦',color};
   localStorage.setItem(K_CATS,JSON.stringify(customCats));
-  populateCatDropdown();
   document.getElementById('f-cat').value=key;
+  document.getElementById('f-cat-search').value=`${emoji||'📦'} ${label}`;
   document.getElementById('new-cat-box').classList.remove('visible');
   document.getElementById('cat-saved-msg').style.display='block';
   ['nc-key','nc-emoji','nc-label'].forEach(id=>document.getElementById(id).value='');
@@ -550,6 +628,11 @@ function showMsg(text){
 function resetForm(){
   document.getElementById('f-name').value='';
   document.getElementById('f-icon').value='';
+  // Reset category to first builtin
+  const firstCat = Object.keys(BUILTIN)[0];
+  const firstCi  = BUILTIN[firstCat];
+  document.getElementById('f-cat').value = firstCat;
+  document.getElementById('f-cat-search').value = `${firstCi.emoji} ${firstCi.label}`;
   clearUpload({stopPropagation:()=>{}});
   document.getElementById('f-img-url').value='';
   previewUrl(''); uploadedDataURL=null;
@@ -569,7 +652,10 @@ function editProduct(type,ref){
   if(!p) return;
 
   document.getElementById('f-name').value=p.title||'';
-  document.getElementById('f-cat').value =p.cat||'custom';
+  const editCat = p.cat||'flexi';
+  const editCi  = catInfo(editCat);
+  document.getElementById('f-cat').value       = editCat;
+  document.getElementById('f-cat-search').value = `${editCi.emoji} ${editCi.label}`;
   document.getElementById('f-icon').value=p.icon||'';
 
   // Image
