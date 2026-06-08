@@ -182,8 +182,11 @@
     .badge-vases     { background: #00796b; color: #fff; }
     .badge-keychains  { background: #5d4037; color: #fff; }
     .badge-namedecor  { background: #1565c0; color: #fff; }
-    .badge-goofyeyes  { background: #e65100; color: #fff; }
+    .badge-goofyeyes  { background: #31c4b3; color: #fff; }
     .badge-flexidino { background: #d0e246; color: #fff; }
+    .badge-desk_utilities { background: #5d4037; color: #fff; }
+    .badge-fidgets { background: #0008ff; color: #fff; }
+    .badge-mashup_multiverse { background: #ef734d; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -418,6 +421,9 @@
     <button class="filter-btn" data-cat="namedecor">✏️ Name & Letters <span id="cnt-namedecor"></span></button>
     <button class="filter-btn" data-cat="goofyeyes">👀 Goofy Eyes <span id="cnt-goofyeyes"></span></button>
     <button class="filter-btn" data-cat="flexidino">🦖 Flexi Dino <span id="cnt-flexidino"></span></button>
+    <button class="filter-btn" data-cat="desk_utilities">📚 Desk Utilities <span id="cnt-desk_utilities"></span></button>
+    <button class="filter-btn" data-cat="fidgets">🌀 Fidgets <span id="cnt-fidgets"></span></button>
+    <button class="filter-btn" data-cat="mashup_multiverse">🧬 Mashup Multiverse <span id="cnt-mashup_multiverse"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -497,7 +503,7 @@
 
 <script>
 const PRODUCTS = [
-  {"title":"Custom Earrings – Personalized Style","price":"29","compare_at":"100","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/mushear.webp?v=1777807427"},
+  {"title":"Custom Earrings – Personalized Style","price":"299","compare_at":"","cat":"jewellery","isNew":true,"image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/mushear.webp?v=1777807427"},
   {"title":"Articulated Mini Flexi Fox Toy / Keychain","price":"49","compare_at":"","cat":"flexi","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Flexifoxtoy_keychain.webp?v=1777807166"},
   {"title":"Articulated Mini Flexi Octopus","price":"49","compare_at":"","cat":"flexi","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/flexioctpus.webp?v=1777807132"},
   {"title":"Articulated Mini Flexi Spider","price":"49","compare_at":"","cat":"flexi","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/spidy.webp?v=1777809934"},
@@ -529,7 +535,7 @@ const PRODUCTS = [
   {"title":"Couple Figurines – Custom","price":"1199","compare_at":"1900","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/couplee.jpg?v=1777798319"},
   {"title":"Photo Magnet – Custom","price":"349","compare_at":"600","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/magnettt.jpg?v=1777798145"},
   {"title":"Desk Name Plate – Custom","price":"349","compare_at":"600","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/nameeplate.jpg?v=1777797903"},
-  {"title":"Phone Stand – Custom","price":"349","compare_at":"600","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/phonestand.jpg?v=1777797903"},
+  {"title":"Phone Stand – Custom","price":"299","compare_at":"","cat":"desk_utilities","isNew":true,"image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/phonestand.jpg?v=1777797903"},
   {"title":"Face / Name Keychain Tag – Custom","price":"249","compare_at":"500","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/face_keychain.jpg?v=1777797437"},
   {"title":"Lithophane Photo Frame / Lamp – Custom","price":"799","compare_at":"1200","cat":"custom","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/lithoframe.jpg?v=1777796973"},
   {"title":"Italian Vespa Kit Card","price":"149","compare_at":"","cat":"kit","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/ItalianVespa.webp?v=1777729054"},
@@ -555,13 +561,13 @@ const PRODUCTS = [
   {"title":"Scooty Kit Card","price":"149","compare_at":"","cat":"kit","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/Scooty.webp?v=1777728094"},
   {"title":"F-14 Tomcat Kit Card","price":"149","compare_at":"","cat":"kit","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/F-14Tomcat.webp?v=1777727578"},
   {"title":"T-34 Tank Kit Card","price":"149","compare_at":"","cat":"kit","image":"https://cdn.shopify.com/s/files/1/0994/2807/3844/files/T-34Tank.webp?v=1777727462"},
-  {"title":"Fidget Cube – Click & Stress Relief","price":"149","compare_at":"299","cat":"home","isNew":true,"icon":"🎲","images":["https://makerworld.bblmw.com/makerworld/model/US2ecaa913482ae4/design/6262bb404aee281b.jpg","images/fidget-cube.jpg"]},
-  {"title":"Print-in-Place Planetary Gear Spinner","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"⚙️","images":["https://makerworld.bblmw.com/makerworld/model/US704045ae589908/design/2023-11-06_8df0f406c74fc.png","images/gear-spinner.jpg"]},
-  {"title":"Infinity Flip Fidget Ring","price":"99","compare_at":"199","cat":"home","isNew":true,"icon":"💫","images":["https://makerworld.bblmw.com/makerworld/model/USb841962ab00d79/design/2025-05-13_ec948ff17a108.jpeg","images/flip-ring.jpg"]},
-  {"title":"Butterfly Knife Fidget Trainer","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"🪃","images":["https://makerworld.bblmw.com/makerworld/model/USa440000a993cf4/design/2025-02-03_83281fd4ac498.gif","images/butterfly-knife.jpg"]},
-  {"title":"Print-in-Place Gyroscope Desk Toy","price":"249","compare_at":"","cat":"home","isNew":true,"icon":"🌀","images":["https://makerworld.bblmw.com/makerworld/model/US113dc8d3747b71/design/d7d60e9238d9fb33.jpg","images/gyroscope.jpg"]},
-  {"title":"Snap Fit Fidget Spinner","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🌪️","images":["https://makerworld.bblmw.com/makerworld/model/USc7ec287ae4eef9/design/f6147d2bf31b6502.png","images/snap-spinner.jpg"]},
-  {"title":"Geometric Voronoi Vase","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🏺","images":["https://makerworld.bblmw.com/makerworld/model/US75a6d468de01a3/design/2025-06-19_cbf5294c9a5508.png","images/voronoi-vase.jpg"]},
+  {"title":"Fidget Cube – Click & Stress Relief","price":"299","compare_at":"","cat":"fidgets","isNew":true,"icon":"🎲","image":"https://makerworld.bblmw.com/makerworld/model/US2ecaa913482ae4/design/6262bb404aee281b.jpg"},
+  {"title":"Print-in-Place Planetary Gear Spinner","price":"299","compare_at":"","cat":"fidgets","isNew":true,"icon":"⚙️","image":"https://makerworld.bblmw.com/makerworld/model/US704045ae589908/design/2023-11-06_8df0f406c74fc.png"},
+  {"title":"Infinity Flip Fidget Ring","price":"299","compare_at":"","cat":"fidgets","isNew":true,"icon":"💫","image":"https://makerworld.bblmw.com/makerworld/model/USb841962ab00d79/design/2025-05-13_ec948ff17a108.jpeg"},
+  {"title":"Butterfly Knife Fidget Trainer","price":"299","compare_at":"","cat":"fidgets","isNew":true,"icon":"🪃","image":"https://makerworld.bblmw.com/makerworld/model/USa440000a993cf4/design/2025-02-03_83281fd4ac498.gif"},
+  {"title":"Print-in-Place Gyroscope Desk Toy","price":"299","compare_at":"","cat":"fidgets","isNew":true,"icon":"🌀","image":"https://makerworld.bblmw.com/makerworld/model/US113dc8d3747b71/design/d7d60e9238d9fb33.jpg"},
+  {"title":"Snap Fit Fidget Spinner","price":"299","compare_at":"","cat":"fidgets","isNew":true,"icon":"🌪️","image":"https://makerworld.bblmw.com/makerworld/model/USc7ec287ae4eef9/design/f6147d2bf31b6502.png"},
+  {"title":"Geometric Voronoi Vase","price":"299","compare_at":"","cat":"vases","isNew":true,"icon":"🏺","image":"https://makerworld.bblmw.com/makerworld/model/US75a6d468de01a3/design/2025-06-19_cbf5294c9a5508.png"},
   {"title":"Succulent Planter Pot","price":"249","compare_at":"450","cat":"home","isNew":true,"icon":"🌵","images":["https://makerworld.bblmw.com/makerworld/model/DSM00000000221344/design/2024-03-03_1307899d677ac8.jpg","images/succulent-pot.jpg"]},
   {"title":"Geometric Lamp Shade","price":"499","compare_at":"900","cat":"home","isNew":true,"icon":"💡","images":["https://makerworld.bblmw.com/makerworld/model/US6220d2002d7281/design/2025-10-09_3516def4d7d6d.jpg","images/lamp-shade.jpg"]},
   {"title":"Hexagon Wall Art Panel","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🔷","images":["https://makerworld.bblmw.com/makerworld/model/USa49f2a479d9efa/design/2025-01-08_60888984bf8588.jpg","images/hexagon-wall.jpg"]},
@@ -569,7 +575,7 @@ const PRODUCTS = [
   {"title":"Twisted Spiral Candle Holder","price":"299","compare_at":"","cat":"home","isNew":true,"icon":"🕯️","images":["https://makerworld.bblmw.com/makerworld/model/USe21c6d88e2dbfd/design/0015d1fd532a4220.png","images/candle-holder.jpg"]},
   {"title":"Headphone Stand","price":"399","compare_at":"700","cat":"home","isNew":true,"icon":"🎧","images":["https://makerworld.bblmw.com/makerworld/model/US19d903e9e65d3c/design/2024-07-11_43f9df21685038.jpg","images/headphone-stand.jpg"]},
   {"title":"Gaming Controller Stand","price":"349","compare_at":"600","cat":"home","isNew":true,"icon":"🎮","images":["https://makerworld.bblmw.com/makerworld/model/US7bdc40ca4836d5/design/2025-11-21_30b2e60ea8736.jpg","images/controller-stand.jpg"]},
-  {"title":"Desk Pen & Pencil Holder","price":"249","compare_at":"400","cat":"home","isNew":true,"icon":"✏️","images":["https://makerworld.bblmw.com/makerworld/model/USac1fc331e84677/design/2024-04-09_3aedadcb26d32.jpeg","images/pen-holder.jpg"]},
+  {"title":"Desk Pen & Pencil Holder","price":"299","compare_at":"","cat":"desk_utilities","isNew":true,"icon":"✏️","image":"https://makerworld.bblmw.com/makerworld/model/USac1fc331e84677/design/2024-04-09_3aedadcb26d32.jpeg"},
   {"title":"Cable Clips — Set of 6","price":"99","compare_at":"","cat":"home","isNew":true,"icon":"🔌","images":["https://makerworld.bblmw.com/makerworld/model/USbf72885d90180d/design/2025-09-08_48b5725ca88db.png","images/cable-clips.jpg"]},
   {"title":"Dice Tower (Tabletop RPG)","price":"449","compare_at":"750","cat":"home","isNew":true,"icon":"🎲","images":["https://makerworld.bblmw.com/makerworld/model/USa34b97645ed7ef/design/2026-01-11_df4998e1b12e1.jpg","images/dice-tower.jpg"]},
   {"title":"D&D 7-Piece Dice Set","price":"499","compare_at":"","cat":"home","isNew":true,"icon":"🎯","images":["https://makerworld.bblmw.com/makerworld/model/DSM00000002306754/design/9a533d083c1c86ec.jpg","images/dnd-dice.jpg"]},
@@ -579,7 +585,7 @@ const PRODUCTS = [
   {"title":"Low Poly Animal Trophy Head","price":"399","compare_at":"650","cat":"home","isNew":true,"icon":"🦌","images":["https://makerworld.bblmw.com/makerworld/model/USf549c5fa363094/design/2024-04-28_95dfb389f2cab.png","images/trophy-head.jpg"]},
   {"title":"Phone Stand","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"📱","image":"https://makerworld.bblmw.com/makerworld/model/USd29c5fed2a3245/design/2025-10-19_181b53bb4cf538.png"},
   {"title":"Business Card Holder","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"💼","image":"https://makerworld.bblmw.com/makerworld/model/US9fa031a7d60302/design/2025-07-25_57b151dc1b178.png"},
-  {"title":"Desk Organizer","price":"199","compare_at":"","cat":"home","isNew":true,"icon":"🗂️","image":"https://makerworld.bblmw.com/makerworld/model/US8dfe15f21acb17/design/2024-06-03_d7cfbcd76de4d.webp"},
+  {"title":"Desk Organizer","price":"299","compare_at":"","cat":"desk_utilities","isNew":true,"icon":"🗂️","image":"https://makerworld.bblmw.com/makerworld/model/US8dfe15f21acb17/design/2024-06-03_d7cfbcd76de4d.webp"},
   {"title":"Infinity Marble Run","price":"349","compare_at":"","cat":"home","isNew":true,"icon":"🎱","image":"https://makerworld.bblmw.com/makerworld/model/US7f3a66b0602c7d/design/2025-05-25_5804b59bae88b.gif"},
   {"title":"Improved Crystal Dragon","price":"299","compare_at":"","cat":"flexi","isNew":true,"icon":"🐉","image":"https://makerworld.bblmw.com/makerworld/model/US899654d90119de/design/2025-03-23_7b57e1b7cf1f2.png"},
   {"title":"Flexi Dragon","price":"249","compare_at":"","cat":"flexi","isNew":true,"icon":"🐉","image":"https://makerworld.bblmw.com/makerworld/model/US790acbbbf459a2/design/2026-01-10_0f089b46ba93f.jpg"},
@@ -591,7 +597,7 @@ const PRODUCTS = [
   {"title":"Mini Flexi Shark","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦈","image":"https://makerworld.bblmw.com/makerworld/model/US7aadb0b7460041/design/2025-01-20_9ec80ea87866.jpg"},
   {"title":"Low-Poly Animal Collection","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🦁","image":"https://makerworld.bblmw.com/makerworld/model/US43317d53633ee6/design/2025-12-28_76ad956293753.png"},
   {"title":"LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","images":["images/macaw1.jpg","images/macaw2.jpg"]},
-  {"title":"Sonic x Punisher","price":"349","compare_at":"","cat":"custom","isNew":true,"icon":"⚡","image":"https://makerworld.bblmw.com/makerworld/model/USb6c7efe595e7da/design/e92ed02508dede07.jpg?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Sonic x Punisher","price":"299","compare_at":"","cat":"mashup_multiverse","isNew":true,"icon":"⚡","image":"https://makerworld.bblmw.com/makerworld/model/USb6c7efe595e7da/design/e92ed02508dede07.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Mini Ghost","price":"99","compare_at":"","cat":"flexi","isNew":true,"icon":"👻","image":"https://makerworld.bblmw.com/makerworld/model/US3ab738c6b1f90e/design/2025-08-23_99c372d7a62d98.jpg"},
   {"title":"Cute Mini Unicorn","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦄","image":"https://makerworld.bblmw.com/makerworld/model/US9db1624d55e5bf/design/0442f57056ecdd26.jpeg"},
   {"title":"Cute Mini Sloth","price":"149","compare_at":"","cat":"flexi","isNew":true,"icon":"🦥","image":"https://makerworld.bblmw.com/makerworld/model/US7e9a61fe62e30a/design/2c82811b4e4f1ade.jpeg"},
@@ -696,11 +702,14 @@ const PRODUCTS = [
   {"title":"Mosasaurus Skeletal , Articulated , Flexi","price":"299","compare_at":"","cat":"flexidino","isNew":true,"images":["https://makerworld.bblmw.com/makerworld/model/US5cbbec3d6beb94/design/2026-01-08_2d27c23ee9e588.png?x-oss-process=image/resize,w_1000/format,webp","https://makerworld.bblmw.com/makerworld/model/US5cbbec3d6beb94/design/2026-01-08_80c9df34c49ba8.png?x-oss-process=image/resize,w_1000/format,webp"]},
   {"title":"Flexi Skeleton Triceratops Dinosaur","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US8c1ad111d905ce/design/2025-09-28_1d1cc18f54783.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Articulated Pyroraptor","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USb510ad3d9fe3e8/design/e0f9f1c27664fc16.png?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Flexi Skeleton Spinosaurus dinosaur","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US2231ef8c57ac4b/design/2025-08-03_8ed3f6a08b03b.png?x-oss-process=image/resize,w_1000/format,webp"}
+  {"title":"Flexi Skeleton Spinosaurus dinosaur","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US2231ef8c57ac4b/design/2025-08-03_8ed3f6a08b03b.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"BITING T-REX","price":"299","compare_at":"","cat":"flexidino","isNew":true,"images":["https://makerworld.bblmw.com/makerworld/model/US71ac5f60cd4d38/design/2024-07-31_3e53e0b75999e.gif?x-oss-process=image/resize,w_1000/format,webp","https://makerworld.bblmw.com/makerworld/model/US71ac5f60cd4d38/design/2024-07-31_98ce0a016bd0c.jpg?x-oss-process=image/resize,w_1000/format,webp"]},
+  {"title":"Dinosaur T-Rex","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/1626383/1717244/ratings/74a5e680-a46f-11f0-bfb0-ff500d58f40a.jpg?x-oss-process=image%2Fresize%2Cw_400%2Fformat%2Cwebp"},
+  {"title":"Dinosaur Pencil Holder / T-REX / Dino","price":"299","compare_at":"","cat":"desk_utilities","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US1607dfc5be3a95/design/2024-10-31_db2157dbe7413.png?x-oss-process=image/resize,w_1000/format,webp"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' , desk_utilities:'📚 Desk Utilities' , fidgets:'🌀 Fidgets' , mashup_multiverse:'🧬 Mashup Multiverse' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' , desk_utilities:'badge-desk_utilities' , fidgets:'badge-fidgets' , mashup_multiverse:'badge-mashup_multiverse' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -766,7 +775,7 @@ function renderCard(p, i) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map((p,i) => renderCard(p,i)).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0 , flexidino: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0 , flexidino: 0 , desk_utilities: 0 , fidgets: 0 , mashup_multiverse: 0 };
 PRODUCTS.forEach(p => { if (counts[p.cat] !== undefined) counts[p.cat]++; });
 document.getElementById('cnt-all').textContent        = `(${counts.all})`;
 document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
@@ -782,6 +791,9 @@ document.getElementById('cnt-namedecor').textContent  = `(${counts.namedecor})`;
 document.getElementById('cnt-goofyeyes').textContent  = `(${counts.goofyeyes})`;
 
 document.getElementById('cnt-flexidino').textContent  = `(${counts.flexidino})`;
+document.getElementById('cnt-desk_utilities').textContent  = `(${counts.desk_utilities})`;
+document.getElementById('cnt-fidgets').textContent  = `(${counts.fidgets})`;
+document.getElementById('cnt-mashup_multiverse').textContent  = `(${counts.mashup_multiverse})`;
 let activeCat = 'all', searchVal = '';
 
 function applyFilters() {
