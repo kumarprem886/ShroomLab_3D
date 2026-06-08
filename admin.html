@@ -851,7 +851,7 @@ function injectNewCategories(html){
   const newCats = Object.entries(customCats).filter(([key]) => !BUILTIN[key]);
   if(!newCats.length) return html;
   let result = html;
-  newCats.forEach(([key, c]){
+  newCats.forEach(([key, c]) => {
     // Skip if already injected into this HTML
     if(result.includes(`data-cat="${key}"`)) return;
     const emoji = c.emoji || '📦';
