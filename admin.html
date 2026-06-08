@@ -438,7 +438,7 @@ function populateCatDropdown(){
   if(ci) document.getElementById('f-cat-search').value = `${ci.emoji} ${ci.label}`;
   // If dropdown is open, re-render it
   const dd = document.getElementById('cat-dropdown');
-  if(dd.style.display !== 'none') renderCatOptions(document.getElementById('f-cat-search').value);
+  if(dd.style.display === 'block') renderCatOptions(document.getElementById('f-cat-search').value);
 }
 
 function renderCatOptions(search){
