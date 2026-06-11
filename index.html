@@ -188,6 +188,7 @@
     .badge-fidgets { background: #0008ff; color: #fff; }
     .badge-mashup_multiverse { background: #ef734d; color: #fff; }
     .badge-minis { background: #305ad9; color: #fff; }
+    .badge-games { background: #853d8a; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -426,6 +427,7 @@
     <button class="filter-btn" data-cat="fidgets">🌀 Fidgets <span id="cnt-fidgets"></span></button>
     <button class="filter-btn" data-cat="mashup_multiverse">🧬 Mashup Multiverse <span id="cnt-mashup_multiverse"></span></button>
     <button class="filter-btn" data-cat="minis">🤏 Minis <span id="cnt-minis"></span></button>
+    <button class="filter-btn" data-cat="games">🎮 Games <span id="cnt-games"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
 
@@ -588,7 +590,7 @@ const PRODUCTS = [
   {"title":"Phone Stand","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"📱","image":"https://makerworld.bblmw.com/makerworld/model/USd29c5fed2a3245/design/2025-10-19_181b53bb4cf538.png"},
   {"title":"Business Card Holder","price":"149","compare_at":"","cat":"home","isNew":true,"icon":"💼","image":"https://makerworld.bblmw.com/makerworld/model/US9fa031a7d60302/design/2025-07-25_57b151dc1b178.png"},
   {"title":"Desk Organizer","price":"299","compare_at":"","cat":"desk_utilities","isNew":true,"icon":"🗂️","image":"https://makerworld.bblmw.com/makerworld/model/US8dfe15f21acb17/design/2024-06-03_d7cfbcd76de4d.webp"},
-  {"title":"Infinity Marble Run","price":"349","compare_at":"","cat":"home","isNew":true,"icon":"🎱","image":"https://makerworld.bblmw.com/makerworld/model/US7f3a66b0602c7d/design/2025-05-25_5804b59bae88b.gif"},
+  {"title":"Infinity Marble Run","price":"299","compare_at":"","cat":"games","isNew":true,"icon":"🎱","image":"https://makerworld.bblmw.com/makerworld/model/US7f3a66b0602c7d/design/2025-05-25_5804b59bae88b.gif"},
   {"title":"Improved Crystal Dragon","price":"299","compare_at":"","cat":"flexi","isNew":true,"icon":"🐉","image":"https://makerworld.bblmw.com/makerworld/model/US899654d90119de/design/2025-03-23_7b57e1b7cf1f2.png"},
   {"title":"Flexi Dragon","price":"249","compare_at":"","cat":"flexi","isNew":true,"icon":"🐉","image":"https://makerworld.bblmw.com/makerworld/model/US790acbbbf459a2/design/2026-01-10_0f089b46ba93f.jpg"},
   {"title":"Dragon Egg – Print in Place","price":"199","compare_at":"","cat":"flexi","isNew":true,"icon":"🥚","image":"https://makerworld.bblmw.com/makerworld/model/US3ced16b1c82696/design/2024-11-25_7603eb91617da.jpeg"},
@@ -600,8 +602,8 @@ const PRODUCTS = [
   {"title":"LifeSize Macaw","price":"999","compare_at":"","cat":"assemble","isNew":true,"icon":"🦜","images":["images/macaw1.jpg","images/macaw2.jpg"]},
   {"title":"Sonic x Punisher","price":"299","compare_at":"","cat":"mashup_multiverse","isNew":true,"icon":"⚡","image":"https://makerworld.bblmw.com/makerworld/model/USb6c7efe595e7da/design/e92ed02508dede07.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Mini Ghost","price":"299","compare_at":"","cat":"minis","isNew":true,"icon":"👻","image":"https://makerworld.bblmw.com/makerworld/model/US3ab738c6b1f90e/design/2025-08-23_99c372d7a62d98.jpg"},
-  {"title":"Cute Mini Unicorn","price":"299","compare_at":"","cat":"minis","isNew":true,"icon":"🦄","image":"https://makerworld.bblmw.com/makerworld/model/US9db1624d55e5bf/design/0442f57056ecdd26.jpeg"},
-  {"title":"Cute Mini Sloth","price":"299","compare_at":"","cat":"minis","isNew":true,"icon":"🦥","image":"https://makerworld.bblmw.com/makerworld/model/US7e9a61fe62e30a/design/2c82811b4e4f1ade.jpeg"},
+  {"title":"Cute Mini Unicorn","price":"299","compare_at":"","cat":"minis","isNew":true,"icon":"🦄","image":"https://makerworld.bblmw.com/makerworld/model/US9db1624d55e5bf/design/8eb226f1a2fe80ef.gif?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Cute Mini Sloth","price":"299","compare_at":"","cat":"minis","isNew":true,"icon":"🦥","image":"https://makerworld.bblmw.com/makerworld/model/US7e9a61fe62e30a/design/34514925a2a13d5d.gif?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Bunny Easter Egg","price":"99","compare_at":"","cat":"flexi","isNew":true,"icon":"🐣","image":"https://makerworld.bblmw.com/makerworld/model/USeefbc42c4c0fc1/design/f6ab9e10b5477889.gif"},
   {"title":"Pilates Keychain","price":"99","compare_at":"","cat":"flexi","isNew":true,"icon":"🤸","image":"https://makerworld.bblmw.com/makerworld/model/US52afb63c896d16/design/636d362cd2f4710a.png"},
   {"title":"Stitch Chomper Earrings","price":"149","compare_at":"","cat":"jewellery","isNew":true,"icon":"👂","image":"https://makerworld.bblmw.com/makerworld/model/USaa766662f26910/design/2025-06-16_895f1963ee29b8.jpg"},
@@ -728,8 +730,8 @@ const PRODUCTS = [
   {"title":"Chicken Egg King","price":"299","compare_at":"","cat":"minis","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USba83cfd04c516a/design/2025-04-05_88f7de6d5f6ec.jpg?x-oss-process=image/resize,w_1000/format,webp"}
 ];
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' , desk_utilities:'📚 Desk Utilities' , fidgets:'🌀 Fidgets' , mashup_multiverse:'🧬 Mashup Multiverse' , minis:'🤏 Minis' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' , desk_utilities:'badge-desk_utilities' , fidgets:'badge-fidgets' , mashup_multiverse:'badge-mashup_multiverse' , minis:'badge-minis' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' , desk_utilities:'📚 Desk Utilities' , fidgets:'🌀 Fidgets' , mashup_multiverse:'🧬 Mashup Multiverse' , minis:'🤏 Minis' , games:'🎮 Games' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' , desk_utilities:'badge-desk_utilities' , fidgets:'badge-fidgets' , mashup_multiverse:'badge-mashup_multiverse' , minis:'badge-minis' , games:'badge-games' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -797,7 +799,7 @@ function renderCard(p, i) {
 const grid = document.getElementById('grid');
 grid.innerHTML = PRODUCTS.map((p,i) => renderCard(p,i)).join('');
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0, flexidino: 0, desk_utilities: 0, fidgets: 0, mashup_multiverse: 0, minis: 0 };
+const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0, flexidino: 0, desk_utilities: 0, fidgets: 0, mashup_multiverse: 0, minis: 0 , games: 0 };
 PRODUCTS.forEach(p => {
   const pcs = p.cats || (p.cat ? [p.cat] : []);
   pcs.forEach(c => { if (counts[c] !== undefined) counts[c]++; });
@@ -820,6 +822,7 @@ document.getElementById('cnt-desk_utilities').textContent  = `(${counts.desk_uti
 document.getElementById('cnt-fidgets').textContent  = `(${counts.fidgets})`;
 document.getElementById('cnt-mashup_multiverse').textContent  = `(${counts.mashup_multiverse})`;
 document.getElementById('cnt-minis').textContent  = `(${counts.minis})`;
+document.getElementById('cnt-games').textContent  = `(${counts.games})`;
 let activeCat = 'all', searchVal = '';
 
 function applyFilters() {
