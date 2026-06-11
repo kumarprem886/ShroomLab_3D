@@ -407,17 +407,23 @@ if(sessionStorage.getItem(SESSION_KEY)==='1'){
 
 // ── CATEGORIES ────────────────────────────────────────────────────────
 const BUILTIN={
-  flexi:    {label:'Flexi Toys',      emoji:'🐾',color:'#ff7043'},
-  kit:      {label:'Kit Cards',       emoji:'🃏',color:'#5c6bc0'},
-  custom:   {label:'Custom',          emoji:'🎨',color:'#40916c'},
-  home:     {label:'Home & More',     emoji:'🏠',color:'#e91e63'},
-  vases:    {label:'Vases',           emoji:'🏺',color:'#00796b'},
-  jewellery:{label:'Jewellery',       emoji:'💍',color:'#ad1457'},
-  idols:    {label:'Idols',           emoji:'🎭',color:'#6a1b9a'},
-  assemble: {label:'Life-Size Prints',emoji:'🦜',color:'#f57c00'},
-  keychains:{label:'Keychains',       emoji:'🔑',color:'#5d4037'},
-  namedecor:{label:'Name & Letters',  emoji:'✏️',color:'#1565c0'},
-  goofyeyes:{label:'Goofy Eyes',      emoji:'👀',color:'#e65100'},
+  flexi:            {label:'Flexi Toys',        emoji:'🐾',color:'#ff7043'},
+  kit:              {label:'Kit Cards',         emoji:'🃏',color:'#5c6bc0'},
+  custom:           {label:'Custom',            emoji:'🎨',color:'#40916c'},
+  home:             {label:'Home & More',       emoji:'🏠',color:'#e91e63'},
+  vases:            {label:'Vases',             emoji:'🏺',color:'#00796b'},
+  jewellery:        {label:'Jewellery',         emoji:'💍',color:'#ad1457'},
+  idols:            {label:'Idols',             emoji:'🎭',color:'#6a1b9a'},
+  assemble:         {label:'Life-Size Prints',  emoji:'🦜',color:'#f57c00'},
+  keychains:        {label:'Keychains',         emoji:'🔑',color:'#5d4037'},
+  namedecor:        {label:'Name & Letters',    emoji:'✏️',color:'#1565c0'},
+  goofyeyes:        {label:'Goofy Eyes',        emoji:'👀',color:'#e65100'},
+  flexidino:        {label:'Flexi Dino',        emoji:'🦖',color:'#d0e246'},
+  desk_utilities:   {label:'Desk Utilities',    emoji:'📚',color:'#5d4037'},
+  fidgets:          {label:'Fidgets',           emoji:'🌀',color:'#0008ff'},
+  mashup_multiverse:{label:'Mashup Multiverse', emoji:'🧬',color:'#ef734d'},
+  minis:            {label:'Minis',             emoji:'🤏',color:'#305ad9'},
+  games:            {label:'Games',             emoji:'🎮',color:'#853d8a'},
 };
 function allCats(){
   const base = {...BUILTIN,...customCats};
