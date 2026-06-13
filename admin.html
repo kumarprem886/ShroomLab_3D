@@ -813,12 +813,14 @@ function updateUrl(i,val){
 function renderUrlPreviews(){
   const box   = document.getElementById('url-preview');
   const valid = imageUrls.filter(u=>u);
+  const base  = 'https://kumarprem886.github.io/ShroomLab_3D/';
   if(!valid.length){
     box.innerHTML='<div class="placeholder">📷 Paste URLs above to preview</div>';
   } else {
-    box.innerHTML = valid.map(url=>
-      `<img src="${url}" onerror="this.style.display='none'" title="${url}">`
-    ).join('');
+    box.innerHTML = valid.map(url=>{
+      const src = url.startsWith('images/') ? base+url : url;
+      return `<img src="${src}" onerror="this.style.display='none'" title="${url}">`;
+    }).join('');
   }
 }
 
@@ -1319,11 +1321,15 @@ async function pushToGitHub(){
     const currentHTML  = new TextDecoder().decode(currentBytes);
 
     // 2. Push any uploaded images to images/ folder
-    const toUpload=newProducts.flatMap(p=>{
+    const collectUploads=p=>{
       if(p.imgType==='uploaded'&&p.imgSrc&&p.filename) return [{dataURL:p.imgSrc,filename:p.filename}];
       if(p.imgType==='uploaded-multi'&&p.uploads) return p.uploads.filter(u=>u.dataURL&&u.filename);
       return [];
-    });
+    };
+    const toUpload=[
+      ...newProducts.flatMap(collectUploads),
+      ...Object.values(pendingEdits).flatMap(collectUploads)
+    ];
     if(toUpload.length){
       setPushStatus('loading',`📸 Uploading ${toUpload.length} image(s) to GitHub…`);
       for(const img of toUpload){
