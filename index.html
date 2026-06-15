@@ -292,6 +292,7 @@
     .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
     .price-cur { display: none; }
     .price-old { display: none; }
+    .price-on-request { font-size: 0.75rem; color: var(--g-mid); font-weight: 600; letter-spacing: 0.02em; }
     .btn-order {
       background: var(--g-pale); color: var(--g-deep);
       padding: 6px 13px; border-radius: 50px;
@@ -1084,16 +1085,17 @@
         <div class="step-num">2</div>
         <div class="step-icon">💬</div>
         <div class="step-title">WhatsApp Us</div>
-        <p class="step-desc">Click 'Order →' on any product. It opens WhatsApp with the product name pre-filled. Just hit send!</p>
+        <p class="step-desc">Click 'Order →' on any product. It opens WhatsApp with the product name pre-filled. We'll share an approximate price based on your requirements.</p>
       </div>
       <div class="step-arrow">→</div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-icon">🚀</div>
         <div class="step-title">We Print &amp; Ship</div>
-        <p class="step-desc">We confirm, print fresh, hand-finish, and ship pan-India in 3–7 days with tracking.</p>
+        <p class="step-desc">We confirm, print fresh, hand-finish, and ship pan-India in 3–7 days with tracking. Final price is confirmed once your print is ready.</p>
       </div>
     </div>
+    <p style="text-align:center;margin-top:24px;font-size:0.85rem;color:var(--muted);">💬 Approximate quote given on WhatsApp &nbsp;·&nbsp; ✅ Final price confirmed after printing &nbsp;·&nbsp; No upfront payment required</p>
   </div>
 </section>
 
@@ -1857,7 +1859,7 @@ function renderCard(p, i) {
     <div class="product-info">
       <div class="product-name">${p.title}</div>
       <div class="product-footer">
-        <div><span class="price-cur">₹${p.price}</span>${old}</div>
+        <div class="price-on-request">Contact for price</div>
         <a href="${waLink(p.title)}" target="_blank" class="btn-order" onclick="event.stopPropagation()">Order →</a>
       </div>
     </div>
