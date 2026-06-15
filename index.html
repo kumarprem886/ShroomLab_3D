@@ -976,6 +976,37 @@
     .material-desc { font-size: 0.82rem; color: #81c784; line-height: 1.5; }
     .material-tag { display: inline-block; background: #1b4332; color: #a5d6a7; font-size: 0.72rem; border-radius: 20px; padding: 2px 9px; margin-top: 4px; width: fit-content; }
 
+    /* CATEGORY THEMING */
+    #catalogue { transition: background 0.65s ease; }
+    .cat-particle {
+      position: fixed; bottom: -60px; pointer-events: none; z-index: 5;
+      animation: particleFloat linear infinite; user-select: none; will-change: transform, opacity;
+    }
+    @keyframes particleFloat {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+      6%   { opacity: var(--p-op, 0.18); }
+      94%  { opacity: var(--p-op, 0.18); }
+      100% { transform: translateY(-105vh) rotate(540deg); opacity: 0; }
+    }
+    /* Card glow border per category */
+    .product-card.visible:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 0 2px var(--cat-color, #2d9e60), 0 14px 38px rgba(0,0,0,0.2);
+    }
+    /* Filter/search bar becomes glassy on dark category backgrounds */
+    #catalogue[data-cat] .filter-btn { background: rgba(255,255,255,0.09); color: #e0e0e0; border-color: rgba(255,255,255,0.2); }
+    #catalogue[data-cat] .filter-btn:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+    #catalogue[data-cat] .filter-btn.active { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.4); }
+    #catalogue[data-cat] .search-box { background: rgba(255,255,255,0.09); color: #e0e0e0; border-color: rgba(255,255,255,0.2); }
+    #catalogue[data-cat] .search-box::placeholder { color: rgba(255,255,255,0.4); }
+    #catalogue[data-cat] .sec-tag { background: rgba(255,255,255,0.12); color: #c8e6c9; }
+    #catalogue[data-cat] .sec-head h2 { color: #fff; }
+    #catalogue[data-cat] .sec-head p { color: #b2dfdb; }
+    /* Global scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0b1a10; }
+    ::-webkit-scrollbar-thumb { background: var(--g-mid); border-radius: 3px; }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
@@ -1915,6 +1946,51 @@ function afterRender() {
 const CAT_ORDER = ['flexi','flexidino','fidgets','minis','kit','games','custom','home','assemble','jewellery','idols','vases','keychains','namedecor','goofyeyes','desk_utilities','mashup_multiverse'];
 const CAT_COLORS = {flexi:'#2d9e60',flexidino:'#27ae60',fidgets:'#00897b',minis:'#00acc1',kit:'#e67e22',games:'#1e88e5',custom:'#8e44ad',home:'#c0392b',assemble:'#d35400',jewellery:'#d4a017',idols:'#a93226',vases:'#1a6fa0',keychains:'#6d4c41',namedecor:'#1565c0',goofyeyes:'#d81b60',desk_utilities:'#455a64',mashup_multiverse:'#6200ea'};
 
+const CAT_PARTICLES = {
+  flexi:['🐾','🦴','🐱','🐶','🦮'],flexidino:['🦕','🦖','🌿','🦴','🌋'],
+  fidgets:['⚡','🌀','💫','✨','🎯'],minis:['🎲','⚔️','🧙','🗡️','🛡️'],
+  kit:['🃏','🎴','🎮','🎯','♟️'],games:['🎮','🕹️','⭐','🎯','🏆'],
+  custom:['🎨','✏️','🖌️','🌈','💡'],home:['🏠','🌿','🕯️','🪴','🌸'],
+  assemble:['🔧','⚙️','🔩','🛠️','🔨'],jewellery:['💎','💍','✨','👑','💫'],
+  idols:['🙏','🪔','✨','🌸','🌺'],vases:['🏺','🌊','🌸','🌺','🌿'],
+  keychains:['🔑','🗝️','✨','🔐','💫'],namedecor:['✏️','🔤','🌟','⭐','💫'],
+  goofyeyes:['👀','😜','🎉','🤪','😂'],desk_utilities:['💼','📎','✏️','📐','📏'],
+  mashup_multiverse:['🌌','⭐','🚀','🪐','✨'],
+};
+
+const CAT_BG = {
+  flexi:'linear-gradient(160deg,#1a0e00 0%,#2d1800 60%,#1a0a00 100%)',
+  flexidino:'linear-gradient(160deg,#091a0e 0%,#0d2e14 60%,#051209 100%)',
+  fidgets:'linear-gradient(160deg,#0f0020 0%,#1a0035 60%,#0a0018 100%)',
+  minis:'linear-gradient(160deg,#030918 0%,#051426 60%,#020710 100%)',
+  kit:'linear-gradient(160deg,#1a1000 0%,#2a1a00 60%,#160c00 100%)',
+  games:'linear-gradient(160deg,#021028 0%,#041b3d 60%,#010a1a 100%)',
+  custom:'linear-gradient(160deg,#150020 0%,#230035 60%,#0d0018 100%)',
+  home:'linear-gradient(160deg,#200808 0%,#330e0e 60%,#180505 100%)',
+  assemble:'linear-gradient(160deg,#0c1218 0%,#141f28 60%,#090e14 100%)',
+  jewellery:'linear-gradient(160deg,#1a1400 0%,#2d2200 60%,#120e00 100%)',
+  idols:'linear-gradient(160deg,#1a0500 0%,#2d0800 60%,#140400 100%)',
+  vases:'linear-gradient(160deg,#001220 0%,#011e33 60%,#000d18 100%)',
+  keychains:'linear-gradient(160deg,#100800 0%,#1c0e00 60%,#0c0600 100%)',
+  namedecor:'linear-gradient(160deg,#010d2a 0%,#021644 60%,#010920 100%)',
+  goofyeyes:'linear-gradient(160deg,#200010 0%,#35001a 60%,#180008 100%)',
+  desk_utilities:'linear-gradient(160deg,#0c1018 0%,#141824 60%,#090c14 100%)',
+  mashup_multiverse:'linear-gradient(160deg,#0a0030 0%,#12004a 60%,#060022 100%)',
+};
+
+function spawnParticles(cat) {
+  document.querySelectorAll('.cat-particle').forEach(p => p.remove());
+  const emojis = CAT_PARTICLES[cat];
+  if (!emojis) return;
+  for (let i = 0; i < 20; i++) {
+    const el = document.createElement('div');
+    el.className = 'cat-particle';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.cssText = `left:${Math.random()*100}%;font-size:${18+Math.random()*22}px;animation-delay:${Math.random()*12}s;animation-duration:${10+Math.random()*10}s;--p-op:${(0.1+Math.random()*0.13).toFixed(2)};`;
+    document.body.appendChild(el);
+  }
+}
+
 function renderRows() {
   grid.classList.add('rows-mode');
   const catProducts = {};
@@ -1954,7 +2030,18 @@ function renderGrid(cat) {
 function activateCat(cat) {
   activeCat = cat; searchVal = '';
   const s = document.getElementById('search'); if (s) s.value = '';
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  document.querySelectorAll('.filter-btn').forEach(b => { b.classList.toggle('active', b.dataset.cat === cat); b.style.boxShadow = ''; });
+  const catSec = document.getElementById('catalogue');
+  if (cat === 'all') {
+    catSec.style.background = '';
+    catSec.removeAttribute('data-cat');
+  } else {
+    catSec.style.background = CAT_BG[cat] || '';
+    catSec.dataset.cat = cat;
+    const acc = CAT_COLORS[cat];
+    if (acc) { const ab = document.querySelector('.filter-btn.active'); if (ab) ab.style.boxShadow = `0 0 18px ${acc}aa`; }
+  }
+  spawnParticles(cat);
   if (cat === 'all') renderRows(); else renderGrid(cat);
 }
 
