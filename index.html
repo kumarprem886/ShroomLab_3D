@@ -427,6 +427,31 @@
       animation: morph 7s ease-in-out infinite, heroGrad 6s ease infinite;
     }
 
+    /* ── CATEGORY ROWS ── */
+    .products-grid.rows-mode { display: block; }
+    .cat-row { margin-bottom: 44px; }
+    .cat-row-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px; padding-bottom: 10px;
+      border-bottom: 2px solid #e4f5ea;
+    }
+    .cat-row-label { font-size: 1rem; font-weight: 700; color: var(--g-deep); }
+    .cat-row-seeall {
+      background: var(--g-pale); color: var(--g-deep); border: none;
+      padding: 6px 16px; border-radius: 50px; font-size: 0.78rem;
+      font-weight: 600; cursor: pointer; font-family: 'Poppins',sans-serif;
+      transition: all 0.2s;
+    }
+    .cat-row-seeall:hover { background: var(--g-deep); color: #fff; }
+    .cat-row-scroll {
+      display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin; scrollbar-color: #b7dfca transparent;
+    }
+    .cat-row-scroll::-webkit-scrollbar { height: 4px; }
+    .cat-row-scroll::-webkit-scrollbar-thumb { background: #b7dfca; border-radius: 4px; }
+    .cat-row-scroll .product-card { min-width: 200px; max-width: 220px; flex-shrink: 0; scroll-snap-align: start; }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
@@ -907,7 +932,7 @@ function renderCard(p, i) {
       ${imgContent}
       ${badgesHtml}
       ${newBadge}
-      <button class="wish-btn" onclick="event.stopPropagation();toggleWish(${i},this)" aria-label="Wishlist">♥</button>
+      <button class="wish-btn" data-idx="${i}" onclick="event.stopPropagation();toggleWish(${i},this)" aria-label="Wishlist">♥</button>
     </div>
     <div class="product-info">
       <div class="product-name">${p.title}</div>
@@ -920,7 +945,88 @@ function renderCard(p, i) {
 }
 
 const grid = document.getElementById('grid');
-grid.innerHTML = PRODUCTS.map((p,i) => renderCard(p,i)).join('');
+
+// ── RENDER INFRASTRUCTURE (defined before first render) ───────────────
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, idx) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), idx * 55);
+      fadeObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.07 });
+
+let wishlist = JSON.parse(localStorage.getItem('shroomlab_wish') || '[]');
+
+function afterRender() {
+  grid.querySelectorAll('.product-card').forEach(card => {
+    fadeObs.observe(card);
+    card.addEventListener('mousemove', function(e) {
+      if (!this.classList.contains('visible')) return;
+      const r = this.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 14;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * -14;
+      this.style.transform = `perspective(600px) rotateX(${y}deg) rotateY(${x}deg) scale(1.04)`;
+      this.style.boxShadow = 'var(--shadow-h)';
+    });
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = ''; this.style.boxShadow = '';
+    });
+  });
+  grid.querySelectorAll('.wish-btn').forEach(btn => {
+    if (wishlist.includes(parseInt(btn.dataset.idx))) btn.classList.add('wished');
+  });
+}
+
+const CAT_ORDER = ['flexi','flexidino','fidgets','minis','kit','games','custom','home','assemble','jewellery','idols','vases','keychains','namedecor','goofyeyes','desk_utilities','mashup_multiverse'];
+
+function renderRows() {
+  grid.classList.add('rows-mode');
+  const catProducts = {};
+  CAT_ORDER.forEach(c => { catProducts[c] = []; });
+  PRODUCTS.forEach((p, i) => {
+    const pCats = p.cats || (p.cat ? [p.cat] : []);
+    pCats.forEach(c => { if (catProducts[c] !== undefined) catProducts[c].push({p, i}); });
+  });
+  const rows = CAT_ORDER.filter(c => catProducts[c].length > 0).map(c => {
+    const items = catProducts[c];
+    const label = BADGE[c] || c;
+    const count = items.length;
+    const cardsHtml = items.slice(0, 8).map(({p, i}) => renderCard(p, i)).join('');
+    const seeAll = count > 4
+      ? `<button class="cat-row-seeall" onclick="activateCat('${c}')">See all ${count} →</button>` : '';
+    return `<div class="cat-row"><div class="cat-row-head"><span class="cat-row-label">${label}</span>${seeAll}</div><div class="cat-row-scroll">${cardsHtml}</div></div>`;
+  }).join('');
+  grid.innerHTML = rows || '<div class="no-results">No products yet.</div>';
+  afterRender();
+}
+
+function renderGrid(cat) {
+  grid.classList.remove('rows-mode');
+  let items = PRODUCTS.map((p, i) => ({p, i}));
+  if (cat !== 'all') items = items.filter(({p}) => {
+    const pCats = p.cats || (p.cat ? [p.cat] : []);
+    return pCats.includes(cat);
+  });
+  if (searchVal) items = items.filter(({p}) => p.title.toLowerCase().includes(searchVal));
+  grid.innerHTML = items.length
+    ? items.map(({p, i}) => renderCard(p, i)).join('')
+    : '<div class="no-results">No products found.</div>';
+  afterRender();
+}
+
+function activateCat(cat) {
+  activeCat = cat; searchVal = '';
+  const s = document.getElementById('search'); if (s) s.value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  if (cat === 'all') renderRows(); else renderGrid(cat);
+}
+
+function redraw() {
+  if (activeCat === 'all' && !searchVal) renderRows(); else renderGrid(activeCat);
+}
+
+renderRows();
 
 const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0, flexidino: 0, desk_utilities: 0, fidgets: 0, mashup_multiverse: 0, minis: 0 , games: 0 };
 PRODUCTS.forEach(p => {
@@ -948,34 +1054,13 @@ document.getElementById('cnt-minis').textContent  = `(${counts.minis})`;
 document.getElementById('cnt-games').textContent  = `(${counts.games})`;
 let activeCat = 'all', searchVal = '';
 
-function applyFilters() {
-  let visible = 0;
-  document.querySelectorAll('.product-card').forEach(card => {
-    const cardCats = (card.dataset.cats||'').split(',').filter(Boolean);
-    const catMatch = activeCat === 'all' || cardCats.includes(activeCat);
-    const searchMatch = !searchVal || card.dataset.title.includes(searchVal);
-    const show = catMatch && searchMatch;
-    card.classList.toggle('hidden', !show);
-    if (show) { card.classList.add('visible'); visible++; }
-  });
-  const nr = document.querySelector('.no-results');
-  if (!visible) {
-    if (!nr) { const d = document.createElement('div'); d.className='no-results'; d.textContent='No products found. Try a different search.'; grid.appendChild(d); }
-  } else { if (nr) nr.remove(); }
-}
-
 document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeCat = btn.dataset.cat;
-    applyFilters();
-  });
+  btn.addEventListener('click', () => activateCat(btn.dataset.cat));
 });
 
 document.getElementById('search').addEventListener('input', e => {
   searchVal = e.target.value.toLowerCase().trim();
-  applyFilters();
+  redraw();
 });
 
 // ── PRODUCT MODAL ────────────────────────────────────────────────────
@@ -1056,35 +1141,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')   modalNav(-1);
 });
 
-// ── SCROLL FADE-IN ────────────────────────────────────────────────────
-const fadeObs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, idx) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), idx * 55);
-      fadeObs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.07 });
-document.querySelectorAll('.product-card').forEach(c => fadeObs.observe(c));
-
-// ── 3D CARD TILT ──────────────────────────────────────────────────────
-document.querySelectorAll('.product-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    if (!card.classList.contains('visible')) return;
-    const r = card.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
-    const y = ((e.clientY - r.top)  / r.height - 0.5) * -14;
-    card.style.transform = `perspective(600px) rotateX(${y}deg) rotateY(${x}deg) scale(1.04)`;
-    card.style.boxShadow = 'var(--shadow-h)';
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-    card.style.boxShadow = '';
-  });
-});
-
 // ── WISHLIST ──────────────────────────────────────────────────────────
-let wishlist = JSON.parse(localStorage.getItem('shroomlab_wish') || '[]');
 function toggleWish(i, btn) {
   const idx = wishlist.indexOf(i);
   if (idx === -1) {
@@ -1099,9 +1156,6 @@ function toggleWish(i, btn) {
   }
   localStorage.setItem('shroomlab_wish', JSON.stringify(wishlist));
 }
-document.querySelectorAll('.wish-btn').forEach((btn, i) => {
-  if (wishlist.includes(i)) btn.classList.add('wished');
-});
 
 // ── TOAST ─────────────────────────────────────────────────────────────
 let toastTimer;
