@@ -452,6 +452,100 @@
     .cat-row-scroll::-webkit-scrollbar-thumb { background: #b7dfca; border-radius: 4px; }
     .cat-row-scroll .product-card { min-width: 200px; max-width: 220px; flex-shrink: 0; scroll-snap-align: start; }
 
+    /* ══════════════════════════════════════
+       BRAND THEME — AMBIENT FOREST / LAB
+    ══════════════════════════════════════ */
+
+    /* NAV — dark forest */
+    nav {
+      background: linear-gradient(90deg, #071a0f 0%, #1b4332 100%) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.28) !important;
+    }
+    .nav-logo-text { color: #e8f5e9 !important; }
+    .nav-logo-text span { color: #74c69d !important; }
+    .nav-links a { color: rgba(255,255,255,0.62) !important; }
+    .nav-links a:hover { color: #74c69d !important; }
+    .nav-cta .btn-wa { box-shadow: 0 0 18px rgba(37,211,102,0.4); }
+
+    /* HERO — full-bleed dark */
+    .hero {
+      max-width: 100% !important; margin: 0 !important;
+      padding: 88px 8% 76px !important;
+      background: linear-gradient(135deg, #071a0f 0%, #0f2418 30%, #1b4332 65%, #2d6a4f 100%);
+      position: relative !important; overflow: hidden !important;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 15% 65%, rgba(82,183,136,0.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 78% 18%, rgba(116,198,157,0.14) 0%, transparent 42%);
+    }
+    .hero::after {
+      content: ''; position: absolute; pointer-events: none;
+      width: 520px; height: 520px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(116,198,157,0.07) 0%, transparent 70%);
+      right: -120px; top: -120px;
+      animation: heroGlow 7s ease-in-out infinite alternate;
+    }
+    @keyframes heroGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.35); opacity: 1; } }
+    .hero-content, .hero-visual { position: relative; z-index: 1; }
+    .hero h1 { color: #fff; }
+    .hero h1 .hl { color: #74c69d; text-shadow: 0 0 32px rgba(116,198,157,0.55); }
+    .hero-sub { color: rgba(255,255,255,0.68) !important; }
+    .hero-badge { background: rgba(255,255,255,0.1) !important; color: rgba(255,255,255,0.9) !important; border: 1px solid rgba(255,255,255,0.18) !important; backdrop-filter: blur(8px); }
+    .hero-tag { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.18) !important; color: rgba(255,255,255,0.8) !important; }
+    .hero-btns .btn-dark { background: #fff !important; color: #1b4332 !important; box-shadow: 0 4px 24px rgba(255,255,255,0.2) !important; }
+    .hero-btns .btn-dark:hover { background: #e8f5e9 !important; box-shadow: 0 8px 32px rgba(255,255,255,0.28) !important; }
+    .hero-blob { box-shadow: 0 0 70px rgba(116,198,157,0.4), 0 0 120px rgba(82,183,136,0.2) !important; }
+
+    /* FEATURES BAR — dark */
+    .features-bar {
+      background: linear-gradient(90deg, #0d2b1a 0%, #1b4332 50%, #2d6a4f 100%) !important;
+      border-top: none !important; border-bottom: none !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+    }
+    .fi-text { color: rgba(255,255,255,0.82) !important; font-weight: 600 !important; }
+    .fi-icon { font-size: 1.45rem !important; }
+
+    /* SECTION HEADINGS */
+    .sec-head h2 {
+      background: linear-gradient(135deg, #1b4332, #2d9e60, #52b788);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* FILTER BUTTONS */
+    .filter-btn { border: 1.5px solid #cfe8d8 !important; background: #fff !important; color: #4a7c5f !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
+    .filter-btn:hover { border-color: var(--g-light) !important; color: var(--g-deep) !important; background: #f0fdf4 !important; transform: translateY(-2px) !important; box-shadow: 0 4px 14px rgba(27,67,50,0.14) !important; }
+    .filter-btn.active { background: linear-gradient(135deg, #1b4332, #2d6a4f) !important; color: #fff !important; border-color: transparent !important; box-shadow: 0 4px 18px rgba(27,67,50,0.38) !important; transform: translateY(-1px) !important; }
+
+    /* CARDS — category color top bar */
+    .product-card { border-radius: 18px !important; border: 1px solid rgba(0,0,0,0.05) !important; box-shadow: 0 2px 14px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04) !important; }
+    .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--cat-color, #2d9e60); z-index: 1; border-radius: 18px 18px 0 0; }
+    .product-card.visible:hover { box-shadow: 0 18px 50px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.06) !important; }
+    .product-name { font-weight: 700 !important; color: #152418 !important; }
+    .product-img { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .btn-order { background: linear-gradient(135deg, #e8f5e9, #d5f0dc) !important; font-weight: 700 !important; }
+    .btn-order:hover { background: linear-gradient(135deg, #1b4332, #2d6a4f) !important; box-shadow: 0 4px 18px rgba(27,67,50,0.32) !important; }
+
+    /* CATEGORY ROW LABELS */
+    .cat-row-head { border-bottom: none !important; padding-bottom: 0 !important; }
+    .cat-row-label { background: var(--row-color, #1b4332) !important; color: #fff !important; padding: 5px 16px !important; border-radius: 50px !important; font-weight: 700 !important; box-shadow: 0 2px 12px rgba(0,0,0,0.18) !important; letter-spacing: 0.01em; }
+    .cat-row-seeall { transition: all 0.2s !important; }
+    .cat-row-seeall:hover { background: var(--row-color, var(--g-deep)) !important; color: #fff !important; border-color: transparent !important; }
+
+    /* CUSTOM SECTION */
+    .custom-sec { background: linear-gradient(135deg, #071a0f 0%, #1b4332 100%) !important; position: relative; overflow: hidden; }
+    .custom-sec::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 110%, rgba(82,183,136,0.18) 0%, transparent 55%); }
+    .custom-inner { position: relative; z-index: 1; }
+    .custom-inner h2 { color: #fff !important; }
+    .custom-inner p { color: rgba(255,255,255,0.7) !important; }
+
+    /* FOOTER */
+    footer { background: #071a0f !important; color: rgba(255,255,255,0.5) !important; border-top: 1px solid rgba(255,255,255,0.07) !important; }
+    footer a { color: rgba(255,255,255,0.5) !important; }
+    footer a:hover { color: #74c69d !important; }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
@@ -927,7 +1021,8 @@ function renderCard(p, i) {
   }
 
   const badgesHtml = pCats.map(c => `<span class="cat-badge ${BADGE_CLASS[c]||''}">${BADGE[c]||c}</span>`).join('');
-  return `<div class="product-card" data-cats="${pCats.join(',')}" data-title="${p.title.toLowerCase()}" onclick="openModal(${i})" style="cursor:pointer">
+  const catColor = CAT_COLORS[pCats[0]] || '#2d9e60';
+  return `<div class="product-card" data-cats="${pCats.join(',')}" data-title="${p.title.toLowerCase()}" onclick="openModal(${i})" style="cursor:pointer;--cat-color:${catColor}">
     <div class="product-img" style="${srcs.length===0?'background:'+( p.bg||'linear-gradient(135deg,#eefaf3,#d8f3dc)'):''}">
       ${imgContent}
       ${badgesHtml}
@@ -979,6 +1074,7 @@ function afterRender() {
 }
 
 const CAT_ORDER = ['flexi','flexidino','fidgets','minis','kit','games','custom','home','assemble','jewellery','idols','vases','keychains','namedecor','goofyeyes','desk_utilities','mashup_multiverse'];
+const CAT_COLORS = {flexi:'#2d9e60',flexidino:'#27ae60',fidgets:'#00897b',minis:'#00acc1',kit:'#e67e22',games:'#1e88e5',custom:'#8e44ad',home:'#c0392b',assemble:'#d35400',jewellery:'#d4a017',idols:'#a93226',vases:'#1a6fa0',keychains:'#6d4c41',namedecor:'#1565c0',goofyeyes:'#d81b60',desk_utilities:'#455a64',mashup_multiverse:'#6200ea'};
 
 function renderRows() {
   grid.classList.add('rows-mode');
@@ -993,9 +1089,10 @@ function renderRows() {
     const label = BADGE[c] || c;
     const count = items.length;
     const cardsHtml = items.slice(0, 8).map(({p, i}) => renderCard(p, i)).join('');
+    const rowColor = CAT_COLORS[c] || '#2d9e60';
     const seeAll = count > 4
-      ? `<button class="cat-row-seeall" onclick="activateCat('${c}')">See all ${count} →</button>` : '';
-    return `<div class="cat-row"><div class="cat-row-head"><span class="cat-row-label">${label}</span>${seeAll}</div><div class="cat-row-scroll">${cardsHtml}</div></div>`;
+      ? `<button class="cat-row-seeall" onclick="activateCat('${c}')" style="--row-color:${rowColor}">See all ${count} →</button>` : '';
+    return `<div class="cat-row" style="--row-color:${rowColor}"><div class="cat-row-head"><span class="cat-row-label">${label}</span>${seeAll}</div><div class="cat-row-scroll">${cardsHtml}</div></div>`;
   }).join('');
   grid.innerHTML = rows || '<div class="no-results">No products yet.</div>';
   afterRender();
