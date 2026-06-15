@@ -940,6 +940,28 @@
     }
     .back-top:hover { transform: translateY(-3px); }
 
+    /* PRINT SERVICES */
+    .services-sec { padding: 80px 5%; background: #f4fdf7; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; max-width: 1100px; margin: 40px auto 0; }
+    .service-card { background: #fff; border-radius: 18px; padding: 30px 26px; border: 1.5px solid #deeee6; transition: all 0.25s ease; position: relative; overflow: hidden; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--sc-color, #2d9e60); border-radius: 18px 18px 0 0; }
+    .service-card:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(0,0,0,0.1); border-color: transparent; }
+    .sc-icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .sc-badge { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 50px; background: var(--sc-color, #2d9e60); color: #fff; margin-bottom: 12px; }
+    .service-card h3 { font-size: 1rem; font-weight: 700; color: var(--g-deep); margin-bottom: 10px; }
+    .service-card > p { font-size: 0.84rem; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+    .service-card ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .service-card ul li { font-size: 0.8rem; color: #3d7055; display: flex; align-items: center; gap: 7px; }
+    .service-card ul li::before { content: '✓'; font-weight: 800; color: var(--sc-color, #2d9e60); flex-shrink: 0; }
+    .sc-proto    { --sc-color: #1e88e5; }
+    .sc-custom   { --sc-color: #8e44ad; }
+    .sc-functional { --sc-color: #e67e22; }
+    .sc-decorative { --sc-color: #e91e63; }
+    .sc-flexible { --sc-color: #00897b; }
+    .sc-miniature { --sc-color: #d4a017; }
+    .services-cta { text-align: center; margin-top: 48px; }
+    .services-cta p { color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
@@ -1239,6 +1261,108 @@
           <div class="about-badge ab4">⚡ Fast Shipping</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINT SERVICES -->
+<section class="services-sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-tag">What We Offer</div>
+      <h2>Print Services</h2>
+      <p>From quick prototypes to intricate custom pieces — we handle it all. Every print is crafted fresh, on demand.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card sc-proto">
+        <div class="sc-icon">🧪</div>
+        <div class="sc-badge">Prototype</div>
+        <h3>Prototype Prints</h3>
+        <p>Testing a product idea before going into full production? We print fast, functional prototypes so you can validate your design and dimensions quickly. Ideal for startups, engineers, and product designers.</p>
+        <ul>
+          <li>Quick 1–3 day turnaround</li>
+          <li>Draft or standard quality options</li>
+          <li>Multiple iterations supported</li>
+          <li>PLA / PETG materials</li>
+          <li>Dimensional accuracy ±0.2mm</li>
+        </ul>
+      </div>
+
+      <div class="service-card sc-custom">
+        <div class="sc-icon">🎨</div>
+        <div class="sc-badge">Custom</div>
+        <h3>Custom Prints</h3>
+        <p>Have a specific design in mind? Send us your 3D file, a reference image, or just describe what you want — we'll design and print it. Figurines, name signs, gifts, and personalised pieces.</p>
+        <ul>
+          <li>Customer-provided STL / OBJ files accepted</li>
+          <li>We can design from scratch</li>
+          <li>Any color, any material</li>
+          <li>Personalisation & name engraving</li>
+          <li>Gift-ready packaging available</li>
+        </ul>
+      </div>
+
+      <div class="service-card sc-functional">
+        <div class="sc-icon">⚙️</div>
+        <div class="sc-badge">Functional</div>
+        <h3>Functional Prints</h3>
+        <p>Need something that actually works — a bracket, enclosure, fixture, tool holder, or replacement part? We print durable, precision-fit components for home, office, and workshop use.</p>
+        <ul>
+          <li>High-strength PLA / PETG</li>
+          <li>Tight dimensional tolerance</li>
+          <li>Thread inserts & hardware supported</li>
+          <li>Post-processing & drilling available</li>
+          <li>Bulk quantities accepted</li>
+        </ul>
+      </div>
+
+      <div class="service-card sc-decorative">
+        <div class="sc-icon">✨</div>
+        <div class="sc-badge">Decorative</div>
+        <h3>Decorative & Art Prints</h3>
+        <p>Home décor, wall art, vases, sculptures, and showpieces. We dial in the detail so every surface looks clean and every curve is smooth — ready to display or gift.</p>
+        <ul>
+          <li>Fine layer height for surface detail</li>
+          <li>Silk, matte & glossy filaments</li>
+          <li>Multi-color prints available</li>
+          <li>Sanding & painting on request</li>
+          <li>Custom sizing available</li>
+        </ul>
+      </div>
+
+      <div class="service-card sc-flexible">
+        <div class="sc-icon">🌀</div>
+        <div class="sc-badge">Flexible</div>
+        <h3>Flexible (TPU) Prints</h3>
+        <p>Rubber-like, bendable, and tough. TPU prints are perfect for keychains, toys, phone cases, and anything that needs to flex without breaking. Our flexi animals are printed in TPU.</p>
+        <ul>
+          <li>TPU filament (flexible & durable)</li>
+          <li>Bend, stretch, squish — won't crack</li>
+          <li>Perfect for flexi animals & toys</li>
+          <li>Soft-touch finish</li>
+          <li>Multiple colors available</li>
+        </ul>
+      </div>
+
+      <div class="service-card sc-miniature">
+        <div class="sc-icon">🔬</div>
+        <div class="sc-badge">Fine Detail</div>
+        <h3>Fine Detail Prints</h3>
+        <p>Miniatures, jewellery, tiny figurines, and intricate models that demand precision. We slow the print down and reduce layer height to capture every tiny feature.</p>
+        <ul>
+          <li>0.1mm layer height available</li>
+          <li>Miniatures & scale models</li>
+          <li>3D printed jewellery & accessories</li>
+          <li>Tabletop gaming pieces (D&D etc.)</li>
+          <li>High-resolution resin look in PLA</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="services-cta">
+      <p>Not sure which service fits your need?</p>
+      <a href="https://wa.me/919597976015?text=Hi! I need help choosing the right print service for my project" target="_blank" class="btn btn-wa btn-lg">Ask us on WhatsApp →</a>
     </div>
   </div>
 </section>
