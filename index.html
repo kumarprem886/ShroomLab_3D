@@ -546,6 +546,400 @@
     footer a { color: rgba(255,255,255,0.5) !important; }
     footer a:hover { color: #74c69d !important; }
 
+    /* HOW TO ORDER */
+    .how-order-sec {
+        background: #fff;
+        padding: 80px 5%;
+    }
+    .how-order-sec .sec-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .steps-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0;
+        margin-top: 48px;
+    }
+    .step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+    }
+    .step-num {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1b4332, #2d6a4f);
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+        box-shadow: 0 6px 18px rgba(27,67,50,0.28);
+    }
+    .step-icon {
+        font-size: 2.4rem;
+        margin-bottom: 14px;
+    }
+    .step-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--g-deep);
+        margin-bottom: 10px;
+    }
+    .step-desc {
+        font-size: 0.87rem;
+        color: var(--muted);
+        line-height: 1.6;
+        max-width: 220px;
+    }
+    .step-arrow {
+        font-size: 1.8rem;
+        color: var(--g-accent);
+        align-self: center;
+        flex-shrink: 0;
+        padding-top: 0;
+        margin-top: -30px;
+        opacity: 0.6;
+    }
+
+    /* HOW IT'S MADE */
+    .how-made-sec {
+        background: linear-gradient(135deg, #071a0f, #1b4332);
+        padding: 80px 5%;
+        color: #fff;
+    }
+    .how-made-sec .sec-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .how-made-sec .sec-head h2 {
+        background: linear-gradient(135deg, #74c69d, #b7e4c7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .how-made-sec .sec-head p {
+        color: rgba(255,255,255,0.7);
+    }
+    .process-grid {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin-top: 48px;
+        flex-wrap: nowrap;
+    }
+    .process-step {
+        background: rgba(255,255,255,0.06);
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 28px 16px;
+        flex: 1;
+        min-width: 160px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: background 0.2s;
+    }
+    .process-step:hover {
+        background: rgba(255,255,255,0.1);
+    }
+    .process-icon {
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+    .process-num {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--g-accent);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+    .process-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    .process-desc {
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.62);
+        line-height: 1.6;
+    }
+    .process-arrow {
+        font-size: 1.6rem;
+        color: rgba(255,255,255,0.3);
+        align-self: center;
+        flex-shrink: 0;
+        padding: 0 4px;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials-sec {
+        background: #f4fdf7;
+        padding: 80px 5%;
+    }
+    .testimonials-sec .sec-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 22px;
+        margin-top: 48px;
+    }
+    .t-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 22px rgba(0,0,0,0.07);
+        padding: 26px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        border: 1px solid rgba(0,0,0,0.04);
+        transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .t-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 36px rgba(0,0,0,0.11);
+    }
+    .t-stars {
+        color: #f5a623;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    .t-text {
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.65;
+        flex: 1;
+        font-style: italic;
+    }
+    .t-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+    }
+    .t-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1b4332, #40916c);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+    .t-name {
+        font-size: 0.87rem;
+        font-weight: 700;
+        color: var(--text);
+    }
+    .t-loc {
+        font-size: 0.76rem;
+        color: var(--faint);
+    }
+
+    /* ABOUT */
+    .about-sec {
+        background: #fff;
+        padding: 80px 5%;
+    }
+    .about-sec .sec-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .about-inner {
+        display: flex;
+        align-items: center;
+        gap: 64px;
+        margin-top: 48px;
+    }
+    .about-text {
+        flex: 1;
+    }
+    .about-text h2 {
+        font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #1b4332, #2d9e60, #52b788);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .about-text p {
+        font-size: 0.92rem;
+        color: var(--muted);
+        line-height: 1.75;
+        margin-bottom: 16px;
+    }
+    .about-stats {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin-top: 32px;
+        padding-top: 28px;
+        border-top: 2px solid #e8f5e9;
+    }
+    .about-stat {
+        text-align: center;
+    }
+    .stat-num {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--g-deep);
+        line-height: 1;
+    }
+    .stat-label {
+        font-size: 0.75rem;
+        color: var(--muted);
+        font-weight: 500;
+        margin-top: 4px;
+    }
+    .about-visual {
+        flex: 0 0 360px;
+        display: flex;
+        justify-content: center;
+    }
+    .about-blob-wrap {
+        width: 320px;
+        height: 320px;
+        background: linear-gradient(135deg, #c7f0d8, #a8e6cf, #d5f5e3);
+        border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+        animation: morph 7s ease-in-out infinite;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .about-center {
+        text-align: center;
+        z-index: 1;
+    }
+    .about-center span {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 6px;
+    }
+    .about-center p {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--g-deep);
+    }
+    .about-badge {
+        position: absolute;
+        background: #fff;
+        color: var(--g-deep);
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 50px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+        white-space: nowrap;
+        z-index: 2;
+    }
+    .ab1 { top: 10px;  left: -30px; }
+    .ab2 { top: 10px;  right: -30px; }
+    .ab3 { bottom: 30px; left: -20px; }
+    .ab4 { bottom: 30px; right: -20px; }
+
+    /* FAQ */
+    .faq-sec {
+        background: #f6fdf9;
+        padding: 80px 5%;
+    }
+    .faq-sec .sec-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .faq-list {
+        max-width: 780px;
+        margin: 48px auto 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .faq-item {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #e0f0e8;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .faq-item summary {
+        padding: 18px 22px;
+        font-size: 0.93rem;
+        font-weight: 600;
+        color: var(--g-deep);
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+        transition: background 0.18s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+        content: '+';
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: var(--g-accent);
+        flex-shrink: 0;
+        margin-left: 12px;
+        transition: transform 0.2s;
+    }
+    .faq-item[open] summary { background: #f0fdf4; }
+    .faq-item[open] summary::after { content: '×'; }
+    .faq-item .faq-body {
+        padding: 0 22px 18px;
+        font-size: 0.87rem;
+        color: var(--muted);
+        line-height: 1.7;
+    }
+
+    /* BACK TO TOP */
+    .back-top {
+        position: fixed;
+        bottom: 88px;
+        right: 22px;
+        z-index: 998;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--g-deep);
+        color: #fff;
+        border: none;
+        font-size: 1.15rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(27,67,50,0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease, transform 0.22s ease;
+    }
+    .back-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .back-top:hover { transform: translateY(-3px); }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
@@ -557,6 +951,16 @@
       .features-bar { gap: 18px; padding: 16px 5%; }
       footer { justify-content: center; text-align: center; }
       .search-box { width: 160px; }
+      .steps-row { flex-direction: column; align-items: center; gap: 32px; }
+      .step-arrow { display: none; }
+      .process-grid { flex-wrap: wrap; gap: 14px; }
+      .process-arrow { display: none; }
+      .process-step { min-width: calc(50% - 7px); }
+      .about-inner { flex-direction: column; gap: 36px; }
+      .about-visual { flex: none; }
+      .about-badge { display: none; }
+      .about-blob-wrap { width: 260px; height: 260px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -625,6 +1029,39 @@
   <div class="fi"><span class="fi-icon">🇮🇳</span><span class="fi-text">Made in India</span></div>
 </div>
 
+<!-- HOW TO ORDER -->
+<section class="how-order-sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-tag">Simple Process</div>
+      <h2>How to Order</h2>
+      <p>Getting your favourite 3D print delivered is as easy as 1-2-3.</p>
+    </div>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-icon">🔍</div>
+        <div class="step-title">Browse &amp; Pick</div>
+        <p class="step-desc">Explore 80+ products across 17 categories. Find what you love — or tell us what you want!</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">💬</div>
+        <div class="step-title">WhatsApp Us</div>
+        <p class="step-desc">Click 'Order →' on any product. It opens WhatsApp with the product name pre-filled. Just hit send!</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">🚀</div>
+        <div class="step-title">We Print &amp; Ship</div>
+        <p class="step-desc">We confirm, print fresh, hand-finish, and ship pan-India in 3–7 days with tracking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CATALOGUE -->
 <section class="catalogue" id="catalogue">
   <div class="sec-head">
@@ -656,6 +1093,191 @@
   </div>
 
   <div class="products-grid" id="grid"></div>
+</section>
+
+<!-- HOW IT'S MADE -->
+<section class="how-made-sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-tag">Behind the Scenes</div>
+      <h2>How It's Made</h2>
+      <p>Every piece goes through a careful 5-step process before it reaches you.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-icon">✏️</div>
+        <div class="process-num">01</div>
+        <div class="process-title">Design</div>
+        <p class="process-desc">We source or create precision 3D models optimised for FDM printing.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <div class="process-icon">⚙️</div>
+        <div class="process-num">02</div>
+        <div class="process-title">Slice</div>
+        <p class="process-desc">The model is sliced layer-by-layer with fine-tuned print settings for strength and detail.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <div class="process-icon">🖨️</div>
+        <div class="process-num">03</div>
+        <div class="process-title">Print</div>
+        <p class="process-desc">Our FDM printers lay down PLA or TPU filament layer by layer with high precision.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <div class="process-icon">✨</div>
+        <div class="process-num">04</div>
+        <div class="process-title">Finish</div>
+        <p class="process-desc">Each piece is hand-cleaned, inspected, and finished to ensure a smooth, quality result.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <div class="process-icon">📦</div>
+        <div class="process-num">05</div>
+        <div class="process-title">Ship</div>
+        <p class="process-desc">Packed safely and shipped pan-India with tracking — delivered to your door in 3–7 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-tag">Happy Customers</div>
+      <h2>What People Are Saying</h2>
+      <p>(Update this section with your real customer reviews!)</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Absolutely love the flexi dragon! The print quality is incredible and the packaging was super neat. Will definitely order again!"</p>
+        <div class="t-author">
+          <div class="t-avatar">R</div>
+          <div>
+            <div class="t-name">Rahul M.</div>
+            <div class="t-loc">Chennai, Tamil Nadu</div>
+          </div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Ordered a custom name keychain for my daughter's birthday — it came out perfect! She was so happy. Quick delivery too!"</p>
+        <div class="t-author">
+          <div class="t-avatar">P</div>
+          <div>
+            <div class="t-name">Priya S.</div>
+            <div class="t-loc">Bengaluru, Karnataka</div>
+          </div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"The jewellery earrings are so unique — I get compliments every time I wear them. Easy WhatsApp ordering process. Love this brand!"</p>
+        <div class="t-author">
+          <div class="t-avatar">D</div>
+          <div>
+            <div class="t-name">Divya K.</div>
+            <div class="t-loc">Coimbatore, Tamil Nadu</div>
+          </div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Got a mini figurines gift set for my friend — looked exactly like the photos. Great craftsmanship and super friendly team!"</p>
+        <div class="t-author">
+          <div class="t-avatar">A</div>
+          <div>
+            <div class="t-name">Arun T.</div>
+            <div class="t-loc">Puducherry</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec">
+  <div class="sec-inner">
+    <div class="about-inner">
+      <div class="about-text">
+        <div class="sec-tag">Our Story</div>
+        <h2>Born in Cuddalore,<br>Printed with Passion</h2>
+        <p>What started as a weekend hobby turned into a full-fledged craft studio. ShroomLab 3D was born out of a love for making things — real, tangible things you can hold, gift, and treasure.</p>
+        <p>Every product is hand-crafted right here in Cuddalore, Tamil Nadu, using high-quality PLA and TPU filaments. We obsess over detail so you get something truly special — not mass-produced, but made with care, one layer at a time.</p>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="stat-num">80+</div>
+            <div class="stat-label">Products</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat-num">17</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Handcrafted</div>
+          </div>
+          <div class="about-stat">
+            <div class="stat-num">🇮🇳</div>
+            <div class="stat-label">Made in India</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-blob-wrap">
+          <div class="about-center">
+            <span>🍄</span>
+            <p>ShroomLab 3D</p>
+          </div>
+          <div class="about-badge ab1">🖨️ FDM Printing</div>
+          <div class="about-badge ab2">🎨 PLA &amp; TPU</div>
+          <div class="about-badge ab3">📍 Cuddalore, TN</div>
+          <div class="about-badge ab4">⚡ Fast Shipping</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="sec-tag">Got Questions?</div>
+      <h2>Frequently Asked Questions</h2>
+      <p>Everything you need to know before placing your order.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Can I get a custom design?</summary>
+        <div class="faq-body">Yes, we do full custom orders! Send us a reference image or sketch on WhatsApp or Instagram and we'll turn your idea into a 3D printed reality.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What materials do you use?</summary>
+        <div class="faq-body">We use high-quality PLA (rigid, vibrant colours — great for decor, toys, and figurines) and TPU (flexible, rubbery — perfect for flexi toys and keychains) filaments.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How long does delivery take?</summary>
+        <div class="faq-body">3–7 business days across India after print confirmation. We share tracking details once your order is shipped so you always know where it is.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Do you ship across India?</summary>
+        <div class="faq-body">Yes! We ship pan-India via courier. Shipping charges may apply for remote areas — we'll let you know upfront when you order.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What if my product arrives damaged?</summary>
+        <div class="faq-body">Contact us immediately on WhatsApp with a photo of the damage. We'll assess the situation and arrange a replacement or refund as quickly as possible.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How do I place an order?</summary>
+        <div class="faq-body">Easy! Click "Order →" on any product in our catalogue — it opens WhatsApp with the product name already typed. Just hit send and we'll take it from there!</div>
+      </details>
+    </div>
+  </div>
 </section>
 
 <!-- CUSTOM ORDERS -->
@@ -1327,11 +1949,17 @@ document.querySelectorAll('.fi-text').forEach(el => {
   countObs.observe(el);
 });
 
+// ── BACK TO TOP ───────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+
 // ── NEW ITEMS TOAST ───────────────────────────────────────────────────
 const newCount = PRODUCTS.filter(p => p.isNew).length;
 if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount > 1 ? 's' : ''} just added!`), 1400);
 </script>
 
+<button class="back-top" id="backTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div id="toast" class="toast"></div>
 <canvas id="confetti-canvas"></canvas>
 </body>
