@@ -2062,32 +2062,20 @@ function redraw() {
 
 renderRows();
 
-const counts = { all: PRODUCTS.length, flexi: 0, kit: 0, custom: 0, home: 0, assemble: 0, jewellery: 0, idols: 0, vases: 0, keychains: 0, namedecor: 0, goofyeyes: 0, flexidino: 0, desk_utilities: 0, fidgets: 0, mashup_multiverse: 0, minis: 0 , games: 0 , valentines: 0 , christmas: 0 };
+const counts = { all: PRODUCTS.length };
+document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
+  const cat = btn.dataset.cat;
+  if (cat !== 'all') counts[cat] = 0;
+});
 PRODUCTS.forEach(p => {
   const pcs = p.cats || (p.cat ? [p.cat] : []);
   pcs.forEach(c => { if (counts[c] !== undefined) counts[c]++; });
 });
-document.getElementById('cnt-all').textContent        = `(${counts.all})`;
-document.getElementById('cnt-flexi').textContent      = `(${counts.flexi})`;
-document.getElementById('cnt-kit').textContent        = `(${counts.kit})`;
-document.getElementById('cnt-custom').textContent     = `(${counts.custom})`;
-document.getElementById('cnt-home').textContent       = `(${counts.home})`;
-document.getElementById('cnt-assemble').textContent   = `(${counts.assemble})`;
-document.getElementById('cnt-jewellery').textContent  = `(${counts.jewellery})`;
-document.getElementById('cnt-idols').textContent      = `(${counts.idols})`;
-document.getElementById('cnt-vases').textContent      = `(${counts.vases})`;
-document.getElementById('cnt-keychains').textContent  = `(${counts.keychains})`;
-document.getElementById('cnt-namedecor').textContent  = `(${counts.namedecor})`;
-document.getElementById('cnt-goofyeyes').textContent  = `(${counts.goofyeyes})`;
-
-document.getElementById('cnt-flexidino').textContent  = `(${counts.flexidino})`;
-document.getElementById('cnt-desk_utilities').textContent  = `(${counts.desk_utilities})`;
-document.getElementById('cnt-fidgets').textContent  = `(${counts.fidgets})`;
-document.getElementById('cnt-mashup_multiverse').textContent  = `(${counts.mashup_multiverse})`;
-document.getElementById('cnt-minis').textContent  = `(${counts.minis})`;
-document.getElementById('cnt-games').textContent  = `(${counts.games})`;
-document.getElementById('cnt-valentines').textContent  = `(${counts.valentines})`;
-document.getElementById('cnt-christmas').textContent  = `(${counts.christmas})`;
+document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
+  const cat = btn.dataset.cat;
+  const el = document.getElementById(`cnt-${cat}`);
+  if (el) el.textContent = `(${counts[cat] ?? 0})`;
+});
 let activeCat = 'all', searchVal = '';
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
