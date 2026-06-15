@@ -995,15 +995,17 @@
       transform: translateY(-6px);
       box-shadow: 0 0 0 2px var(--cat-color, #2d9e60), 0 14px 38px rgba(0,0,0,0.2);
     }
-    /* Filter/search bar becomes glassy on dark category backgrounds */
-    #catalogue[data-cat] .filter-btn { background: rgba(255,255,255,0.09); color: #e0e0e0; border-color: rgba(255,255,255,0.2); }
-    #catalogue[data-cat] .filter-btn:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
-    #catalogue[data-cat] .filter-btn.active { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.4); }
-    #catalogue[data-cat] .search-box { background: rgba(255,255,255,0.09); color: #e0e0e0; border-color: rgba(255,255,255,0.2); }
-    #catalogue[data-cat] .search-box::placeholder { color: rgba(255,255,255,0.4); }
-    #catalogue[data-cat] .sec-tag { background: rgba(255,255,255,0.12); color: #c8e6c9; }
-    #catalogue[data-cat] .sec-head h2 { color: #fff; }
-    #catalogue[data-cat] .sec-head p { color: #b2dfdb; }
+    /* Filter/search bar on dark category backgrounds */
+    #catalogue[data-cat] .filter-btn { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.35); }
+    #catalogue[data-cat] .filter-btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.6); }
+    #catalogue[data-cat] .filter-btn.active { background: rgba(255,255,255,0.92); color: #1b1b1b; border-color: transparent; font-weight: 700; }
+    #catalogue[data-cat] .search-box { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.35); }
+    #catalogue[data-cat] .search-box::placeholder { color: rgba(255,255,255,0.55); }
+    #catalogue[data-cat] .sec-tag { background: rgba(255,255,255,0.15); color: #e0f2e9; }
+    #catalogue[data-cat] .sec-head h2 { color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+    #catalogue[data-cat] .sec-head p { color: #c8e6c9; }
+    /* Cards pop on dark backgrounds */
+    #catalogue[data-cat] .product-card { box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
     /* Global scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0b1a10; }
@@ -1961,23 +1963,23 @@ const CAT_PARTICLES = {
 };
 
 const CAT_BG = {
-  flexi:'linear-gradient(160deg,#1a0e00 0%,#2d1800 60%,#1a0a00 100%)',
-  flexidino:'linear-gradient(160deg,#091a0e 0%,#0d2e14 60%,#051209 100%)',
-  fidgets:'linear-gradient(160deg,#0f0020 0%,#1a0035 60%,#0a0018 100%)',
-  minis:'linear-gradient(160deg,#030918 0%,#051426 60%,#020710 100%)',
-  kit:'linear-gradient(160deg,#1a1000 0%,#2a1a00 60%,#160c00 100%)',
-  games:'linear-gradient(160deg,#021028 0%,#041b3d 60%,#010a1a 100%)',
-  custom:'linear-gradient(160deg,#150020 0%,#230035 60%,#0d0018 100%)',
-  home:'linear-gradient(160deg,#200808 0%,#330e0e 60%,#180505 100%)',
-  assemble:'linear-gradient(160deg,#0c1218 0%,#141f28 60%,#090e14 100%)',
-  jewellery:'linear-gradient(160deg,#1a1400 0%,#2d2200 60%,#120e00 100%)',
-  idols:'linear-gradient(160deg,#1a0500 0%,#2d0800 60%,#140400 100%)',
-  vases:'linear-gradient(160deg,#001220 0%,#011e33 60%,#000d18 100%)',
-  keychains:'linear-gradient(160deg,#100800 0%,#1c0e00 60%,#0c0600 100%)',
-  namedecor:'linear-gradient(160deg,#010d2a 0%,#021644 60%,#010920 100%)',
-  goofyeyes:'linear-gradient(160deg,#200010 0%,#35001a 60%,#180008 100%)',
-  desk_utilities:'linear-gradient(160deg,#0c1018 0%,#141824 60%,#090c14 100%)',
-  mashup_multiverse:'linear-gradient(160deg,#0a0030 0%,#12004a 60%,#060022 100%)',
+  flexi:'linear-gradient(160deg,#0d3320 0%,#1a5c38 50%,#0d3320 100%)',
+  flexidino:'linear-gradient(160deg,#0a2e14 0%,#165228 50%,#0a2e14 100%)',
+  fidgets:'linear-gradient(160deg,#001f2b 0%,#003d52 50%,#001f2b 100%)',
+  minis:'linear-gradient(160deg,#070f2e 0%,#0f1e52 50%,#070f2e 100%)',
+  kit:'linear-gradient(160deg,#2e1800 0%,#5a3200 50%,#2e1800 100%)',
+  games:'linear-gradient(160deg,#031630 0%,#062c60 50%,#031630 100%)',
+  custom:'linear-gradient(160deg,#1e0038 0%,#3a0070 50%,#1e0038 100%)',
+  home:'linear-gradient(160deg,#300a0a 0%,#5c1212 50%,#300a0a 100%)',
+  assemble:'linear-gradient(160deg,#0e1a24 0%,#1c3448 50%,#0e1a24 100%)',
+  jewellery:'linear-gradient(160deg,#2a1f00 0%,#523c00 50%,#2a1f00 100%)',
+  idols:'linear-gradient(160deg,#2e0c00 0%,#5a1800 50%,#2e0c00 100%)',
+  vases:'linear-gradient(160deg,#001c30 0%,#003860 50%,#001c30 100%)',
+  keychains:'linear-gradient(160deg,#1e1000 0%,#3c2000 50%,#1e1000 100%)',
+  namedecor:'linear-gradient(160deg,#021040 0%,#042070 50%,#021040 100%)',
+  goofyeyes:'linear-gradient(160deg,#300018 0%,#5e0030 50%,#300018 100%)',
+  desk_utilities:'linear-gradient(160deg,#111e28 0%,#1e3848 50%,#111e28 100%)',
+  mashup_multiverse:'linear-gradient(160deg,#130050 0%,#280090 50%,#130050 100%)',
 };
 
 function spawnParticles(cat) {
