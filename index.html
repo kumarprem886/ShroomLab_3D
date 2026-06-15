@@ -912,7 +912,7 @@ function renderCard(p, i) {
       <div class="product-name">${p.title}</div>
       <div class="product-footer">
         <div><span class="price-cur">₹${p.price}</span>${old}</div>
-        <a href="${waLink(p.title)}" target="_blank" class="btn-order" onclick="event.stopPropagation();launchConfetti()">Order →</a>
+        <a href="${waLink(p.title)}" target="_blank" class="btn-order" onclick="event.stopPropagation()">Order →</a>
       </div>
     </div>
   </div>`;
@@ -1090,6 +1090,7 @@ function toggleWish(i, btn) {
     wishlist.push(i);
     btn.classList.add('wished');
     showToast('❤️ Added to wishlist!');
+    launchConfetti();
   } else {
     wishlist.splice(idx, 1);
     btn.classList.remove('wished');
