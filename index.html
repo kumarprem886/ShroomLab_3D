@@ -1075,7 +1075,7 @@
   <div class="hero-content">
     <div class="hero-badge">🇮🇳 Proudly Made in Cuddalore, India</div>
     <h1>Premium <span class="hl">3D Printed</span><br>Creations</h1>
-    <p class="hero-sub">Flexi toys, custom figures, kit cards, home decor &amp; more — 80+ products, crafted with precision and passion.</p>
+    <p class="hero-sub">Flexi toys, custom figures, kit cards, home decor &amp; more — printed fresh for every occasion, shipped across India.</p>
     <div class="hero-tags">
       <span class="hero-tag">🐉 Flexi Toys</span>
       <span class="hero-tag">🎨 Custom Prints</span>
@@ -1083,7 +1083,7 @@
       <span class="hero-tag">⚡ Fast Shipping</span>
     </div>
     <div class="hero-btns">
-      <a href="#catalogue" class="btn btn-dark">Browse 80+ Products →</a>
+      <a href="#catalogue" class="btn btn-dark">Explore Our Collection →</a>
       <a href="https://wa.me/919597976015?text=Hi! I'm interested in your 3D prints" target="_blank" class="btn btn-wa">Order via WhatsApp</a>
     </div>
   </div>
@@ -1116,7 +1116,7 @@
         <div class="step-num">1</div>
         <div class="step-icon">🔍</div>
         <div class="step-title">Browse &amp; Pick</div>
-        <p class="step-desc">Explore 80+ products across 17 categories. Find what you love — or tell us what you want!</p>
+        <p class="step-desc">Browse our growing catalogue across 19 categories. Find what you love — or tell us what you want!</p>
       </div>
       <div class="step-arrow">→</div>
       <div class="step">
@@ -1287,7 +1287,7 @@
         <p>Every product is hand-crafted right here in Cuddalore, Tamil Nadu, using high-quality PLA and TPU filaments. We obsess over detail so you get something truly special — not mass-produced, but made with care, one layer at a time.</p>
         <div class="about-stats">
           <div class="about-stat">
-            <div class="stat-num">80+</div>
+            <div class="stat-num" id="stat-product-count"></div>
             <div class="stat-label">Products</div>
           </div>
           <div class="about-stat">
@@ -2076,6 +2076,8 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   const el = document.getElementById(`cnt-${cat}`);
   if (el) el.textContent = `(${counts[cat] ?? 0})`;
 });
+const statCount = document.getElementById('stat-product-count');
+if (statCount) statCount.textContent = PRODUCTS.length + '+';
 let activeCat = 'all', searchVal = '';
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
