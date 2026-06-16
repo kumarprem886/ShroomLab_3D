@@ -1099,7 +1099,7 @@
   <div class="fi"><span class="fi-icon">🏆</span><span class="fi-text">High Quality Prints</span></div>
   <div class="fi"><span class="fi-icon">⚡</span><span class="fi-text">Fast Shipping</span></div>
   <div class="fi"><span class="fi-icon">🎨</span><span class="fi-text">Custom Designs</span></div>
-  <div class="fi"><span class="fi-icon">📦</span><span class="fi-text">60+ Products</span></div>
+  <div class="fi"><span class="fi-icon">📦</span><span class="fi-text" id="fi-product-count"></span></div>
   <div class="fi"><span class="fi-icon">🇮🇳</span><span class="fi-text">Made in India</span></div>
 </div>
 
@@ -1291,7 +1291,7 @@
             <div class="stat-label">Products</div>
           </div>
           <div class="about-stat">
-            <div class="stat-num">17</div>
+            <div class="stat-num" id="stat-cat-count"></div>
             <div class="stat-label">Categories</div>
           </div>
           <div class="about-stat">
@@ -2076,9 +2076,13 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   const el = document.getElementById(`cnt-${cat}`);
   if (el) el.textContent = `(${counts[cat] ?? 0})`;
 });
+const catCount = document.querySelectorAll('.filter-btn[data-cat]:not([data-cat="all"])').length;
 const statCount = document.getElementById('stat-product-count');
 if (statCount) statCount.textContent = PRODUCTS.length + '+';
-const catCount = document.querySelectorAll('.filter-btn[data-cat]:not([data-cat="all"])').length;
+const statCatCount = document.getElementById('stat-cat-count');
+if (statCatCount) statCatCount.textContent = catCount;
+const fiCount = document.getElementById('fi-product-count');
+if (fiCount) fiCount.textContent = PRODUCTS.length + '+ Products';
 const catSummary = document.getElementById('catalogue-summary');
 if (catSummary) catSummary.innerHTML = `<strong>${PRODUCTS.length} products</strong> across ${catCount} categories &nbsp;·&nbsp; Like something? Hit <strong>Order →</strong> to DM us on WhatsApp.`;
 let activeCat = 'all', searchVal = '';
