@@ -1301,83 +1301,82 @@ async function pushToGitHub(){
   btn.innerHTML = '⏳ Pushing…';
   setPushStatus('loading', '⏳ Connecting to GitHub…');
 
+  const headers = {
+    'Authorization': `token ${s.token}`,
+    'Accept': 'application/vnd.github+json',
+    'Content-Type': 'application/json'
+  };
+
+  async function ghGet(path){
+    const res = await fetch(`https://api.github.com/repos/${s.repo}/contents/${path}?ref=${s.branch}`, { headers });
+    if(!res.ok) throw new Error(`GitHub fetch error (${path}): ${(await res.json()).message}`);
+    const data = await res.json();
+    const bytes = Uint8Array.from(atob(data.content.replace(/\n/g,'')), c=>c.charCodeAt(0));
+    return { sha: data.sha, content: new TextDecoder().decode(bytes) };
+  }
+
+  async function ghPut(path, sha, content, message){
+    const res = await fetch(`https://api.github.com/repos/${s.repo}/contents/${path}`, {
+      method: 'PUT', headers,
+      body: JSON.stringify({ message, content: toBase64Unicode(content), sha, branch: s.branch })
+    });
+    if(!res.ok) throw new Error(`Push failed (${path}): ${(await res.json()).message}`);
+  }
+
   try {
-    const apiBase = `https://api.github.com/repos/${s.repo}/contents/index.html`;
-    const headers = {
-      'Authorization': `token ${s.token}`,
-      'Accept': 'application/vnd.github+json',
-      'Content-Type': 'application/json'
-    };
+    const now = new Date().toLocaleDateString('en-IN');
 
-    // 1. Get current SHA + content
-    setPushStatus('loading', '📥 Fetching current index.html from GitHub…');
-    const getRes = await fetch(`${apiBase}?ref=${s.branch}`, { headers });
-    if(!getRes.ok) throw new Error(`GitHub API error ${getRes.status}: ${(await getRes.json()).message}`);
-    const fileData = await getRes.json();
-    const sha = fileData.sha;
-
-    // Decode current content (GitHub returns base64)
-    const currentBytes = Uint8Array.from(atob(fileData.content.replace(/\n/g,'')), c=>c.charCodeAt(0));
-    const currentHTML  = new TextDecoder().decode(currentBytes);
-
-    // 2. Push any uploaded images to images/ folder
-    const collectUploads=p=>{
+    // 1. Upload images
+    const collectUploads = p => {
       if(p.imgType==='uploaded'&&p.imgSrc&&p.filename) return [{dataURL:p.imgSrc,filename:p.filename}];
       if(p.imgType==='uploaded-multi'&&p.uploads) return p.uploads.filter(u=>u.dataURL&&u.filename);
       return [];
     };
-    const toUpload=[
-      ...newProducts.flatMap(collectUploads),
-      ...Object.values(pendingEdits).flatMap(collectUploads)
-    ];
+    const toUpload = [...newProducts.flatMap(collectUploads), ...Object.values(pendingEdits).flatMap(collectUploads)];
     if(toUpload.length){
-      setPushStatus('loading',`📸 Uploading ${toUpload.length} image(s) to GitHub…`);
-      for(const img of toUpload){
-        await pushImageFile(img.dataURL,img.filename,s,headers);
-      }
+      setPushStatus('loading', `📸 Uploading ${toUpload.length} image(s)…`);
+      for(const img of toUpload) await pushImageFile(img.dataURL, img.filename, s, headers);
     }
 
-    // 3. Replace PRODUCTS array
-    const newProductsJS = generateFullProductsJS();
-    let newHTML = currentHTML.replace(
+    // 2. products.js — update PRODUCTS array
+    setPushStatus('loading', '📥 Fetching products.js…');
+    const { sha: prodSha, content: prodContent } = await ghGet('products.js');
+    const newProdContent = prodContent.replace(
       /const PRODUCTS = \[[\s\S]+?\];/,
-      `const PRODUCTS = [\n${newProductsJS}\n];`
+      `const PRODUCTS = [\n${generateFullProductsJS()}\n];`
     );
 
-    // 4. Inject new categories + apply edits to existing ones
-    setPushStatus('loading', '🔧 Applying category changes…');
-    newHTML = injectNewCategories(newHTML);
-    newHTML = updateExistingCategories(newHTML);
+    // 3. index.html — inject categories only
+    setPushStatus('loading', '📥 Fetching index.html…');
+    const { sha: idxSha, content: idxContent } = await ghGet('index.html');
+    let newIdxContent = injectNewCategories(idxContent);
+    newIdxContent = updateExistingCategories(newIdxContent);
 
-    if(newHTML === currentHTML && !toUpload.length){
+    // 4. catalogue.html — inject categories only
+    setPushStatus('loading', '📥 Fetching catalogue.html…');
+    const { sha: catSha, content: catContent } = await ghGet('catalogue.html');
+    let newCatContent = injectNewCategories(catContent);
+    newCatContent = updateExistingCategories(newCatContent);
+
+    const prodChanged = newProdContent !== prodContent;
+    const idxChanged  = newIdxContent  !== idxContent;
+    const catChanged  = newCatContent  !== catContent;
+
+    if(!prodChanged && !idxChanged && !catChanged && !toUpload.length){
       setPushStatus('error', '⚠️ No changes detected — nothing to push.');
       return;
     }
 
-    // 5. Push updated content
     setPushStatus('loading', '🚀 Pushing to GitHub…');
-    const now = new Date().toLocaleDateString('en-IN');
-    const pushRes = await fetch(apiBase, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({
-        message: `Admin: update products & categories (${now})`,
-        content: toBase64Unicode(newHTML),
-        sha,
-        branch: s.branch
-      })
-    });
-    if(!pushRes.ok) throw new Error(`Push failed ${pushRes.status}: ${(await pushRes.json()).message}`);
+    if(prodChanged) await ghPut('products.js',    prodSha, newProdContent, `Admin: update products (${now})`);
+    if(idxChanged)  await ghPut('index.html',     idxSha,  newIdxContent,  `Admin: update categories (${now})`);
+    if(catChanged)  await ghPut('catalogue.html', catSha,  newCatContent,  `Admin: update categories (${now})`);
 
     setPushStatus('success', '✅ Pushed! GitHub Pages will update in ~1 minute.');
-
-    // Clear pending changes after successful push
     pendingEdits={}; pendingDels=[]; newProducts=[]; catOverrides={};
     localStorage.removeItem(K_EDITS); localStorage.removeItem(K_DELS);
     localStorage.removeItem(K_NEW);   localStorage.removeItem(K_CAT_OV);
     cancelEdit();
-
-    // Reload site products to reflect the push
     await loadSiteProducts();
 
   } catch(e){
