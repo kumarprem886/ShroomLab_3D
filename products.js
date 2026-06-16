@@ -287,5 +287,6 @@ const PRODUCTS = [
   {"title":"Rayquaza","price":"299","compare_at":"","cat":"pokemon","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US9318d78e735379/design/2025-06-27_4dd246059969d.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Charizard","price":"299","compare_at":"","cat":"pokemon","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US54c4af851905ef/design/2024-02-11_2a5956586e7cd.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Pokemon pikachu poop","price":"499","compare_at":"","cat":"pokemon","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USfd9fbb3a311248/design/a600fdb24444db94.png?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Goofy series – PANDA Movable Eyes","price":"499","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6a32bc092595ee/design/d7ad8f462c1dd44a.png?x-oss-process=image/resize,w_1000/format,webp"}
+  {"title":"Goofy series – PANDA Movable Eyes","price":"499","compare_at":"","cat":"goofyeyes","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6a32bc092595ee/design/d7ad8f462c1dd44a.png?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Pikachu – Figurine","price":"299","compare_at":"","cat":"pokemon","image":"https://makerworld.bblmw.com/makerworld/model/USf1197df6372d8/design/9518eb9dd5b53ade.jpg?x-oss-process=image/resize,w_1000/format,webp"}
 ];
