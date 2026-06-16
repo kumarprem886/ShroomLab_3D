@@ -1073,9 +1073,8 @@ function setExportTab(tab,btn){
 function productToJS(p){
   // Convert a product object to a JS line for PRODUCTS array
   let e=`  {"title":${JSON.stringify(p.title)},"price":"${p.price||'299'}","compare_at":"${p.compare_at||''}"`;
-  const pCats = p.cats || (p.cat ? [p.cat] : ['custom']);
-  if(pCats.length===1) e+=`,"cat":"${pCats[0]}"`;
-  else e+=`,"cats":${JSON.stringify(pCats)}`;
+  const pCat = p.cat || (p.cats && p.cats[0]) || 'custom';
+  e+=`,"cat":"${pCat}"`;
   if(p.isNew) e+=`,"isNew":true`;
   if(p.icon)  e+=`,"icon":"${p.icon}"`;
   if(p.bg)    e+=`,"bg":"${p.bg}"`;
