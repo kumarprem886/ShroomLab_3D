@@ -1220,8 +1220,8 @@ function injectNewCategories(html){
   if(!newCats.length) return html;
   let result = html;
   newCats.forEach(([key, c]) => {
-    // Skip if already injected into this HTML
-    if(result.includes(`data-cat="${key}"`)) return;
+    // Skip if already injected into this HTML (check BADGE object)
+    if(result.includes(`${key}:'`) || result.includes(`${key}: '`)) return;
     const emoji = c.emoji || '📦';
     const label = c.label;
     const color = c.color || '#888';
