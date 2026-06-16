@@ -1319,6 +1319,7 @@ PRODUCTS.forEach(p => {
   const pcs = p.cats || (p.cat ? [p.cat] : []);
   pcs.forEach(c => { if (counts[c] !== undefined) counts[c]++; });
 });
+counts.all = PRODUCTS.length;
 document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   const cat = btn.dataset.cat;
   const el = document.getElementById(`cnt-${cat}`);
