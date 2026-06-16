@@ -1791,9 +1791,19 @@ function redraw() {
 }
 
 function renderFeatured() {
-  const newItems = PRODUCTS.map((p,i) => ({p,i})).filter(({p}) => p.isNew);
-  const rest = PRODUCTS.map((p,i) => ({p,i})).filter(({p}) => !p.isNew);
-  const items = [...newItems, ...rest].slice(0, 12);
+  const seen = new Set();
+  const items = [];
+  // One isNew product per category first, then fill with first-product fallbacks
+  const passes = [p => p.isNew, () => true];
+  for (const pass of passes) {
+    PRODUCTS.forEach((p, i) => {
+      if (p.cat && !seen.has(p.cat) && pass(p)) {
+        seen.add(p.cat);
+        items.push({p, i});
+      }
+    });
+    if (items.length >= 10) break;
+  }
   grid.innerHTML = items.map(({p,i}) => renderCard(p,i)).join('');
   afterRender();
 }
