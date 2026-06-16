@@ -1142,7 +1142,7 @@
   <div class="sec-head">
     <div class="sec-tag">Our Collection</div>
     <h2>Browse Our Catalogue</h2>
-    <p>Like something? Hit <strong>Order →</strong> to DM us on WhatsApp with the product name pre-filled.</p>
+    <p id="catalogue-summary"></p>
   </div>
 
   <div class="filter-bar">
@@ -2078,6 +2078,9 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
 });
 const statCount = document.getElementById('stat-product-count');
 if (statCount) statCount.textContent = PRODUCTS.length + '+';
+const catCount = document.querySelectorAll('.filter-btn[data-cat]:not([data-cat="all"])').length;
+const catSummary = document.getElementById('catalogue-summary');
+if (catSummary) catSummary.innerHTML = `<strong>${PRODUCTS.length} products</strong> across ${catCount} categories &nbsp;·&nbsp; Like something? Hit <strong>Order →</strong> to DM us on WhatsApp.`;
 let activeCat = 'all', searchVal = '';
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
