@@ -461,9 +461,9 @@ let selectedCats  = [];    // array of selected category keys (multi-cat support
 
 // ── LOAD PRODUCTS FROM index.html ─────────────────────────────────────
 async function loadSiteProducts(){
-  document.getElementById('load-status').textContent='Loading from index.html…';
+  document.getElementById('load-status').textContent='Loading from products.js…';
   try {
-    const r = await fetch('./index.html?t='+Date.now());
+    const r = await fetch('./products.js?t='+Date.now());
     const html = await r.text();
     const m = html.match(/const PRODUCTS = \[([\s\S]+?)\];/);
     if(!m) throw new Error('PRODUCTS not found');
