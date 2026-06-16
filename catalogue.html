@@ -195,6 +195,7 @@
     .badge-valentines { background: #e60aa0; color: #fff; }
     .badge-christmas { background: #ff3c00; color: #fff; }
     .badge-actionfigurines { background: #8298d9; color: #fff; }
+    .badge-mask&helmet { background: #00ff1e; color: #fff; }
     .badge-new-label {
       position: absolute; top: 10px; right: 10px;
       background: #ffd700; color: #1a1a2e;
@@ -1044,6 +1045,7 @@
     <button class="filter-btn" data-cat="valentines">💝 Valentines <span id="cnt-valentines"></span></button>
     <button class="filter-btn" data-cat="christmas">🎄 Christmas <span id="cnt-christmas"></span></button>
     <button class="filter-btn" data-cat="actionfigurines">🥷 Action Figurines <span id="cnt-actionfigurines"></span></button>
+    <button class="filter-btn" data-cat="mask&helmet">🎭 Mask & Helmet <span id="cnt-mask&helmet"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
   <div class="products-grid" id="grid"></div>
@@ -1088,8 +1090,8 @@
 <script>
 // PRODUCTS loaded from products.js
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' , desk_utilities:'📚 Desk Utilities' , fidgets:'🌀 Fidgets' , mashup_multiverse:'🧬 Mashup Multiverse' , minis:'🤏 Minis' , games:'🎮 Games' , valentines:'💝 Valentines' , christmas:'🎄 Christmas' , actionfigurines:'🥷 Action Figurines' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' , desk_utilities:'badge-desk_utilities' , fidgets:'badge-fidgets' , mashup_multiverse:'badge-mashup_multiverse' , minis:'badge-minis' , games:'badge-games' , valentines:'badge-valentines' , christmas:'badge-christmas' , actionfigurines:'badge-actionfigurines' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes' , flexidino:'🦖 Flexi Dino' , desk_utilities:'📚 Desk Utilities' , fidgets:'🌀 Fidgets' , mashup_multiverse:'🧬 Mashup Multiverse' , minis:'🤏 Minis' , games:'🎮 Games' , valentines:'💝 Valentines' , christmas:'🎄 Christmas' , actionfigurines:'🥷 Action Figurines' , mask&helmet:'🎭 Mask & Helmet' };
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes' , flexidino:'badge-flexidino' , desk_utilities:'badge-desk_utilities' , fidgets:'badge-fidgets' , mashup_multiverse:'badge-mashup_multiverse' , minis:'badge-minis' , games:'badge-games' , valentines:'badge-valentines' , christmas:'badge-christmas' , actionfigurines:'badge-actionfigurines' , mask&helmet:'badge-mask&helmet' };
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
@@ -1302,7 +1304,7 @@ function redraw() {
 
 renderRows();
 
-const counts = { all: PRODUCTS.length , actionfigurines: 0 };
+const counts = { all: PRODUCTS.length , actionfigurines: 0 , mask&helmet: 0 };
 document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   const cat = btn.dataset.cat;
   if (cat !== 'all') counts[cat] = 0;
@@ -1326,6 +1328,7 @@ if (fiCount) fiCount.textContent = PRODUCTS.length + '+ Products';
 const catSummary = document.getElementById('catalogue-summary');
 if (catSummary) catSummary.innerHTML = `<strong>${PRODUCTS.length} products</strong> across ${catCount} categories &nbsp;·&nbsp; Like something? Hit <strong>Order →</strong> to DM us on WhatsApp.`;
 document.getElementById('cnt-actionfigurines').textContent  = `(${counts.actionfigurines})`;
+document.getElementById('cnt-mask&helmet').textContent  = `(${counts.mask&helmet})`;
 let activeCat = 'all', searchVal = '';
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
