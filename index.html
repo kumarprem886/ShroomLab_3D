@@ -1850,7 +1850,7 @@ renderFeatured();
 const statCount = document.getElementById('stat-product-count');
 if (statCount) statCount.textContent = PRODUCTS.length + '+';
 const statCatCount = document.getElementById('stat-cat-count');
-if (statCatCount) statCatCount.textContent = 19;
+if (statCatCount) statCatCount.textContent = Object.keys(BADGE).length;
 const fiCount = document.getElementById('fi-product-count');
 if (fiCount) fiCount.textContent = PRODUCTS.length + '+ Products';
 const browseCount = document.getElementById('browse-count');
