@@ -1635,9 +1635,15 @@ function cycleImg(el, dir) {
   if (dots.length) { dots[cur].classList.remove('active'); dots[next].classList.add('active'); }
 }
 
+const NEW_DAYS = 30;
+function isProductNew(p) {
+  if (p.addedAt) return (Date.now() - p.addedAt) < NEW_DAYS * 86400000;
+  return !!p.isNew;
+}
+
 function renderCard(p, i) {
   const old = p.compare_at ? `<span class="price-old">₹${p.compare_at}</span>` : '';
-  const newBadge = p.isNew ? `<span class="badge-new-label">NEW</span>` : '';
+  const newBadge = isProductNew(p) ? `<span class="badge-new-label">NEW</span>` : '';
   const pCats = p.cats || (p.cat ? [p.cat] : []);
   const catEmoji = pCats.length ? ({flexi:'🐾', kit:'🃏', custom:'🎨', home:'🏠'}[pCats[0]] || '📦') : '📦';
 
@@ -1831,7 +1837,7 @@ function renderFeatured() {
   const seen = new Set();
   const items = [];
   // One isNew product per category first, then fill with first-product fallbacks
-  const passes = [p => p.isNew, () => true];
+  const passes = [p => isProductNew(p), () => true];
   for (const pass of passes) {
     PRODUCTS.forEach((p, i) => {
       if (p.cat && !seen.has(p.cat) && pass(p)) {
@@ -2077,7 +2083,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ── NEW ITEMS TOAST ───────────────────────────────────────────────────
-const newCount = PRODUCTS.filter(p => p.isNew).length;
+const newCount = PRODUCTS.filter(p => isProductNew(p)).length;
 if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount > 1 ? 's' : ''} just added!`), 1400);
 </script>
 
