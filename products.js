@@ -291,5 +291,6 @@ const PRODUCTS = [
   {"title":"Pikachu – Figurine","price":"299","compare_at":"","cat":"pokemon","image":"https://makerworld.bblmw.com/makerworld/model/USf1197df6372d8/design/9518eb9dd5b53ade.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Fruit Turtle Clicker Fidget Toy","price":"299","compare_at":"","cat":"fidgets","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/comment/20260613/937451143/27cf52219327a543.jpg?x-oss-process=image%2Fresize%2Cw_400%2Fformat%2Cwebp"},
   {"title":"Minecraft Tic-Tac-Toe","price":"299","compare_at":"","cat":"games","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US7ec92063848f74/design/80e23d03fe6c54d5.jpg?x-oss-process=image/resize,w_1000/format,webp"},
-  {"title":"Spring Home Decor Hummingbird Woodland Figurine","price":"299","compare_at":"","cat":"home","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6ed8c2cf9cb055/design/553282bc451277ab.jpg?x-oss-process=image/resize,w_1000/format,webp"}
+  {"title":"Spring Home Decor Hummingbird Woodland Figurine","price":"299","compare_at":"","cat":"home","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US6ed8c2cf9cb055/design/553282bc451277ab.jpg?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Flexi Skeleton Dinosaur Collection","price":"299","compare_at":"","cat":"flexidino","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US1732ad03f07b39/design/5229e9bf56571343.png?x-oss-process=image/resize,w_1000/format,webp"}
 ];
