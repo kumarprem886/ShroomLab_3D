@@ -1841,8 +1841,10 @@ function renderFeatured() {
   const passes = [p => isProductNew(p), () => true];
   for (const pass of passes) {
     PRODUCTS.forEach((p, i) => {
-      if (p.cat && !seen.has(p.cat) && pass(p)) {
-        seen.add(p.cat);
+      const pCats = p.cats || (p.cat ? [p.cat] : []);
+      const firstUnseen = pCats.find(c => !seen.has(c));
+      if (firstUnseen && pass(p)) {
+        seen.add(firstUnseen);
         items.push({p, i});
       }
     });
