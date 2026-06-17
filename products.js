@@ -302,5 +302,6 @@ const PRODUCTS = [
   {"title":"Batman Mini Figure","price":"299","compare_at":"","cat":"actionfigurines","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USf7efe973e08271/design/7bdd37b2ff81500a.jpg?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"The source - Dynamic Sculpture","price":"299","compare_at":"","cat":"home","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/USe5fba7040c7e97/design/9c572f3105440755.png?x-oss-process=image/resize,w_1000/format,webp"},
   {"title":"Timmy – Shaun the Sheep","price":"299","compare_at":"","cat":"cartoon","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/comment/20260610/1339737213/0b78919c88877bfd.jpg?x-oss-process=image%2Fresize%2Cw_400%2Fformat%2Cwebp"},
-  {"title":"BATMAN","price":"299","compare_at":"","cat":"actionfigurines","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US87e7103a862b44/design/7c2cfe1b1bbbe1f8.jpg?x-oss-process=image/resize,w_1000/format,webp"}
+  {"title":"BATMAN","price":"299","compare_at":"","cat":"actionfigurines","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US87e7103a862b44/design/7c2cfe1b1bbbe1f8.jpg?x-oss-process=image/resize,w_1000/format,webp"},
+  {"title":"Monkey D. Luffy","price":"299","compare_at":"","cat":"Anime","isNew":true,"image":"https://makerworld.bblmw.com/makerworld/model/US9ea553a73ae1d/design/d487b04ed7c8c881.jpg?x-oss-process=image/resize,w_1000/format,webp"}
 ];
