@@ -354,6 +354,10 @@
           <label>Branch</label>
           <input type="text" id="gh-branch" value="main" style="width:100px">
         </div>
+        <div class="field">
+          <label>NEW badge expires after (days)</label>
+          <input type="number" id="gh-new-days" value="30" min="1" max="365" style="width:100px">
+        </div>
         <button class="btn-save-settings" onclick="saveGitHubSettings()">💾 Save Settings</button>
         <div class="settings-msg" id="settings-msg">✅ Settings saved!</div>
 
@@ -1140,24 +1144,27 @@ const K_GH = 'shroomlab_github_settings';
 function getGitHubSettings(){
   const saved = JSON.parse(localStorage.getItem(K_GH)||'{}');
   return {
-    token:  saved.token  || '',
-    repo:   saved.repo   || 'kumarprem886/ShroomLab_3D',
-    branch: saved.branch || 'main',
+    token:   saved.token   || '',
+    repo:    saved.repo    || 'kumarprem886/ShroomLab_3D',
+    branch:  saved.branch  || 'main',
+    newDays: saved.newDays || 30,
   };
 }
 
 function loadGitHubSettingsUI(){
   const s = getGitHubSettings();
-  document.getElementById('gh-token').value  = s.token;
-  document.getElementById('gh-repo').value   = s.repo;
-  document.getElementById('gh-branch').value = s.branch;
+  document.getElementById('gh-token').value    = s.token;
+  document.getElementById('gh-repo').value     = s.repo;
+  document.getElementById('gh-branch').value   = s.branch;
+  document.getElementById('gh-new-days').value = s.newDays;
 }
 
 function saveGitHubSettings(){
-  const token  = document.getElementById('gh-token').value.trim();
-  const repo   = document.getElementById('gh-repo').value.trim();
-  const branch = document.getElementById('gh-branch').value.trim();
-  localStorage.setItem(K_GH, JSON.stringify({token, repo, branch}));
+  const token   = document.getElementById('gh-token').value.trim();
+  const repo    = document.getElementById('gh-repo').value.trim();
+  const branch  = document.getElementById('gh-branch').value.trim();
+  const newDays = parseInt(document.getElementById('gh-new-days').value) || 30;
+  localStorage.setItem(K_GH, JSON.stringify({token, repo, branch, newDays}));
   const msg = document.getElementById('settings-msg');
   msg.style.display = 'block';
   setTimeout(()=>msg.style.display='none', 2000);
@@ -1345,17 +1352,19 @@ async function pushToGitHub(){
       `const PRODUCTS = [\n${generateFullProductsJS()}\n];`
     );
 
-    // 3. index.html — inject categories only
+    // 3. index.html — inject categories + NEW_DAYS
     setPushStatus('loading', '📥 Fetching index.html…');
     const { sha: idxSha, content: idxContent } = await ghGet('index.html');
     let newIdxContent = injectNewCategories(idxContent);
     newIdxContent = updateExistingCategories(newIdxContent);
+    newIdxContent = newIdxContent.replace(/const NEW_DAYS = \d+;/, `const NEW_DAYS = ${s.newDays};`);
 
-    // 4. catalogue.html — inject categories only
+    // 4. catalogue.html — inject categories + NEW_DAYS
     setPushStatus('loading', '📥 Fetching catalogue.html…');
     const { sha: catSha, content: catContent } = await ghGet('catalogue.html');
     let newCatContent = injectNewCategories(catContent);
     newCatContent = updateExistingCategories(newCatContent);
+    newCatContent = newCatContent.replace(/const NEW_DAYS = \d+;/, `const NEW_DAYS = ${s.newDays};`);
 
     const prodChanged = newProdContent !== prodContent;
     const idxChanged  = newIdxContent  !== idxContent;
