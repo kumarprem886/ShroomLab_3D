@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- stem -->
+  <rect x="22" y="40" width="20" height="18" rx="5" fill="#f5e6c8"/>
+  <!-- cap -->
+  <ellipse cx="32" cy="36" rx="26" ry="18" fill="#c0392b"/>
+  <!-- spots -->
+  <circle cx="22" cy="28" r="5" fill="#fff" opacity="0.85"/>
+  <circle cx="38" cy="24" r="4" fill="#fff" opacity="0.85"/>
+  <circle cx="28" cy="38" r="3" fill="#fff" opacity="0.85"/>
+  <circle cx="44" cy="34" r="3.5" fill="#fff" opacity="0.85"/>
+  <!-- underside arc -->
+  <path d="M6 36 Q32 48 58 36" stroke="#e8d5b0" stroke-width="2" fill="none"/>
+</svg>
