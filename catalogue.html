@@ -991,6 +991,7 @@
     .btn-back { background: rgba(255,255,255,0.12); color: #fff; border: 1.5px solid rgba(255,255,255,0.3); padding: 8px 22px; border-radius: 50px; text-decoration: none; font-size: 0.82rem; font-weight: 600; transition: all 0.2s; display: inline-block; }
     .btn-back:hover { background: rgba(255,255,255,0.22); }
       .badge-Anime { background: #40916c; color: #fff; }
+      .badge-VideoGames { background: #574ce6; color: #fff; }
   </style>
 </head>
 <body>
@@ -1053,6 +1054,7 @@
     <button class="filter-btn" data-cat="cartoon">🌝 Cartoon <span id="cnt-cartoon"></span></button>
     <button class="filter-btn" data-cat="pokemon">👾 Pokemon <span id="cnt-pokemon"></span></button>
     <button class="filter-btn" data-cat="Anime">🧌Anime <span id="cnt-Anime"></span></button>
+    <button class="filter-btn" data-cat="VideoGames">Vide Games <span id="cnt-VideoGames"></span></button>
     <button class="filter-btn" data-cat="halloween">🎃 Halloween <span id="cnt-halloween"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
@@ -1098,8 +1100,8 @@
 <script>
 // PRODUCTS loaded from products.js
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes', flexidino:'🦖 Flexi Dino', desk_utilities:'📚 Desk Utilities', fidgets:'🌀 Fidgets', mashup_multiverse:'🧬 Mashup Multiverse', minis:'🤏 Minis', games:'🎮 Games', valentines:'💝 Valentines', christmas:'🎄 Christmas', actionfigurines:'🥷 Action Figurines', mask_helmet:'🎭 Mask & Helmet', cartoon:'🌝 Cartoon', pokemon:'👾 Pokemon', Anime:'🧌 Anime', halloween:'🎃 Halloween' };
-const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes', flexidino:'badge-flexidino', desk_utilities:'badge-desk_utilities', fidgets:'badge-fidgets', mashup_multiverse:'badge-mashup_multiverse', minis:'badge-minis', games:'badge-games', valentines:'badge-valentines', christmas:'badge-christmas', actionfigurines:'badge-actionfigurines', mask_helmet:'badge-mask_helmet', cartoon:'badge-cartoon', pokemon:'badge-pokemon', Anime:'badge-Anime', halloween:'badge-halloween' };
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes', flexidino:'🦖 Flexi Dino', desk_utilities:'📚 Desk Utilities', fidgets:'🌀 Fidgets', mashup_multiverse:'🧬 Mashup Multiverse', minis:'🤏 Minis', games:'🎮 Games', valentines:'💝 Valentines', christmas:'🎄 Christmas', actionfigurines:'🥷 Action Figurines', mask_helmet:'🎭 Mask & Helmet', cartoon:'🌝 Cartoon', pokemon:'👾 Pokemon', Anime:'🧌 Anime', halloween:'🎃 Halloween' , VideoGames:'Vide Games'};
+const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes', flexidino:'badge-flexidino', desk_utilities:'badge-desk_utilities', fidgets:'badge-fidgets', mashup_multiverse:'badge-mashup_multiverse', minis:'badge-minis', games:'badge-games', valentines:'badge-valentines', christmas:'badge-christmas', actionfigurines:'badge-actionfigurines', mask_helmet:'badge-mask_helmet', cartoon:'badge-cartoon', pokemon:'badge-pokemon', Anime:'badge-Anime', halloween:'badge-halloween' , VideoGames:'badge-VideoGames'};
 
 function waLink(title) {
   return `https://wa.me/919597976015?text=Hi!%20I%20want%20to%20order:%20${encodeURIComponent(title)}`;
