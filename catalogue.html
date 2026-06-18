@@ -1055,7 +1055,7 @@
     <button class="filter-btn" data-cat="cartoon">🌝 Cartoon <span id="cnt-cartoon"></span></button>
     <button class="filter-btn" data-cat="pokemon">👾 Pokemon <span id="cnt-pokemon"></span></button>
     <button class="filter-btn" data-cat="Anime">🧌Anime <span id="cnt-Anime"></span></button>
-    <button class="filter-btn" data-cat="VideoGames">Vide Games <span id="cnt-VideoGames"></span></button>
+    <button class="filter-btn" data-cat="VideoGames">🕹️ Video Games <span id="cnt-VideoGames"></span></button>
     <button class="filter-btn" data-cat="halloween">🎃 Halloween <span id="cnt-halloween"></span></button>
     <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
   </div>
@@ -1101,7 +1101,7 @@
 <script>
 // PRODUCTS loaded from products.js
 
-const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes', flexidino:'🦖 Flexi Dino', desk_utilities:'📚 Desk Utilities', fidgets:'🌀 Fidgets', mashup_multiverse:'🧬 Mashup Multiverse', minis:'🤏 Minis', games:'🎮 Games', valentines:'💝 Valentines', christmas:'🎄 Christmas', actionfigurines:'🥷 Action Figurines', mask_helmet:'🎭 Mask & Helmet', cartoon:'🌝 Cartoon', pokemon:'👾 Pokemon', Anime:'🧌 Anime', halloween:'🎃 Halloween' , VideoGames:'Vide Games'};
+const BADGE = { flexi:'🐾 Flexi', kit:'🃏 Kit Card', custom:'🎨 Custom', home:'🏠 Home & More', assemble:'🦜 Life-Size', jewellery:'💍 Jewellery', idols:'🎭 Idols', vases:'🏺 Vases', keychains:'🔑 Keychain', namedecor:'✏️ Name & Letters', goofyeyes:'👀 Goofy Eyes', flexidino:'🦖 Flexi Dino', desk_utilities:'📚 Desk Utilities', fidgets:'🌀 Fidgets', mashup_multiverse:'🧬 Mashup Multiverse', minis:'🤏 Minis', games:'🎮 Games', valentines:'💝 Valentines', christmas:'🎄 Christmas', actionfigurines:'🥷 Action Figurines', mask_helmet:'🎭 Mask & Helmet', cartoon:'🌝 Cartoon', pokemon:'👾 Pokemon', Anime:'🧌 Anime', halloween:'🎃 Halloween' , VideoGames:'🕹️ Video Games'};
 const BADGE_CLASS = { flexi:'badge-flexi', kit:'badge-kit', custom:'badge-custom', home:'badge-home', assemble:'badge-assemble', jewellery:'badge-jewellery', idols:'badge-idols', vases:'badge-vases', keychains:'badge-keychains', namedecor:'badge-namedecor', goofyeyes:'badge-goofyeyes', flexidino:'badge-flexidino', desk_utilities:'badge-desk_utilities', fidgets:'badge-fidgets', mashup_multiverse:'badge-mashup_multiverse', minis:'badge-minis', games:'badge-games', valentines:'badge-valentines', christmas:'badge-christmas', actionfigurines:'badge-actionfigurines', mask_helmet:'badge-mask_helmet', cartoon:'badge-cartoon', pokemon:'badge-pokemon', Anime:'badge-Anime', halloween:'badge-halloween' , VideoGames:'badge-VideoGames'};
 
 function waLink(title) {
@@ -1210,7 +1210,7 @@ function afterRender() {
 }
 
 const CAT_ORDER = ['flexi','flexidino','fidgets','minis','kit','games','custom','home','assemble','jewellery','idols','vases','keychains','namedecor','goofyeyes','desk_utilities','mashup_multiverse','valentines','christmas'];
-const CAT_COLORS = {flexi:'#2d9e60',flexidino:'#27ae60',fidgets:'#00897b',minis:'#00acc1',kit:'#e67e22',games:'#1e88e5',custom:'#8e44ad',home:'#c0392b',assemble:'#d35400',jewellery:'#d4a017',idols:'#a93226',vases:'#1a6fa0',keychains:'#6d4c41',namedecor:'#1565c0',goofyeyes:'#d81b60',desk_utilities:'#455a64',mashup_multiverse:'#6200ea',valentines:'#e60aa0',christmas:'#c0392b',actionfigurines:'#2e7d32',mask_helmet:'#546e7a',cartoon:'#f57c00',pokemon:'#e53935',Anime:'#7b1fa2',halloween:'#e65100'};
+const CAT_COLORS = {flexi:'#2d9e60',flexidino:'#27ae60',fidgets:'#00897b',minis:'#00acc1',kit:'#e67e22',games:'#1e88e5',custom:'#8e44ad',home:'#c0392b',assemble:'#d35400',jewellery:'#d4a017',idols:'#a93226',vases:'#1a6fa0',keychains:'#6d4c41',namedecor:'#1565c0',goofyeyes:'#d81b60',desk_utilities:'#455a64',mashup_multiverse:'#6200ea',valentines:'#e60aa0',christmas:'#c0392b',actionfigurines:'#2e7d32',mask_helmet:'#546e7a',cartoon:'#f57c00',pokemon:'#e53935',Anime:'#7b1fa2',halloween:'#e65100',VideoGames:'#574ce6'};
 
 const CAT_PARTICLES = {
   flexi:['🐾','🦴','🐱','🐶','🦮'],flexidino:['🦕','🦖','🌿','🦴','🌋'],
@@ -1227,6 +1227,7 @@ const CAT_PARTICLES = {
   actionfigurines:['🥷','⚔️','🛡️','💥','🦸'],mask_helmet:['🎭','⚔️','🛡️','🪖','🔰'],
   cartoon:['🌝','😂','🎭','⭐','🤣'],pokemon:['👾','⚡','🌟','💫','🔴'],
   Anime:['🧌','⭐','✨','💫','🌸'],halloween:['🎃','👻','🕷️','🦇','💀'],
+  VideoGames:['🕹️','🎮','⭐','💫','🕹️'],
 };
 
 const CAT_BG = {
@@ -1255,6 +1256,7 @@ const CAT_BG = {
   pokemon:'linear-gradient(160deg,#2e0505 0%,#5c0a0a 50%,#2e0505 100%)',
   Anime:'linear-gradient(160deg,#1a0030 0%,#360060 50%,#1a0030 100%)',
   halloween:'linear-gradient(160deg,#2e1000 0%,#5a2000 50%,#2e1000 100%)',
+  VideoGames:'linear-gradient(160deg,#1a0050 0%,#2e0090 50%,#1a0050 100%)',
 };
 
 function spawnParticles(cat) {
