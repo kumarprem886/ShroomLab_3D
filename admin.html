@@ -332,6 +332,18 @@
       </div>
     </div>
 
+    <!-- NEW BADGE MANAGER -->
+    <div class="settings-section">
+      <div class="settings-toggle" onclick="toggleNewBadgeMgr()">
+        <h3>🆕 Manage NEW Badges</h3>
+        <span id="newbadge-arrow">▼</span>
+      </div>
+      <div class="settings-body" id="newbadge-body">
+        <div id="new-badge-list" style="margin-top:10px;display:flex;flex-direction:column;gap:6px"></div>
+        <div id="new-badge-empty" style="display:none;font-size:0.78rem;color:#888;margin-top:8px">No products currently showing NEW badge.</div>
+      </div>
+    </div>
+
     <!-- SETTINGS -->
     <div class="settings-section">
       <div class="settings-toggle" onclick="toggleSettings()">
@@ -610,6 +622,53 @@ function saveNewCategory(){
   ['nc-key','nc-emoji','nc-label'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('nc-color').value='#5d4037';
   document.getElementById('nc-color-pick').value='#5d4037';
+  renderAll();
+}
+
+// ── NEW BADGE MANAGER ─────────────────────────────────────────────────
+function toggleNewBadgeMgr(){
+  const body  = document.getElementById('newbadge-body');
+  const arrow = document.getElementById('newbadge-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲' : '▼';
+  if(open) renderNewBadgeList();
+}
+
+function isProductNew(p){
+  const NEW_DAYS = 30;
+  if(p.addedAt) return (Date.now() - p.addedAt) < NEW_DAYS * 86400000;
+  return !!p.isNew;
+}
+
+function renderNewBadgeList(){
+  const body = document.getElementById('newbadge-body');
+  if(!body.classList.contains('open')) return;
+  const list  = document.getElementById('new-badge-list');
+  const empty = document.getElementById('new-badge-empty');
+  const allNew = [...siteProducts, ...newProducts].filter(p => isProductNew(pendingEdits[p.title] || p));
+  if(!allNew.length){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = allNew.map(p => {
+    const ci = catInfo((p.cats||[])[0]||p.cat||'custom');
+    return `<div style="display:flex;align-items:center;justify-content:space-between;
+                 background:#fff;border:1px solid #d8f3dc;border-radius:7px;padding:6px 9px;gap:8px">
+      <div style="overflow:hidden">
+        <div style="font-size:.76rem;font-weight:600;color:#1b4332;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+        <div style="font-size:.65rem;color:#666;margin-top:1px">${ci.emoji} ${ci.label}</div>
+      </div>
+      <button onclick="removeNewBadge(${JSON.stringify(p.title)})"
+              style="flex-shrink:0;background:#fee2e2;border:1px solid #fca5a5;color:#b91c1c;
+                     border-radius:5px;padding:3px 8px;font-size:.7rem;cursor:pointer;font-weight:600">
+        ✕ Remove
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function removeNewBadge(title){
+  const base = pendingEdits[title] || siteProducts.find(x=>x.title===title) || newProducts.find(x=>x.title===title) || {};
+  pendingEdits[title] = {...base, isNew: false, addedAt: 0};
+  renderNewBadgeList();
   renderAll();
 }
 
@@ -998,7 +1057,7 @@ function downloadAllImages(){
 
 // ── RENDER ────────────────────────────────────────────────────────────
 function renderAll(){
-  renderFilters(); renderGrid(); renderExportBox();
+  renderFilters(); renderGrid(); renderExportBox(); renderNewBadgeList();
   const total=siteProducts.length - pendingDels.length + newProducts.length;
   const edited=Object.keys(pendingEdits).length;
   const deleted=pendingDels.length;
@@ -1090,6 +1149,7 @@ function productToJS(p){
   e+=`,"cat":"${pCats[0]}"`;
   if(pCats.length > 1) e+=`,"cats":${JSON.stringify(pCats)}`;
   if(p.isNew) e+=`,"isNew":true`;
+  if(p.addedAt) e+=`,"addedAt":${p.addedAt}`;
   if(p.icon)  e+=`,"icon":"${p.icon}"`;
   if(p.bg)    e+=`,"bg":"${p.bg}"`;
   // Image
