@@ -300,6 +300,13 @@
       <input type="text" id="f-icon" placeholder="🏺" style="width:74px">
     </div>
 
+    <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:#1b4332;
+                  background:#fff;border:1.5px solid #c8e6c9;border-radius:7px;
+                  padding:7px 10px;cursor:pointer;margin-bottom:4px;user-select:none">
+      <input type="checkbox" id="f-isnew" checked style="width:14px;height:14px;accent-color:#40916c;cursor:pointer">
+      🆕 Mark as <strong style="margin-left:2px">NEW</strong>
+    </label>
+
     <div class="btn-row-form">
       <button class="btn-add" id="btn-save" onclick="saveProduct()">Add to Catalogue</button>
       <button class="btn-cancel-edit" id="btn-cancel" onclick="cancelEdit()">✕ Cancel</button>
@@ -922,7 +929,14 @@ function saveProduct(){
     else if(valid.length>1){ imgSrc=valid[0]; imgMulti=valid; imgType='url-multi'; }
   }
 
-  const entry={title:name,cats:[...selectedCats],icon:icon||null,imgSrc,imgType,imgMulti,filename,uploads,isNew:true};
+  const wantNew = document.getElementById('f-isnew').checked;
+  const baseP = editingKey
+    ? (editingKey.type==='site' ? (pendingEdits[editingKey.title]||siteProducts.find(x=>x.title===editingKey.title)) : newProducts[editingKey.idx])
+    : null;
+  const entry={title:name,cats:[...selectedCats],icon:icon||null,imgSrc,imgType,imgMulti,filename,uploads,
+    isNew: wantNew,
+    addedAt: wantNew ? (baseP?.addedAt || Date.now()) : 0
+  };
 
   if(editingKey){
     if(editingKey.type==='site'){
@@ -952,6 +966,7 @@ function showMsg(text){
 function resetForm(){
   document.getElementById('f-name').value='';
   document.getElementById('f-icon').value='';
+  document.getElementById('f-isnew').checked=true;
   selectedCats=[];
   renderCatTags();
   document.getElementById('f-cat-search').value='';
@@ -979,6 +994,7 @@ function editProduct(type,ref){
   renderCatTags();
   document.getElementById('f-cat-search').value = '';
   document.getElementById('f-icon').value=p.icon||'';
+  document.getElementById('f-isnew').checked=isProductNew(p);
 
   // Image
   const imgSrc = p.imgSrc || p.image || (p.images&&p.images[0]) || '';
