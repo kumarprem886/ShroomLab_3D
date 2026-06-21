@@ -107,9 +107,8 @@
     .fi-text { font-size: 0.82rem; font-weight: 500; }
 
     /* CATALOGUE */
-    .catalogue { padding: 68px 0; }
+    .catalogue { padding: 0 0 68px 0; }
     .catalogue .sec-head,
-    .catalogue .filter-bar,
     .catalogue .products-grid { max-width: 1240px; margin-left: auto; margin-right: auto; padding-left: 5%; padding-right: 5%; }
     .sec-head { text-align: center; margin-bottom: 40px; }
     .sec-tag {
@@ -121,12 +120,28 @@
     .sec-head p { color: var(--muted); margin-top: 9px; font-size: 0.9rem; }
 
     /* FILTER TABS */
-    .filter-bar {
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-      justify-content: center; margin-bottom: 36px;
+    .filter-bar-wrap {
+      position: sticky; top: 66px; z-index: 100;
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(45,158,96,0.15);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      padding: 12px 0 0;
     }
+    .filter-search-row {
+      display: flex; justify-content: center;
+      padding: 0 5% 10px;
+    }
+    .filter-bar {
+      display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
+      overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      justify-content: flex-start; margin-bottom: 0; padding: 0 5% 12px;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
     .filter-btn {
-      padding: 8px 20px; border-radius: 50px; border: 1.5px solid #cce8d6;
+      flex-shrink: 0; white-space: nowrap;
+      padding: 8px 18px; border-radius: 50px; border: 1.5px solid #cce8d6;
       background: var(--white); color: var(--g-mid);
       font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.82rem;
       cursor: pointer; transition: all 0.2s;
@@ -134,12 +149,13 @@
     .filter-btn:hover { border-color: var(--g-mid); }
     .filter-btn.active { background: var(--g-deep); color: #fff; border-color: var(--g-deep); }
     .search-box {
-      padding: 8px 18px; border-radius: 50px; border: 1.5px solid #cce8d6;
+      padding: 9px 18px; border-radius: 50px; border: 1.5px solid #cce8d6;
       background: var(--white); font-family: 'Poppins', sans-serif;
-      font-size: 0.82rem; color: var(--text); outline: none; width: 200px;
-      transition: border-color 0.2s;
+      font-size: 0.85rem; color: var(--text); outline: none;
+      width: 100%; max-width: 520px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .search-box:focus { border-color: var(--g-light); }
+    .search-box:focus { border-color: var(--g-light); box-shadow: 0 0 0 3px rgba(45,158,96,0.12); }
 
     /* PRODUCT GRID */
     .products-grid {
@@ -469,10 +485,29 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
+    /* STICKY FILTER BAR — dark theme */
+    .filter-bar-wrap {
+      background: rgba(7,26,15,0.97) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid rgba(45,158,96,0.22) !important;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.28) !important;
+    }
+    .search-box {
+      background: rgba(255,255,255,0.07) !important;
+      border-color: rgba(45,158,96,0.35) !important;
+      color: #e8f5e9 !important;
+    }
+    .search-box::placeholder { color: rgba(180,220,190,0.5) !important; }
+    .search-box:focus {
+      border-color: #2d9e60 !important;
+      box-shadow: 0 0 0 3px rgba(45,158,96,0.2) !important;
+    }
+
     /* FILTER BUTTONS */
-    .filter-btn { border: 1.5px solid #cfe8d8 !important; background: #fff !important; color: #4a7c5f !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
-    .filter-btn:hover { border-color: var(--g-light) !important; color: var(--g-deep) !important; background: #f0fdf4 !important; transform: translateY(-2px) !important; box-shadow: 0 4px 14px rgba(27,67,50,0.14) !important; }
-    .filter-btn.active { background: linear-gradient(135deg, #1b4332, #2d6a4f) !important; color: #fff !important; border-color: transparent !important; box-shadow: 0 4px 18px rgba(27,67,50,0.38) !important; transform: translateY(-1px) !important; }
+    .filter-btn { border: 1.5px solid rgba(45,158,96,0.3) !important; background: rgba(255,255,255,0.07) !important; color: #a8d5b5 !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
+    .filter-btn:hover { border-color: #2d9e60 !important; color: #fff !important; background: rgba(45,158,96,0.18) !important; transform: translateY(-1px) !important; box-shadow: 0 3px 12px rgba(45,158,96,0.2) !important; }
+    .filter-btn.active { background: linear-gradient(135deg, #1b4332, #2d6a4f) !important; color: #fff !important; border-color: #2d9e60 !important; box-shadow: 0 0 18px rgba(45,158,96,0.45), 0 4px 12px rgba(27,67,50,0.4) !important; transform: translateY(-1px) !important; }
 
     /* CARDS — category color top bar */
     .product-card { border-radius: 18px !important; border: 1px solid rgba(0,0,0,0.05) !important; box-shadow: 0 2px 14px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04) !important; }
@@ -993,6 +1028,29 @@
     .btn-back:hover { background: rgba(255,255,255,0.22); }
       .badge-Anime { background: #40916c; color: #fff; }
       .badge-VideoGames { background: #574ce6; color: #fff; }
+
+    /* CATEGORY PICKER — pinned top-5 + popup grid */
+    .filter-chips-row { display: flex; align-items: center; }
+    .filter-bar { flex: 1; min-width: 0; }
+    .cats-toggle-btn { flex-shrink: 0; margin-right: 5%; border-left: 1px solid rgba(45,158,96,0.2) !important; padding-left: 14px !important; border-radius: 0 50px 50px 0 !important; }
+    .filter-bar .filter-btn:not(.pinned):not([data-cat="all"]) { display: none; }
+    .tog-arrow { display: inline-block; font-size: 10px; transition: transform 0.2s; }
+    .cat-popup {
+      display: none; padding: 12px 5% 14px;
+      border-top: 1px solid rgba(45,158,96,0.16);
+      grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 6px;
+    }
+    .cat-popup.open { display: grid; }
+    .pop-btn {
+      display: flex; align-items: center; gap: 7px; padding: 8px 10px;
+      border-radius: 10px; border: 1px solid rgba(45,158,96,0.22);
+      background: rgba(255,255,255,0.06); color: #a8d5b5;
+      font-family: 'Poppins', sans-serif; font-size: 11.5px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
+    }
+    .pop-btn:hover { background: rgba(45,158,96,0.2); border-color: #2d9e60; color: #fff; }
+    .pop-btn.active { background: linear-gradient(135deg,#1b4332,#2d6a4f); border-color: #2d9e60; color: #fff; box-shadow: 0 0 10px rgba(45,158,96,0.35); }
   </style>
 </head>
 <body>
@@ -1029,35 +1087,42 @@
 </div>
 
 <section class="catalogue" id="catalogue">
-  <div class="filter-bar">
-    <button class="filter-btn active" data-cat="all">All <span id="cnt-all"></span></button>
-    <button class="filter-btn" data-cat="flexi">🐾 Flexi Toys <span id="cnt-flexi"></span></button>
-    <button class="filter-btn" data-cat="kit">🃏 Kit Cards <span id="cnt-kit"></span></button>
-    <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
-    <button class="filter-btn" data-cat="home">🏠 Home & More <span id="cnt-home"></span></button>
-    <button class="filter-btn" data-cat="assemble">🦜 Life-Size Prints <span id="cnt-assemble"></span></button>
-    <button class="filter-btn" data-cat="jewellery">💍 Jewellery <span id="cnt-jewellery"></span></button>
-    <button class="filter-btn" data-cat="idols">🎭 Idols <span id="cnt-idols"></span></button>
-    <button class="filter-btn" data-cat="vases">🏺 Vases <span id="cnt-vases"></span></button>
-    <button class="filter-btn" data-cat="keychains">🔑 Keychains <span id="cnt-keychains"></span></button>
-    <button class="filter-btn" data-cat="namedecor">✏️ Name & Letters <span id="cnt-namedecor"></span></button>
-    <button class="filter-btn" data-cat="goofyeyes">👀 Goofy Eyes <span id="cnt-goofyeyes"></span></button>
-    <button class="filter-btn" data-cat="flexidino">🦖 Flexi Dino <span id="cnt-flexidino"></span></button>
-    <button class="filter-btn" data-cat="desk_utilities">📚 Desk Utilities <span id="cnt-desk_utilities"></span></button>
-    <button class="filter-btn" data-cat="fidgets">🌀 Fidgets <span id="cnt-fidgets"></span></button>
-    <button class="filter-btn" data-cat="mashup_multiverse">🧬 Mashup Multiverse <span id="cnt-mashup_multiverse"></span></button>
-    <button class="filter-btn" data-cat="minis">🤏 Minis <span id="cnt-minis"></span></button>
-    <button class="filter-btn" data-cat="games">🎮 Games <span id="cnt-games"></span></button>
-    <button class="filter-btn" data-cat="valentines">💝 Valentines <span id="cnt-valentines"></span></button>
-    <button class="filter-btn" data-cat="christmas">🎄 Christmas <span id="cnt-christmas"></span></button>
-    <button class="filter-btn" data-cat="actionfigurines">🥷 Action Figurines <span id="cnt-actionfigurines"></span></button>
-    <button class="filter-btn" data-cat="mask_helmet">🎭 Mask & Helmet <span id="cnt-mask_helmet"></span></button>
-    <button class="filter-btn" data-cat="cartoon">🌝 Cartoon <span id="cnt-cartoon"></span></button>
-    <button class="filter-btn" data-cat="pokemon">👾 Pokemon <span id="cnt-pokemon"></span></button>
-    <button class="filter-btn" data-cat="Anime">🧌Anime <span id="cnt-Anime"></span></button>
-    <button class="filter-btn" data-cat="VideoGames">🕹️ Video Games <span id="cnt-VideoGames"></span></button>
-    <button class="filter-btn" data-cat="halloween">🎃 Halloween <span id="cnt-halloween"></span></button>
-    <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
+  <div class="filter-bar-wrap">
+    <div class="filter-search-row">
+      <input class="search-box" type="text" id="search" placeholder="Search products…" aria-label="Search">
+    </div>
+    <div class="filter-chips-row">
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-cat="all">All <span id="cnt-all"></span></button>
+      <button class="filter-btn" data-cat="flexi">🐾 Flexi Toys <span id="cnt-flexi"></span></button>
+      <button class="filter-btn" data-cat="kit">🃏 Kit Cards <span id="cnt-kit"></span></button>
+      <button class="filter-btn" data-cat="custom">🎨 Custom <span id="cnt-custom"></span></button>
+      <button class="filter-btn" data-cat="home">🏠 Home & More <span id="cnt-home"></span></button>
+      <button class="filter-btn" data-cat="assemble">🦜 Life-Size Prints <span id="cnt-assemble"></span></button>
+      <button class="filter-btn" data-cat="jewellery">💍 Jewellery <span id="cnt-jewellery"></span></button>
+      <button class="filter-btn" data-cat="idols">🎭 Idols <span id="cnt-idols"></span></button>
+      <button class="filter-btn" data-cat="vases">🏺 Vases <span id="cnt-vases"></span></button>
+      <button class="filter-btn" data-cat="keychains">🔑 Keychains <span id="cnt-keychains"></span></button>
+      <button class="filter-btn" data-cat="namedecor">✏️ Name & Letters <span id="cnt-namedecor"></span></button>
+      <button class="filter-btn" data-cat="goofyeyes">👀 Goofy Eyes <span id="cnt-goofyeyes"></span></button>
+      <button class="filter-btn" data-cat="flexidino">🦖 Flexi Dino <span id="cnt-flexidino"></span></button>
+      <button class="filter-btn" data-cat="desk_utilities">📚 Desk Utilities <span id="cnt-desk_utilities"></span></button>
+      <button class="filter-btn" data-cat="fidgets">🌀 Fidgets <span id="cnt-fidgets"></span></button>
+      <button class="filter-btn" data-cat="mashup_multiverse">🧬 Mashup Multiverse <span id="cnt-mashup_multiverse"></span></button>
+      <button class="filter-btn" data-cat="minis">🤏 Minis <span id="cnt-minis"></span></button>
+      <button class="filter-btn" data-cat="games">🎮 Games <span id="cnt-games"></span></button>
+      <button class="filter-btn" data-cat="valentines">💝 Valentines <span id="cnt-valentines"></span></button>
+      <button class="filter-btn" data-cat="christmas">🎄 Christmas <span id="cnt-christmas"></span></button>
+      <button class="filter-btn" data-cat="actionfigurines">🥷 Action Figurines <span id="cnt-actionfigurines"></span></button>
+      <button class="filter-btn" data-cat="mask_helmet">🎭 Mask & Helmet <span id="cnt-mask_helmet"></span></button>
+      <button class="filter-btn" data-cat="cartoon">🌝 Cartoon <span id="cnt-cartoon"></span></button>
+      <button class="filter-btn" data-cat="pokemon">👾 Pokemon <span id="cnt-pokemon"></span></button>
+      <button class="filter-btn" data-cat="Anime">🧌Anime <span id="cnt-Anime"></span></button>
+      <button class="filter-btn" data-cat="VideoGames">🕹️ Video Games <span id="cnt-VideoGames"></span></button>
+      <button class="filter-btn" data-cat="halloween">🎃 Halloween <span id="cnt-halloween"></span></button>
+    </div>
+    </div><!-- /filter-chips-row -->
+    <div class="cat-popup" id="cat-popup"></div>
   </div>
   <div class="products-grid" id="grid"></div>
 </section>
@@ -1547,6 +1612,82 @@ window.addEventListener('scroll', () => {
 // ── NEW ITEMS TOAST ───────────────────────────────────────────────────
 const newCount = PRODUCTS.filter(p => isProductNew(p)).length;
 if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount > 1 ? 's' : ''} just added!`), 1400);
+
+// ── CATEGORY PICKER (pinned top-5 + popup grid) ────────────────────────
+(function buildCategoryPicker() {
+  const TOP_N = 5;
+  const topCats = Object.keys(counts)
+    .filter(k => k !== 'all')
+    .sort((a, b) => (counts[b] || 0) - (counts[a] || 0))
+    .slice(0, TOP_N);
+
+  const filterBar = document.getElementById('filter-bar');
+  topCats.forEach(cat => {
+    const btn = filterBar.querySelector(`.filter-btn[data-cat="${cat}"]`);
+    if (btn) btn.classList.add('pinned');
+  });
+
+  const toggleBtn = document.createElement('button');
+  toggleBtn.className = 'filter-btn cats-toggle-btn';
+  toggleBtn.id = 'cats-toggle-btn';
+  toggleBtn.innerHTML = 'All categories <span class="tog-arrow">▾</span>';
+  filterBar.parentElement.appendChild(toggleBtn);
+
+  const popup = document.getElementById('cat-popup');
+  const toggleDefault = 'All categories <span class="tog-arrow">▾</span>';
+
+  filterBar.querySelectorAll('.filter-btn[data-cat]:not([data-cat="all"])').forEach(origBtn => {
+    const cat = origBtn.dataset.cat;
+    const label = origBtn.textContent.trim();
+    const btn = document.createElement('button');
+    btn.className = 'pop-btn';
+    btn.dataset.cat = cat;
+    btn.textContent = label;
+    btn.addEventListener('click', () => {
+      activateCat(cat);
+      if (!topCats.includes(cat)) {
+        toggleBtn.innerHTML = label + ' <span class="tog-arrow">▾</span>';
+        toggleBtn.classList.add('active');
+      }
+      closePopup();
+    });
+    popup.appendChild(btn);
+  });
+
+  filterBar.querySelector('.filter-btn[data-cat="all"]').addEventListener('click', () => {
+    toggleBtn.innerHTML = toggleDefault;
+    toggleBtn.classList.remove('active');
+  });
+  topCats.forEach(cat => {
+    const pinnedBtn = filterBar.querySelector(`.filter-btn[data-cat="${cat}"]`);
+    if (pinnedBtn) pinnedBtn.addEventListener('click', () => {
+      toggleBtn.innerHTML = toggleDefault;
+      toggleBtn.classList.remove('active');
+    });
+  });
+
+  function syncPopup() {
+    popup.querySelectorAll('.pop-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === activeCat);
+    });
+  }
+
+  function closePopup() {
+    popup.classList.remove('open');
+    toggleBtn.querySelector('.tog-arrow').style.transform = '';
+  }
+
+  toggleBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = popup.classList.toggle('open');
+    toggleBtn.querySelector('.tog-arrow').style.transform = isOpen ? 'rotate(180deg)' : '';
+    if (isOpen) syncPopup();
+  });
+
+  document.addEventListener('click', e => {
+    if (!document.querySelector('.filter-bar-wrap').contains(e.target)) closePopup();
+  });
+})();
 </script>
 
 <button class="back-top" id="backTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
