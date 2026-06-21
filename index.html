@@ -1082,6 +1082,18 @@
     }
       .badge-Anime { background: #40916c; color: #fff; }
       .badge-VideoGames { background: #574ce6; color: #fff; }
+
+    /* ── 3D EFFECTS ──────────────────────────────────────── */
+    .hero-section{position:relative;overflow:hidden}
+    #hero-3d-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block}
+    section.hero{position:relative;z-index:1}
+    .product-card{transform-style:preserve-3d;will-change:transform}
+    .card-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+      background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.18) 0%,transparent 60%);
+      opacity:0;transition:opacity .3s;z-index:10;mix-blend-mode:overlay}
+    .reveal-3d{opacity:0;transform:perspective(900px) rotateX(10deg) translateY(40px);
+      transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+    .reveal-3d.visible{opacity:1;transform:none}
   </style>
 </head>
 <body>
@@ -1117,6 +1129,8 @@
 </nav>
 
 <!-- HERO -->
+<div class="hero-section">
+<canvas id="hero-3d-canvas"></canvas>
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">🇮🇳 Proudly Made in Cuddalore, India</div>
@@ -1139,6 +1153,7 @@
     </div>
   </div>
 </section>
+</div><!-- /hero-section -->
 
 <!-- FEATURES BAR -->
 <div class="features-bar">
@@ -2093,6 +2108,152 @@ window.addEventListener('scroll', () => {
 // ── NEW ITEMS TOAST ───────────────────────────────────────────────────
 const newCount = PRODUCTS.filter(p => isProductNew(p)).length;
 if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount > 1 ? 's' : ''} just added!`), 1400);
+
+// ── 3D FEATURES ───────────────────────────────────────────────────────
+
+// 1. CARD GLARE — shimmer overlay that tracks mouse position
+(function patchCardGlare(){
+  function applyGlare(){
+    document.querySelectorAll('.product-card:not([data-glare])').forEach(function(card){
+      card.setAttribute('data-glare','1');
+      const g = document.createElement('div');
+      g.className = 'card-glare';
+      card.appendChild(g);
+      card.addEventListener('mousemove', function(e){
+        const r = this.getBoundingClientRect();
+        const px = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const py = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+        g.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,.22) 0%, transparent 60%)`;
+        g.style.opacity = '1';
+      });
+      card.addEventListener('mouseleave', function(){ g.style.opacity = '0'; });
+    });
+  }
+  const _orig = window.afterRender;
+  window.afterRender = function(){ _orig.apply(this, arguments); applyGlare(); };
+  applyGlare();
+})();
+
+// 2. SCROLL REVEAL — 3D tilt-in for sections that start below the fold
+(function initScrollReveal(){
+  const sel = '.features-bar, .how-order-sec, .sec-inner, .filter-bar-wrap';
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, {threshold: 0.1});
+  document.querySelectorAll(sel).forEach(function(el){
+    if(el.getBoundingClientRect().top > window.innerHeight){
+      el.classList.add('reveal-3d');
+      obs.observe(el);
+    }
+  });
+})();
+
+// 3. THREE.JS HERO — floating mushrooms with mouse parallax + scroll zoom
+(function loadHero3D(){
+  const canvas = document.getElementById('hero-3d-canvas');
+  if(!canvas) return;
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  script.onload = function(){
+    const W = canvas.offsetWidth;
+    const H = canvas.offsetHeight || canvas.parentElement.offsetHeight || 480;
+    const renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: true});
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+    camera.position.z = 9;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const dl = new THREE.DirectionalLight(0xffd700, 1.2);
+    dl.position.set(5, 8, 5);
+    scene.add(dl);
+
+    function makeMushroom(sc){
+      const grp = new THREE.Group();
+      const stem = new THREE.Mesh(
+        new THREE.CylinderGeometry(.18*sc, .22*sc, .6*sc, 16),
+        new THREE.MeshPhongMaterial({color: 0xf5deb3})
+      );
+      stem.position.y = -.05 * sc;
+      grp.add(stem);
+      const cap = new THREE.Mesh(
+        new THREE.SphereGeometry(.5*sc, 24, 16, 0, Math.PI*2, 0, Math.PI*.55),
+        new THREE.MeshPhongMaterial({color: 0xcc2200})
+      );
+      cap.position.y = .22 * sc;
+      grp.add(cap);
+      [[0,.55,.25],[.28,.45,.18],[-.22,.48,.2],[.1,.52,-.24]].forEach(function(pos){
+        const sp = new THREE.Mesh(
+          new THREE.SphereGeometry(.06*sc, 8, 8),
+          new THREE.MeshPhongMaterial({color: 0xffffff})
+        );
+        sp.position.set(pos[0]*sc, pos[1]*sc, pos[2]*sc);
+        grp.add(sp);
+      });
+      return grp;
+    }
+
+    const mushrooms = [];
+    for(let i = 0; i < 10; i++){
+      const m = makeMushroom(.4 + Math.random() * .6);
+      m.position.set(
+        (Math.random() - .5) * 12,
+        (Math.random() - .5) * 5,
+        (Math.random() - .5) * 4 - 2
+      );
+      m.rotation.y = Math.random() * Math.PI * 2;
+      m._fo = Math.random() * Math.PI * 2;
+      m._fs = .4 + Math.random() * .6;
+      scene.add(m);
+      mushrooms.push(m);
+    }
+
+    const pArr = new Float32Array(150 * 3);
+    for(let i = 0; i < 150; i++){
+      pArr[i*3]   = (Math.random() - .5) * 18;
+      pArr[i*3+1] = (Math.random() - .5) * 9;
+      pArr[i*3+2] = (Math.random() - .5) * 8 - 3;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pArr, 3));
+    scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({
+      color: 0xffd700, size: .07, transparent: true, opacity: .65
+    })));
+
+    let mx = 0, my = 0, scrollPx = 0;
+    window.addEventListener('mousemove', function(e){
+      mx = (e.clientX / window.innerWidth  - .5) * 2;
+      my = (e.clientY / window.innerHeight - .5) * -2;
+    });
+    window.addEventListener('scroll', function(){ scrollPx = window.scrollY; }, {passive: true});
+    window.addEventListener('resize', function(){
+      const W2 = canvas.offsetWidth;
+      const H2 = canvas.offsetHeight || canvas.parentElement.offsetHeight || 480;
+      renderer.setSize(W2, H2);
+      camera.aspect = W2 / H2;
+      camera.updateProjectionMatrix();
+    });
+
+    let t = 0;
+    (function loop(){
+      requestAnimationFrame(loop);
+      t += .016;
+      mushrooms.forEach(function(m){
+        m.position.y += Math.sin(t * m._fs + m._fo) * .002;
+        m.rotation.y += .003;
+      });
+      camera.position.x += (mx * 1.5 - camera.position.x) * .04;
+      camera.position.y += (my * .8  - camera.position.y) * .04;
+      camera.position.z  = Math.max(3, 9 - scrollPx * .005);
+      renderer.render(scene, camera);
+    })();
+  };
+  document.head.appendChild(script);
+})();
 </script>
 
 <button class="back-top" id="backTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
