@@ -2632,10 +2632,9 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
   } catch(e){ console.warn('Three.js hero init failed:',e.message); }
 })();
 
-// ── 3D SECTION CREATURES ──────────────────────────────────────────────
-(function sectionCreatures3D(){
+// ── 3D SECTION EFFECTS ────────────────────────────────────────────────
+(function sectionEffects3D(){
   if(typeof THREE==='undefined') return;
-  // create canvas if not yet in DOM (script runs before body closes)
   let canvas=document.getElementById('creatures-canvas');
   if(!canvas){
     canvas=document.createElement('canvas');
@@ -2653,305 +2652,161 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
     const camera=new THREE.PerspectiveCamera(50,CW/CH,0.1,80);
     camera.position.z=8;
 
-    scene.add(new THREE.AmbientLight(0xffffff,0.35));
-    const pl1=new THREE.PointLight(0x74c69d,2,30); pl1.position.set(4,4,5); scene.add(pl1);
-    const pl2=new THREE.PointLight(0x7c3aed,1.5,30); pl2.position.set(-4,-3,4); scene.add(pl2);
-    const pl3=new THREE.PointLight(0xffd700,1.2,30); pl3.position.set(0,5,3); scene.add(pl3);
+    // Minimal lighting — most materials are BasicMaterial (no lighting needed)
+    scene.add(new THREE.AmbientLight(0xffffff,0.25));
+    const dir=new THREE.DirectionalLight(0xffffff,0.6);
+    dir.position.set(2,3,5); scene.add(dir);
 
-    // ── creature builders ───────────────────────────────────────────
-    function makeEnergyRing(){
+    // ── effect builders ─────────────────────────────────────────────
+
+    // 1. Crystal cave cluster — catalogue section
+    function makeCrystalCluster(){
       const g=new THREE.Group();
-      const ring=new THREE.Mesh(new THREE.TorusGeometry(.7,.1,14,52),
-        new THREE.MeshStandardMaterial({color:0x74c69d,emissive:0x2d9e60,emissiveIntensity:2,metalness:.85}));
-      g.add(ring);
-      const sat=new THREE.Mesh(new THREE.SphereGeometry(.18,10,10),
-        new THREE.MeshStandardMaterial({color:0xffd700,emissive:0xffd700,emissiveIntensity:3}));
-      sat.position.x=.85; g.add(sat);
-      const sl=new THREE.PointLight(0xffd700,2.5,2); sat.add(sl);
-      const rl=new THREE.PointLight(0x00ff88,2,2); g.add(rl);
+      const cols=[0x00d4ff,0x7c3aed,0x00ff88,0xff2299,0xffd700];
+      const cfg=[
+        [0,.32,0,.18,1.2,0],
+        [.44,0,.2,.13,.9,.3],[-.42,.1,.15,.12,.85,-.2],
+        [.2,-.2,-.35,.11,.75,.5],[-.25,.2,-.3,.1,.7,-.4],
+        [.05,-.3,.3,.09,.6,.1],[-.15,-.35,-.15,.08,.55,-.3],
+      ];
+      const mats=cfg.map((_,i)=>new THREE.MeshStandardMaterial({
+        color:cols[i%cols.length],emissive:cols[i%cols.length],emissiveIntensity:.6,
+        transparent:true,opacity:.82,roughness:.04,metalness:.05
+      }));
+      cfg.forEach(([x,y,z,r,h,rx],i)=>{
+        const c=new THREE.Mesh(new THREE.ConeGeometry(r,h,6),mats[i]);
+        c.position.set(x,y,z); c.rotation.set(rx,Math.random()*Math.PI*2,(Math.random()-.5)*.4);
+        g.add(c);
+        const c2=c.clone(); c2.rotation.x+=Math.PI; c2.position.y-=h*.5; g.add(c2);
+      });
+      const gl=new THREE.PointLight(0x00d4ff,2.5,6); gl.position.set(0,.5,.5); g.add(gl);
       g._anim=function(t){
-        ring.rotation.x=Math.sin(t*.7)*.5; ring.rotation.z+=.015;
-        sat.position.set(Math.cos(t*1.3)*.85,Math.sin(t*.65)*.28,Math.sin(t*1.3)*.85);
-        rl.intensity=2+Math.sin(t*2.5);
-        ring.material.emissiveIntensity=1.8+Math.sin(t*1.8)*.8;
+        g.rotation.y+=.004; g.rotation.x=Math.sin(t*.35)*.08;
+        gl.intensity=2+Math.sin(t*1.8);
+        mats.forEach((m,i)=>{ m.emissiveIntensity=.5+Math.sin(t*1.5+i*.8)*.4; });
       };
       return g;
     }
-    function makeMiniUFO(){
-      const g=new THREE.Group();
-      const body=new THREE.Mesh(new THREE.SphereGeometry(.55,20,12),
-        new THREE.MeshStandardMaterial({color:0x1a3a2a,emissive:0x0a1a10,emissiveIntensity:.3,metalness:.95,roughness:.06}));
-      body.scale.y=.38; g.add(body);
-      const rim=new THREE.Mesh(new THREE.TorusGeometry(.58,.08,10,44),
-        new THREE.MeshStandardMaterial({color:0x74c69d,emissive:0x00ff88,emissiveIntensity:2.2,metalness:.9}));
-      rim.rotation.x=Math.PI/2; g.add(rim);
-      const dome=new THREE.Mesh(new THREE.SphereGeometry(.3,16,10,0,Math.PI*2,0,Math.PI*.55),
-        new THREE.MeshStandardMaterial({color:0x80d8ff,emissive:0x00aaff,emissiveIntensity:.8,transparent:true,opacity:.5}));
-      dome.position.y=.18; g.add(dome);
-      const gl=new THREE.PointLight(0x00ff88,3,2.5); gl.position.y=-.25; g.add(gl);
-      g._anim=function(t){
-        g.rotation.y+=.018;
-        g.position.y+=Math.sin(t*1.1)*.005;
-        gl.intensity=3+Math.sin(t*3)*1.5;
-        rim.material.emissiveIntensity=2+Math.sin(t*2)*.9;
-      };
-      return g;
-    }
-    function makeRocket(){
-      const g=new THREE.Group();
-      const body=new THREE.Mesh(new THREE.CylinderGeometry(.22,.28,.9,14),
-        new THREE.MeshStandardMaterial({color:0xf0f0f0,metalness:.7,roughness:.2}));
-      g.add(body);
-      const nose=new THREE.Mesh(new THREE.ConeGeometry(.22,.5,14),
-        new THREE.MeshStandardMaterial({color:0xff4444,emissive:0xcc2200,emissiveIntensity:.5}));
-      nose.position.y=.7; g.add(nose);
-      const finMat=new THREE.MeshStandardMaterial({color:0x4466ff,emissive:0x2233aa,emissiveIntensity:.3});
-      for(let i=0;i<3;i++){
-        const fin=new THREE.Mesh(new THREE.BoxGeometry(.06,.3,.25),finMat);
-        const a=(i/3)*Math.PI*2;
-        fin.position.set(Math.cos(a)*.22,-.4,Math.sin(a)*.22); fin.rotation.y=a; g.add(fin);
+
+    // 2. Spiral galaxy particle field — testimonials section
+    function makeGalaxy(){
+      const N=260; const pos=new Float32Array(N*3); const col=new Float32Array(N*3);
+      for(let i=0;i<N-40;i++){
+        const t=i/N, a=t*Math.PI*6, r=t*1.6+.12;
+        pos[i*3]=Math.cos(a)*r+(Math.random()-.5)*.18;
+        pos[i*3+1]=(Math.random()-.5)*.12;
+        pos[i*3+2]=Math.sin(a)*r+(Math.random()-.5)*.18;
+        col[i*3]=.2+t*.25; col[i*3+1]=.55+t*.4; col[i*3+2]=.85-t*.2;
       }
-      const flame=new THREE.Mesh(new THREE.ConeGeometry(.16,.45,10),
-        new THREE.MeshStandardMaterial({color:0xff8800,emissive:0xff6600,emissiveIntensity:4.5,transparent:true,opacity:.9}));
-      flame.position.y=-.8; flame.rotation.z=Math.PI; g.add(flame);
-      const fl=new THREE.PointLight(0xff6600,4.5,2.5); fl.position.y=-.9; g.add(fl);
-      g._anim=function(t){
-        g.rotation.z=Math.sin(t*.8)*.15;
-        g.position.y+=Math.sin(t*1.4)*.005;
-        flame.scale.y=.8+Math.sin(t*12)*.45;
-        flame.material.emissiveIntensity=3.5+Math.sin(t*15)*2;
-        fl.intensity=4+Math.sin(t*10)*2.5;
-      };
-      return g;
-    }
-    function makeAlien(){
-      const g=new THREE.Group();
-      const head=new THREE.Mesh(new THREE.SphereGeometry(.52,18,14),
-        new THREE.MeshStandardMaterial({color:0x2d9e60,emissive:0x1a5c38,emissiveIntensity:.4,roughness:.5}));
-      head.scale.y=1.25; g.add(head);
-      [[-0.2,.1,.47],[.2,.1,.47]].forEach(function(p){
-        const eye=new THREE.Mesh(new THREE.SphereGeometry(.155,10,10),
-          new THREE.MeshStandardMaterial({color:0x000011,emissive:0x0000ff,emissiveIntensity:.8}));
-        eye.position.set(p[0],p[1],p[2]); eye.scale.x=1.2; g.add(eye);
-        const sh=new THREE.Mesh(new THREE.SphereGeometry(.055,6,6),
-          new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:1}));
-        sh.position.set(p[0]+.055,p[1]+.075,p[2]+.075); g.add(sh);
-      });
-      [[-.15,.25,0],[.15,.25,0]].forEach(function(p,i){
-        const ant=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.42,6),
-          new THREE.MeshStandardMaterial({color:0x52b788}));
-        ant.position.set(p[0],.72,0); ant.rotation.z=(i===0?1:-1)*.3; g.add(ant);
-        const ab=new THREE.Mesh(new THREE.SphereGeometry(.07,8,8),
-          new THREE.MeshStandardMaterial({color:0x00ff88,emissive:0x00ff88,emissiveIntensity:3}));
-        ab.position.set(p[0]+(i===0?-.09:.09),.98,0); g.add(ab);
-      });
-      const gl=new THREE.PointLight(0x00ff88,2,2.5); gl.position.y=.2; g.add(gl);
-      g._anim=function(t){
-        head.rotation.y=Math.sin(t*.7)*.3;
-        g.position.y+=Math.sin(t*1.2)*.005;
-        gl.intensity=1.5+Math.sin(t*2.2)*.8;
-      };
-      return g;
-    }
-    function makeGhost(){
-      const g=new THREE.Group();
-      const bMat=new THREE.MeshStandardMaterial({color:0xe8e8ff,emissive:0x9999dd,emissiveIntensity:.45,
-        transparent:true,opacity:.85,roughness:.8});
-      const head=new THREE.Mesh(new THREE.SphereGeometry(.5,18,14),bMat); g.add(head);
-      const bot=new THREE.Mesh(new THREE.CylinderGeometry(.5,.38,.4,16),bMat);
-      bot.position.y=-.48; g.add(bot);
-      for(let i=0;i<4;i++){
-        const b=new THREE.Mesh(new THREE.SphereGeometry(.17,8,8),bMat);
-        const a=(i/4)*Math.PI*2;
-        b.position.set(Math.cos(a)*.24,-.76,Math.sin(a)*.24); g.add(b);
+      for(let i=N-40;i<N;i++){
+        pos[i*3]=(Math.random()-.5)*3.5; pos[i*3+1]=(Math.random()-.5)*.4; pos[i*3+2]=(Math.random()-.5)*3.5;
+        col[i*3]=col[i*3+1]=col[i*3+2]=.88+Math.random()*.12;
       }
-      [[-0.18,.06,.46],[.18,.06,.46]].forEach(function(p){
-        const e=new THREE.Mesh(new THREE.SphereGeometry(.1,8,8),
-          new THREE.MeshStandardMaterial({color:0x220033,emissive:0x6600ff,emissiveIntensity:1.8}));
-        e.position.set(p[0],p[1],p[2]); g.add(e);
-      });
-      const gl=new THREE.PointLight(0xaaaaff,3,3); gl.position.set(0,.3,0); g.add(gl);
-      g._anim=function(t){
-        g.rotation.y=Math.sin(t*.5)*.2;
-        g.position.y+=Math.sin(t*.9)*.006;
-        head.scale.x=1+Math.sin(t*1.5)*.035;
-        gl.intensity=2.5+Math.sin(t*2.5)*.9;
-        bMat.opacity=.75+Math.sin(t*1.8)*.1;
-      };
-      return g;
-    }
-    function makeSaturn(){
-      const g=new THREE.Group();
-      const planet=new THREE.Mesh(new THREE.SphereGeometry(.55,24,18),
-        new THREE.MeshStandardMaterial({color:0xf4a460,emissive:0x8b4513,emissiveIntensity:.2,roughness:.65}));
-      g.add(planet);
-      [[.15,.025,0xe08050],[-.12,.02,0xd2a040]].forEach(function(bd){
-        const t=new THREE.Mesh(new THREE.TorusGeometry(.56,bd[1],4,36),
-          new THREE.MeshStandardMaterial({color:bd[2],transparent:true,opacity:.55}));
-        t.rotation.x=Math.PI/2; t.position.y=bd[0]; g.add(t);
-      });
-      const ring=new THREE.Mesh(new THREE.TorusGeometry(.92,.18,3,64),
-        new THREE.MeshStandardMaterial({color:0xffe0a0,emissive:0xaa8855,emissiveIntensity:.25,
-          transparent:true,opacity:.72,side:THREE.DoubleSide}));
-      ring.rotation.x=Math.PI*.42; g.add(ring);
-      const gl=new THREE.PointLight(0xffd700,1.5,5); gl.position.set(1.5,1.5,1); g.add(gl);
-      g._anim=function(t){
-        g.rotation.y+=.008; planet.rotation.y+=.012;
-        g.position.y+=Math.sin(t*.5)*.004;
-        gl.intensity=1.3+Math.sin(t*1.5)*.5;
-      };
-      return g;
-    }
-    function makeAtom(){
-      const g=new THREE.Group();
-      const nucl=new THREE.Mesh(new THREE.SphereGeometry(.28,16,16),
-        new THREE.MeshStandardMaterial({color:0x00aaff,emissive:0x00aaff,emissiveIntensity:2.5}));
-      g.add(nucl);
-      const nl=new THREE.PointLight(0x00aaff,3.5,3); g.add(nl);
-      const oMat=new THREE.MeshStandardMaterial({color:0x74c69d,emissive:0x2d9e60,emissiveIntensity:1.5,transparent:true,opacity:.72});
-      const groups=[];
-      [[0,0],[Math.PI/3,Math.PI/4],[Math.PI*2/3,-Math.PI/3]].forEach(function(ang,i){
-        const og=new THREE.Group(); og.rotation.x=ang[0]; og.rotation.y=ang[1]; g.add(og);
-        og.add(new THREE.Mesh(new THREE.TorusGeometry(.72,.022,6,52),oMat.clone()));
-        const el=new THREE.Mesh(new THREE.SphereGeometry(.1,8,8),
-          new THREE.MeshStandardMaterial({color:0xffff00,emissive:0xffff00,emissiveIntensity:4}));
-        el.position.x=.72; og.add(el);
-        el.add(new THREE.PointLight(0xffff00,1.5,1.5));
-        groups.push({og,speed:.8+i*.3});
-      });
-      g._anim=function(t){
-        g.rotation.y+=.006;
-        nucl.material.emissiveIntensity=2+Math.sin(t*3)*.9;
-        nl.intensity=3+Math.sin(t*3)*1.5;
-        groups.forEach(function(gr){ gr.og.rotation.z=t*gr.speed; });
-      };
-      return g;
-    }
-    function makeDiamond(){
-      const g=new THREE.Group();
-      const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.62,0),
-        new THREE.MeshStandardMaterial({color:0x00d4ff,emissive:0x0066aa,emissiveIntensity:1.4,
-          metalness:.1,roughness:.04,transparent:true,opacity:.85}));
-      g.add(gem);
-      const wire=new THREE.Mesh(new THREE.OctahedronGeometry(.66,0),
-        new THREE.MeshStandardMaterial({color:0x00ffff,emissive:0x00ffff,emissiveIntensity:2.5,wireframe:true}));
-      g.add(wire);
-      const gl=new THREE.PointLight(0x00d4ff,3.5,3); g.add(gl);
-      g._anim=function(t){
-        gem.rotation.x+=.01; gem.rotation.y+=.016;
-        wire.rotation.x=gem.rotation.x; wire.rotation.y=gem.rotation.y;
-        gl.intensity=3+Math.sin(t*2.5)*1.8;
-        gem.material.emissiveIntensity=1.2+Math.sin(t*1.8)*.6;
-      };
-      return g;
-    }
-    function makeMoon(){
-      const g=new THREE.Group();
-      const moon=new THREE.Mesh(new THREE.SphereGeometry(.6,22,16),
-        new THREE.MeshStandardMaterial({color:0xe8e0c0,emissive:0xaaa080,emissiveIntensity:.35,roughness:.88}));
-      g.add(moon);
-      [[.32,.38,.48],[-.22,-.08,.54],[.1,-.28,.52],[-.36,.22,.42]].forEach(function(p){
-        const cr=new THREE.Mesh(new THREE.SphereGeometry(.11,8,8),
-          new THREE.MeshStandardMaterial({color:0xb0a880,roughness:1}));
-        cr.position.set(p[0],p[1],p[2]); cr.scale.z=.3; g.add(cr);
-      });
-      const halo=new THREE.Mesh(new THREE.SphereGeometry(.74,16,12),
-        new THREE.MeshStandardMaterial({color:0xffffc0,emissive:0xffee80,emissiveIntensity:.9,transparent:true,opacity:.14}));
-      g.add(halo);
-      const gl=new THREE.PointLight(0xffffaa,2,4.5); g.add(gl);
-      g._anim=function(t){
-        g.rotation.y+=.007;
-        g.position.y+=Math.sin(t*.5)*.004;
-        halo.material.opacity=.1+Math.sin(t*1.5)*.06;
-        gl.intensity=1.5+Math.sin(t*2)*.8;
-      };
-      return g;
-    }
-    function makePortal(){
-      const g=new THREE.Group();
-      const cols=[0x7c3aed,0x00ff88,0x0ea5e9,0xf97316];
-      const rings=[];
-      cols.forEach(function(col,i){
-        const r=new THREE.Mesh(new THREE.TorusGeometry(.28+i*.16,.042,8,44),
-          new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:2.8,
-            transparent:true,opacity:.85-i*.12}));
-        r._ss=.022+i*.014; r._sd=i%2===0?1:-1;
-        rings.push(r); g.add(r);
-      });
-      const ctr=new THREE.Mesh(new THREE.SphereGeometry(.17,12,12),
-        new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:4}));
+      const geo=new THREE.BufferGeometry();
+      geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+      const pts=new THREE.Points(geo,new THREE.PointsMaterial({size:.055,vertexColors:true,transparent:true,opacity:.88}));
+      const g=new THREE.Group(); g.add(pts);
+      const ctr=new THREE.Mesh(new THREE.SphereGeometry(.12,8,8),new THREE.MeshBasicMaterial({color:0xffffee}));
       g.add(ctr);
-      const gl=new THREE.PointLight(0xffffff,4.5,3); g.add(gl);
+      const cgl=new THREE.PointLight(0xffffaa,1.5,3); g.add(cgl);
       g._anim=function(t){
-        rings.forEach(function(r,i){
-          r.rotation.x=t*r._ss*r._sd;
-          r.rotation.y=t*(r._ss*.7)*r._sd;
-          r.rotation.z=t*(r._ss*.5);
-          r.material.opacity=.4+Math.sin(t*1.5+i)*.45;
+        pts.rotation.y+=.003; g.rotation.x=Math.sin(t*.28)*.12;
+        ctr.scale.setScalar(.85+Math.sin(t*2.2)*.18);
+        cgl.intensity=1.1+Math.sin(t*2)*.6;
+      };
+      return g;
+    }
+
+    // 3. DNA double helix — how-it's-made section
+    function makeDNAHelix(){
+      const g=new THREE.Group();
+      const m1=new THREE.MeshBasicMaterial({color:0x74c69d});
+      const m2=new THREE.MeshBasicMaterial({color:0x7c3aed});
+      const mb=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.32});
+      const N=22;
+      for(let i=0;i<N;i++){
+        const a=(i/N)*Math.PI*4.5, y=(i/N)*2.6-1.3, r=.55;
+        const s1=new THREE.Mesh(new THREE.SphereGeometry(.075,6,6),m1);
+        s1.position.set(Math.cos(a)*r,y,Math.sin(a)*r); g.add(s1);
+        const s2=new THREE.Mesh(new THREE.SphereGeometry(.075,6,6),m2);
+        s2.position.set(Math.cos(a+Math.PI)*r,y,Math.sin(a+Math.PI)*r); g.add(s2);
+        if(i%3===0){
+          const br=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,r*2,4),mb);
+          br.position.set(0,y,0); br.rotation.z=Math.PI/2; br.rotation.y=a; g.add(br);
+        }
+      }
+      g._anim=function(t){ g.rotation.y+=.012; g.rotation.z=Math.sin(t*.4)*.1; };
+      return g;
+    }
+
+    // 4. Multi-axis wormhole rings — about/services section
+    function makeWormhole(){
+      const g=new THREE.Group();
+      const pal=[0x7c3aed,0x00ff88,0x0ea5e9,0xf97316,0xff2299];
+      const rgs=pal.map(function(col,i){
+        const rg=new THREE.Group();
+        const ring=new THREE.Mesh(
+          new THREE.TorusGeometry(.28+i*.19,.035,8,54),
+          new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.68-i*.08})
+        );
+        rg.add(ring);
+        rg.rotation.set(Math.sin(i*1.3)*Math.PI*.5,Math.cos(i*.9)*Math.PI*.3,i*Math.PI/5);
+        g.add(rg);
+        return {rg,sp:(.018+i*.009)*(i%2?1:-1)};
+      });
+      const core=new THREE.Mesh(new THREE.SphereGeometry(.1,10,10),
+        new THREE.MeshBasicMaterial({color:0xffffff}));
+      g.add(core);
+      g._anim=function(t){
+        rgs.forEach(function({rg,sp},i){
+          rg.rotation.x+=sp; rg.rotation.y+=sp*.7;
+          rg.children[0].material.opacity=.42+Math.sin(t*1.4+i*.8)*.28;
         });
-        ctr.material.emissiveIntensity=2.5+Math.sin(t*4)*2;
-        gl.intensity=3.5+Math.sin(t*3)*2;
-      };
-      return g;
-    }
-    function makeStarburst(){
-      const g=new THREE.Group();
-      const cols=[0xffd700,0xffa500,0xff6644,0xffffff,0x74c69d,0x7c3aed];
-      for(let i=0;i<8;i++){
-        const ray=new THREE.Mesh(new THREE.ConeGeometry(.05,.48+Math.random()*.28,5),
-          new THREE.MeshStandardMaterial({color:cols[i%cols.length],emissive:cols[i%cols.length],emissiveIntensity:2.8}));
-        const a=(i/8)*Math.PI*2;
-        ray.position.set(Math.cos(a)*.28,Math.sin(a)*.28,0);
-        ray.rotation.z=a+Math.PI/2; g.add(ray);
-      }
-      const ctr=new THREE.Mesh(new THREE.SphereGeometry(.17,10,10),
-        new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:4}));
-      g.add(ctr);
-      const gl=new THREE.PointLight(0xffd700,3.5,2.5); g.add(gl);
-      g._anim=function(t){
-        g.rotation.z+=.016; g.rotation.y=Math.sin(t*.8)*.35;
-        g.scale.setScalar(.9+Math.sin(t*2.2)*.13);
-        gl.intensity=3+Math.sin(t*3)*1.8;
-        ctr.material.emissiveIntensity=3+Math.sin(t*4)*1.5;
+        core.scale.setScalar(.65+Math.sin(t*3.5)*.38);
       };
       return g;
     }
 
-    // ── creature layout [selector, xFrac, yFrac, scale, maker] ─────────
+    // 5. Star constellation wireframe — footer
+    function makeConstellation(){
+      const g=new THREE.Group();
+      const verts=[
+        [0,1,0],[.85,.25,.3],[-.85,.25,.3],
+        [.5,-.6,.2],[-.5,-.6,.2],[0,-.9,-.4],
+        [1.05,.05,-.25],[-.95,.05,-.25]
+      ].map(function(p){return new THREE.Vector3(p[0],p[1],p[2]);});
+      const nMat=new THREE.MeshBasicMaterial({color:0xffd700});
+      const nodes=verts.map(function(p){
+        const n=new THREE.Mesh(new THREE.SphereGeometry(.065,7,7),nMat);
+        n.position.copy(p); g.add(n); return n;
+      });
+      const lMat=new THREE.LineBasicMaterial({color:0xffd700,transparent:true,opacity:.35});
+      [[0,1],[0,2],[1,3],[2,4],[3,5],[4,5],[1,6],[2,7],[6,7],[0,5],[3,6],[4,7]].forEach(function(e){
+        const geo=new THREE.BufferGeometry().setFromPoints([verts[e[0]],verts[e[1]]]);
+        g.add(new THREE.Line(geo,lMat));
+      });
+      const haloPos=new Float32Array(verts.length*3);
+      verts.forEach(function(v,i){haloPos[i*3]=v.x;haloPos[i*3+1]=v.y;haloPos[i*3+2]=v.z;});
+      const hgeo=new THREE.BufferGeometry();
+      hgeo.setAttribute('position',new THREE.BufferAttribute(haloPos,3));
+      g.add(new THREE.Points(hgeo,new THREE.PointsMaterial({color:0xffd700,size:.2,transparent:true,opacity:.52})));
+      g._anim=function(t){
+        g.rotation.y+=.006; g.rotation.x=Math.sin(t*.38)*.18;
+        nodes.forEach(function(n,i){n.scale.setScalar(.65+Math.sin(t*1.4+i*.6)*.38);});
+        lMat.opacity=.28+Math.sin(t*.9)*.12;
+      };
+      return g;
+    }
+
+    // ── placement: 5 effects across 5 sections ──────────────────────
+    // [selector, xFrac, yFrac, scale, maker]
     const defs2=[
-      ['.features-bar',     .03,.50,.58, makeEnergyRing ],
-      ['.features-bar',     .96,.32,.52, makeMiniUFO    ],
-      ['.how-order-sec',    .04,.52,.58, makeRocket     ],
-      ['.how-order-sec',    .93,.35,.56, makeAlien      ],
-      ['.how-order-sec',    .88,.74,.44, makeStarburst  ],
-      ['.catalogue',        .02,.24,.68, makeGhost      ],
-      ['.catalogue',        .95,.52,.62, makeSaturn     ],
-      ['.catalogue',        .04,.76,.46, makeStarburst  ],
-      ['.how-made-sec',     .03,.50,.58, makeAtom       ],
-      ['.how-made-sec',     .94,.36,.48, makeDiamond    ],
-      ['.how-made-sec',     .90,.68,.44, makeStarburst  ],
-      ['.testimonials-sec', .03,.22,.68, makeMoon       ],
-      ['.testimonials-sec', .93,.50,.52, makeAlien      ],
-      ['.testimonials-sec', .91,.76,.42, makeStarburst  ],
-      ['.about-sec',        .03,.42,.72, makeSaturn     ],
-      ['.about-sec',        .92,.28,.54, makeMiniUFO    ],
-      ['.about-sec',        .05,.72,.46, makePortal     ],
-      ['.services-sec',     .03,.50,.62, makeDiamond    ],
-      ['.services-sec',     .93,.33,.54, makeEnergyRing ],
-      ['.services-sec',     .90,.70,.46, makeAlien      ],
-      ['.materials-sec',    .03,.44,.62, makeAtom       ],
-      ['.materials-sec',    .92,.58,.52, makePortal     ],
-      ['.materials-sec',    .05,.74,.44, makeStarburst  ],
-      ['.faq-sec',          .03,.45,.56, makePortal     ],
-      ['.faq-sec',          .93,.38,.46, makeStarburst  ],
-      ['.faq-sec',          .04,.72,.50, makeDiamond    ],
-      ['.custom-sec',       .03,.50,.60, makeRocket     ],
-      ['.custom-sec',       .93,.34,.52, makeMiniUFO    ],
-      ['.contact-sec',      .03,.42,.56, makeEnergyRing ],
-      ['.contact-sec',      .91,.62,.58, makeAlien      ],
-      ['footer',            .04,.50,.68, makeMoon       ],
-      ['footer',            .91,.38,.46, makeStarburst  ],
-      ['footer',            .50,.15,.40, makeMiniUFO    ],
+      ['.catalogue',        .88,.35,1.15, makeCrystalCluster],
+      ['.testimonials-sec', .12,.40,1.05, makeGalaxy        ],
+      ['.how-made-sec',     .10,.45,.80,  makeDNAHelix       ],
+      ['.about-sec',        .88,.45,.85,  makeWormhole       ],
+      ['footer',            .80,.52,.70,  makeConstellation  ],
     ];
 
     // Build creature instances
