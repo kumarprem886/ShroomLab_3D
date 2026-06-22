@@ -1130,6 +1130,29 @@
     /* Fancy gradient card border */
     .product-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,rgba(124,58,237,.4),transparent 50%,rgba(45,158,96,.3));opacity:0;transition:opacity .3s;pointer-events:none;}
     .product-card:hover::before{opacity:1;}
+
+    /* ── SPACESHIP SCROLL WARP ────────────────────────────────── */
+    #hero-scroll-track{position:relative;}
+    /* Warp glow overlay inside hero */
+    #warpOverlay{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0;
+      background:radial-gradient(ellipse at 50% 50%,transparent 28%,rgba(0,255,136,.05) 58%,rgba(7,26,15,.22) 100%);}
+    #warpOverlay::before{content:'';position:absolute;inset:0;transform-origin:center;
+      background:repeating-conic-gradient(from 0deg at 50% 50%,
+        rgba(116,198,157,.07) 0deg,transparent 1.5deg,transparent 9.5deg,rgba(116,198,157,.07) 11deg);
+      animation:warpSpin 1.6s linear infinite;opacity:0;transition:opacity .4s;}
+    #warpOverlay.warp-active::before{opacity:1;}
+    #warpOverlay::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s;
+      background:radial-gradient(circle at 50% 50%,rgba(0,255,136,.2) 0%,transparent 52%);
+      animation:warpPulse .65s ease-in-out infinite;}
+    #warpOverlay.warp-active::after{opacity:1;}
+    @keyframes warpSpin{to{transform:rotate(360deg)}}
+    @keyframes warpPulse{0%,100%{transform:scale(.9);opacity:.35}50%{transform:scale(1.1);opacity:1}}
+    /* Chromatic aberration flash at fly-by */
+    .hero-section.warp-flash{animation:chromaFlash .18s ease-out;}
+    @keyframes chromaFlash{0%{filter:none}35%{filter:hue-rotate(80deg) saturate(2.8) brightness(1.5)}75%{filter:hue-rotate(-25deg) saturate(1.8) brightness(1.1)}100%{filter:none}}
+    /* Speed-line vignette that pulses on high scroll */
+    #speedLines{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;
+      background:radial-gradient(ellipse 80% 60% at 50% 50%,transparent 40%,rgba(7,26,15,.55) 100%);}
   </style>
 </head>
 <body>
@@ -1167,6 +1190,8 @@
 <!-- HERO -->
 <div class="hero-section">
 <canvas id="hero-3d-canvas"></canvas>
+<div id="warpOverlay"></div>
+<div id="speedLines"></div>
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">🇮🇳 Proudly Made in Cuddalore, India</div>
@@ -2186,168 +2211,419 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
   });
 })();
 
-// 3. THREE.JS HERO — branded glowing mushrooms + crystals + particles
+// 3. THREE.JS HERO — mushroom spaceship scroll warp + floating crystals + star rush
 (function loadHero3D(){
   const canvas = document.getElementById('hero-3d-canvas');
   if(!canvas || typeof THREE === 'undefined') return;
   try {
-    const W = canvas.offsetWidth || 800;
-    const H = canvas.offsetHeight || canvas.parentElement.offsetHeight || 480;
-    const renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: true});
+    // ── Make hero a sticky scroll-storytelling section ──────────────
+    const heroSection = canvas.parentElement;
+    const trackH = Math.round(window.innerHeight * 2.4);
+    const scrollTrack = document.createElement('div');
+    scrollTrack.id = 'hero-scroll-track';
+    scrollTrack.style.cssText = 'position:relative;height:'+trackH+'px;';
+    heroSection.parentNode.insertBefore(scrollTrack, heroSection);
+    scrollTrack.appendChild(heroSection);
+    heroSection.style.position = 'sticky';
+    heroSection.style.top = '0';
+    heroSection.style.height = '100vh';
+    heroSection.style.overflow = 'hidden';
+
+    // ── Renderer ────────────────────────────────────────────────────
+    const W = heroSection.offsetWidth  || window.innerWidth;
+    const H = heroSection.offsetHeight || window.innerHeight;
+    const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
     renderer.setSize(W, H);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.3;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x071a0f, 0.035);
+    scene.fog = new THREE.FogExp2(0x071a0f, 0.02);
 
-    const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 200);
     camera.position.z = 10;
 
-    // Atmospheric coloured lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-    [
-      {c:0x7c3aed, p:[-6, 6, 3],  i:3.5},  // purple
-      {c:0x00ff88, p:[ 6, 4, 2],  i:2.5},  // neon green
-      {c:0xffd700, p:[ 0,-4, 6],  i:1.8},  // gold
-      {c:0xff4444, p:[-4,-3, 1],  i:1.5},  // red accent
+    // ── Lights ──────────────────────────────────────────────────────
+    scene.add(new THREE.AmbientLight(0xffffff, 0.28));
+    const sceneLights = [];
+    [{c:0x7c3aed,p:[-6, 6,3],i:3.5},{c:0x00ff88,p:[6,4,2],i:2.5},
+     {c:0xffd700,p:[0,-4,6],i:1.8},{c:0xff4444,p:[-4,-3,1],i:1.5}
     ].forEach(function(l){
-      const pl = new THREE.PointLight(l.c, l.i, 25);
-      pl.position.set(l.p[0], l.p[1], l.p[2]);
-      scene.add(pl);
+      const pl=new THREE.PointLight(l.c,l.i,32);
+      pl.position.set(l.p[0],l.p[1],l.p[2]);
+      scene.add(pl); sceneLights.push(pl);
     });
 
-    // Brand mushroom palette: purple (logo), red, teal, orange, blue
-    const palette = [
-      {cap:0x6d28d9, emit:0x3b0764, spot:0xffd700},  // deep purple (brand)
-      {cap:0x7c3aed, emit:0x4c1d95, spot:0xa3e635},  // violet
-      {cap:0xcc2200, emit:0x6b0f00, spot:0xffffff},  // red classic
-      {cap:0x059669, emit:0x022c22, spot:0xffd700},  // emerald
-      {cap:0xf97316, emit:0x7c2d12, spot:0xffffff},  // orange
-      {cap:0x0ea5e9, emit:0x082f49, spot:0xffd700},  // sky blue
+    // ── Palette ──────────────────────────────────────────────────────
+    const palette=[
+      {cap:0x6d28d9,emit:0x3b0764,spot:0xffd700},
+      {cap:0x7c3aed,emit:0x4c1d95,spot:0xa3e635},
+      {cap:0xcc2200,emit:0x6b0f00,spot:0xffffff},
+      {cap:0x059669,emit:0x022c22,spot:0xffd700},
+      {cap:0xf97316,emit:0x7c2d12,spot:0xffffff},
+      {cap:0x0ea5e9,emit:0x082f49,spot:0xffd700},
     ];
 
-    function makeMushroom(sc, pal){
-      const g = new THREE.Group();
-
-      // Stem with slight taper
-      const stem = new THREE.Mesh(
-        new THREE.CylinderGeometry(.13*sc, .2*sc, .75*sc, 14),
-        new THREE.MeshStandardMaterial({color:0xf0e6c8, roughness:.85, metalness:.05})
-      );
-      stem.position.y = -.1*sc;
-      g.add(stem);
-
-      // Skirt / gills ring at base of cap
-      const skirt = new THREE.Mesh(
-        new THREE.TorusGeometry(.4*sc, .035*sc, 8, 28),
-        new THREE.MeshStandardMaterial({color:pal.cap, emissive:pal.cap, emissiveIntensity:.7,
-          transparent:true, opacity:.45, side:THREE.DoubleSide})
-      );
-      skirt.position.y = .18*sc;
-      skirt.rotation.x = Math.PI/2;
-      g.add(skirt);
-
-      // Cap dome
-      const cap = new THREE.Mesh(
-        new THREE.SphereGeometry(.52*sc, 22, 14, 0, Math.PI*2, 0, Math.PI*.58),
-        new THREE.MeshStandardMaterial({color:pal.cap, emissive:pal.emit,
-          emissiveIntensity:.45, roughness:.35, metalness:.1})
-      );
-      cap.position.y = .24*sc;
-      g.add(cap);
-
-      // Spots (5)
-      const spotMat = new THREE.MeshStandardMaterial({
-        color:pal.spot, emissive:pal.spot, emissiveIntensity:.55, roughness:.4
-      });
+    // ── Mushroom builder ─────────────────────────────────────────────
+    function makeMushroom(sc,pal){
+      const g=new THREE.Group();
+      const stem=new THREE.Mesh(
+        new THREE.CylinderGeometry(.13*sc,.2*sc,.75*sc,14),
+        new THREE.MeshStandardMaterial({color:0xf0e6c8,roughness:.85,metalness:.05}));
+      stem.position.y=-.1*sc; g.add(stem);
+      const skirt=new THREE.Mesh(
+        new THREE.TorusGeometry(.4*sc,.035*sc,8,28),
+        new THREE.MeshStandardMaterial({color:pal.cap,emissive:pal.cap,emissiveIntensity:.7,
+          transparent:true,opacity:.45,side:THREE.DoubleSide}));
+      skirt.position.y=.18*sc; skirt.rotation.x=Math.PI/2; g.add(skirt);
+      const cap=new THREE.Mesh(
+        new THREE.SphereGeometry(.52*sc,22,14,0,Math.PI*2,0,Math.PI*.58),
+        new THREE.MeshStandardMaterial({color:pal.cap,emissive:pal.emit,
+          emissiveIntensity:.45,roughness:.35,metalness:.1}));
+      cap.position.y=.24*sc; g.add(cap);
+      const sm=new THREE.MeshStandardMaterial({color:pal.spot,emissive:pal.spot,emissiveIntensity:.55,roughness:.4});
       [[0,.62,.26],[.3,.52,.2],[-.26,.55,.22],[.12,.6,-.27],[-.08,.47,.38]].forEach(function(p){
-        const sp = new THREE.Mesh(new THREE.SphereGeometry(.068*sc, 8, 8), spotMat);
-        sp.position.set(p[0]*sc, p[1]*sc, p[2]*sc);
-        g.add(sp);
+        const sp=new THREE.Mesh(new THREE.SphereGeometry(.068*sc,8,8),sm);
+        sp.position.set(p[0]*sc,p[1]*sc,p[2]*sc); g.add(sp);
       });
       return g;
     }
 
-    const mushrooms = [];
-    for(let i = 0; i < 13; i++){
-      const pal = palette[i % palette.length];
-      const m = makeMushroom(.32 + Math.random() * .72, pal);
-      m.position.set(
-        (Math.random()-.5)*15,
-        (Math.random()-.5)*6,
-        (Math.random()-.5)*5 - 2
-      );
-      m.rotation.y = Math.random()*Math.PI*2;
-      m.rotation.z = (Math.random()-.5)*.25;
-      m._fo = Math.random()*Math.PI*2;
-      m._fs = .3 + Math.random()*.55;
+    // ── Spaceship builder ────────────────────────────────────────────
+    function makeSpaceship(){
+      const ship=new THREE.Group();
+
+      // Main saucer body (flattened sphere)
+      const body=new THREE.Mesh(
+        new THREE.SphereGeometry(2.0,36,18),
+        new THREE.MeshStandardMaterial({color:0x0a2a18,emissive:0x031008,emissiveIntensity:.45,metalness:.93,roughness:.07}));
+      body.scale.y=0.30; ship.add(body);
+
+      // Outer metallic rim – brand green glow
+      const rim=new THREE.Mesh(
+        new THREE.TorusGeometry(2.10,.16,14,64),
+        new THREE.MeshStandardMaterial({color:0x74c69d,emissive:0x2d9e60,emissiveIntensity:1.8,metalness:.9,roughness:.06}));
+      rim.rotation.x=Math.PI/2; ship.add(rim);
+
+      // Inner spinning accent ring – bright green
+      const ir1=new THREE.Mesh(
+        new THREE.TorusGeometry(1.54,.055,8,56),
+        new THREE.MeshStandardMaterial({color:0x00ff88,emissive:0x00ff88,emissiveIntensity:3.2,transparent:true,opacity:.85}));
+      ir1.rotation.x=Math.PI/2; ir1.position.y=-.04;
+      ship._ir1=ir1; ship.add(ir1);
+
+      // Inner counter-ring – purple
+      const ir2=new THREE.Mesh(
+        new THREE.TorusGeometry(1.28,.04,8,52),
+        new THREE.MeshStandardMaterial({color:0x7c3aed,emissive:0x7c3aed,emissiveIntensity:2.8,transparent:true,opacity:.75}));
+      ir2.rotation.x=Math.PI/2; ir2.position.y=.05;
+      ship._ir2=ir2; ship.add(ir2);
+
+      // Cockpit dome (glass)
+      const cockpit=new THREE.Mesh(
+        new THREE.SphereGeometry(.92,26,16,0,Math.PI*2,0,Math.PI*.60),
+        new THREE.MeshStandardMaterial({color:0x80d8ff,emissive:0x00aaff,emissiveIntensity:.7,
+          transparent:true,opacity:.44,metalness:.18,roughness:.04,side:THREE.DoubleSide}));
+      cockpit.position.y=.60; ship.add(cockpit);
+
+      // Cockpit rim
+      const cRim=new THREE.Mesh(
+        new THREE.TorusGeometry(.87,.032,8,44),
+        new THREE.MeshStandardMaterial({color:0x52b788,emissive:0x52b788,emissiveIntensity:2.4,metalness:.8}));
+      cRim.position.y=.70; cRim.rotation.x=Math.PI/2; ship.add(cRim);
+
+      // Engine glow (under saucer)
+      const engGlow=new THREE.PointLight(0x00ff88,8,8);
+      engGlow.position.y=-.80; ship._engGlow=engGlow; ship.add(engGlow);
+
+      // Front headlight
+      const headLight=new THREE.PointLight(0xffffff,4,9);
+      headLight.position.set(0,.3,2.3); ship.add(headLight);
+
+      // 3 thrusters
+      const tBodyMat=new THREE.MeshStandardMaterial({color:0x1a3a2a,metalness:.85,roughness:.15});
+      ship._tFires=[];
+      for(let i=0;i<3;i++){
+        const ang=(i/3)*Math.PI*2;
+        const tx=Math.cos(ang)*1.1, tz=Math.sin(ang)*1.1;
+        const tb=new THREE.Mesh(new THREE.CylinderGeometry(.20,.28,.33,10),tBodyMat);
+        tb.position.set(tx,-.57,tz); ship.add(tb);
+        const tf=new THREE.Mesh(
+          new THREE.ConeGeometry(.17,.58,10),
+          new THREE.MeshStandardMaterial({color:0x00ff88,emissive:0x00ff88,emissiveIntensity:4.5,transparent:true,opacity:.92}));
+        tf.position.set(tx,-1.04,tz); tf.rotation.z=Math.PI;
+        ship._tFires.push(tf); ship.add(tf);
+      }
+
+      // Mushroom pilot inside cockpit
+      const pilotPal={cap:0xcc2200,emit:0x6b0f00,spot:0xffffff};
+      const pilot=makeMushroom(.22,pilotPal);
+      pilot.position.y=.66; pilot.rotation.y=.15; ship.add(pilot);
+
+      // Navigation blink lights
+      const blinkDefs=[
+        {col:0xff2222,ang:0},{col:0x22ff77,ang:Math.PI},
+        {col:0xffffff,ang:Math.PI*.5},{col:0xffd700,ang:Math.PI*1.5}
+      ];
+      ship._blinks=[];
+      blinkDefs.forEach(function(bd,i){
+        const bm=new THREE.Mesh(
+          new THREE.SphereGeometry(.078,6,6),
+          new THREE.MeshStandardMaterial({color:bd.col,emissive:bd.col,emissiveIntensity:5}));
+        bm.position.set(Math.cos(bd.ang)*2.08,0,Math.sin(bd.ang)*2.08);
+        bm._phase=i*Math.PI*.5; ship._blinks.push(bm); ship.add(bm);
+      });
+
+      // Hull detail panels
+      const panelMat=new THREE.MeshStandardMaterial({color:0x0d3320,metalness:.7,roughness:.28});
+      for(let i=0;i<8;i++){
+        const a=(i/8)*Math.PI*2;
+        const p=new THREE.Mesh(new THREE.BoxGeometry(.32,.08,.16),panelMat);
+        p.position.set(Math.cos(a)*1.38,0,Math.sin(a)*1.38);
+        p.rotation.y=a; ship.add(p);
+      }
+      // Antenna on top
+      const ant=new THREE.Mesh(
+        new THREE.CylinderGeometry(.02,.04,.55,6),
+        new THREE.MeshStandardMaterial({color:0x74c69d,metalness:.9,roughness:.1}));
+      ant.position.y=1.08; ship.add(ant);
+      const antTip=new THREE.Mesh(
+        new THREE.SphereGeometry(.06,8,8),
+        new THREE.MeshStandardMaterial({color:0xff4444,emissive:0xff2222,emissiveIntensity:4}));
+      antTip.position.y=1.40; ship.add(antTip);
+
+      return ship;
+    }
+
+    const spaceship=makeSpaceship();
+    spaceship.position.set(.7,.3,-90);
+    spaceship.scale.setScalar(.14);
+    scene.add(spaceship);
+
+    // ── Background mushrooms ─────────────────────────────────────────
+    const mushrooms=[];
+    for(let i=0;i<13;i++){
+      const pal=palette[i%palette.length];
+      const m=makeMushroom(.32+Math.random()*.72,pal);
+      m.position.set((Math.random()-.5)*15,(Math.random()-.5)*6,(Math.random()-.5)*5-2);
+      m.rotation.y=Math.random()*Math.PI*2;
+      m.rotation.z=(Math.random()-.5)*.25;
+      m._fo=Math.random()*Math.PI*2; m._fs=.3+Math.random()*.55;
+      m._ox=m.position.x; m._oy=m.position.y;
       scene.add(m); mushrooms.push(m);
     }
 
-    // Floating crystals (octahedra — solid + wireframe mix)
-    const crystals = [];
-    const cPal = [0x7c3aed,0x00ff88,0xffd700,0xf97316,0x0ea5e9,0xcc2200];
-    for(let i = 0; i < 10; i++){
-      const col = cPal[i % cPal.length];
-      const size = .12 + Math.random()*.22;
-      const mat = new THREE.MeshStandardMaterial({
-        color:col, emissive:col, emissiveIntensity:.8,
-        transparent:true, opacity: i%2===0 ? .75 : .35,
-        wireframe: i%3===2
-      });
-      const c = new THREE.Mesh(new THREE.OctahedronGeometry(size), mat);
+    // ── Crystals ─────────────────────────────────────────────────────
+    const crystals=[];
+    const cPal=[0x7c3aed,0x00ff88,0xffd700,0xf97316,0x0ea5e9,0xcc2200];
+    for(let i=0;i<10;i++){
+      const col=cPal[i%cPal.length];
+      const sz=.12+Math.random()*.22;
+      const mat=new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:.8,
+        transparent:true,opacity:i%2===0?.75:.35,wireframe:i%3===2});
+      const c=new THREE.Mesh(new THREE.OctahedronGeometry(sz),mat);
       c.position.set((Math.random()-.5)*15,(Math.random()-.5)*7,(Math.random()-.5)*5-3);
-      c._fo = Math.random()*Math.PI*2;
-      c._fs = .5+Math.random()*.9;
+      c._fo=Math.random()*Math.PI*2; c._fs=.5+Math.random()*.9;
       scene.add(c); crystals.push(c);
     }
 
-    // Multi-colour star particles
-    const pN = 220;
-    const pPos = new Float32Array(pN*3);
-    const pCol = new Float32Array(pN*3);
-    const starPal = [[1,.84,0],[.48,.18,.94],[0,1,.53],[1,1,1],[1,.38,.21],[.06,.65,.56]];
-    for(let i = 0; i < pN; i++){
-      pPos[i*3]   = (Math.random()-.5)*22;
-      pPos[i*3+1] = (Math.random()-.5)*11;
-      pPos[i*3+2] = (Math.random()-.5)*10-3;
-      const c = starPal[Math.floor(Math.random()*starPal.length)];
+    // ── Warp star particles ──────────────────────────────────────────
+    const pN=420;
+    const pPos=new Float32Array(pN*3);
+    const pCol=new Float32Array(pN*3);
+    const starPal=[[1,.84,0],[.48,.18,.94],[0,1,.53],[1,1,1],[1,.38,.21],[.06,.65,.56]];
+    for(let i=0;i<pN;i++){
+      pPos[i*3]=(Math.random()-.5)*32;
+      pPos[i*3+1]=(Math.random()-.5)*18;
+      pPos[i*3+2]=-12-Math.random()*88;
+      const c=starPal[Math.floor(Math.random()*starPal.length)];
       pCol[i*3]=c[0]; pCol[i*3+1]=c[1]; pCol[i*3+2]=c[2];
     }
-    const pGeo = new THREE.BufferGeometry();
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3));
-    pGeo.setAttribute('color',    new THREE.BufferAttribute(pCol,3));
-    scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({
-      size:.09, transparent:true, opacity:.85, vertexColors:true
-    })));
+    const pGeo=new THREE.BufferGeometry();
+    const pAttr=new THREE.BufferAttribute(pPos,3);
+    pGeo.setAttribute('position',pAttr);
+    pGeo.setAttribute('color',new THREE.BufferAttribute(pCol,3));
+    const starMat=new THREE.PointsMaterial({size:.09,transparent:true,opacity:.9,vertexColors:true});
+    scene.add(new THREE.Points(pGeo,starMat));
 
-    let mx=0, my=0, scrollPx=0;
+    // ── Exhaust trail (small particles behind ship) ──────────────────
+    const exN=90;
+    const exPos=new Float32Array(exN*3);
+    for(let i=0;i<exN;i++){
+      exPos[i*3]=(Math.random()-.5)*.3;
+      exPos[i*3+1]=(Math.random()-.5)*.3;
+      exPos[i*3+2]=-Math.random()*2;
+    }
+    const exGeo=new THREE.BufferGeometry();
+    const exAttr=new THREE.BufferAttribute(exPos,3);
+    exGeo.setAttribute('position',exAttr);
+    const exColArr=new Float32Array(exN*3);
+    for(let i=0;i<exN;i++){exColArr[i*3]=0;exColArr[i*3+1]=1;exColArr[i*3+2]=.55;}
+    exGeo.setAttribute('color',new THREE.BufferAttribute(exColArr,3));
+    const exMat=new THREE.PointsMaterial({size:.07,transparent:true,opacity:0,vertexColors:true});
+    const exhaust=new THREE.Points(exGeo,exMat);
+    scene.add(exhaust);
+
+    const warpOverlay=document.getElementById('warpOverlay');
+    const speedLines=document.getElementById('speedLines');
+
+    // ── Input ────────────────────────────────────────────────────────
+    let mx=0,my=0,scrollPx=0,prevScrollPx=0;
     window.addEventListener('mousemove',function(e){
-      mx=(e.clientX/innerWidth -.5)*2;
+      mx=(e.clientX/innerWidth-.5)*2;
       my=(e.clientY/innerHeight-.5)*-2;
-    });
-    window.addEventListener('scroll',function(){ scrollPx=window.scrollY; },{passive:true});
+    },{passive:true});
+    window.addEventListener('scroll',function(){
+      prevScrollPx=scrollPx; scrollPx=window.scrollY;
+    },{passive:true});
     window.addEventListener('resize',function(){
-      const W2=canvas.offsetWidth, H2=canvas.offsetHeight||480;
+      const W2=heroSection.offsetWidth||innerWidth, H2=heroSection.offsetHeight||innerHeight;
       renderer.setSize(W2,H2); camera.aspect=W2/H2; camera.updateProjectionMatrix();
     });
 
-    let t=0;
+    let t=0, lastFlash=0;
     (function loop(){
       requestAnimationFrame(loop); t+=.016;
+
+      // Scroll progress 0→1 over the sticky track
+      const rawProg=scrollPx/trackH;
+      const prog=Math.min(1,Math.max(0,rawProg));
+      const scrollVel=Math.abs(scrollPx-prevScrollPx);
+
+      // Ease: slow start, explosive middle, dramatic end
+      const p = prog<.5
+        ? prog*.5/.5                          // 0→0.5 linearly mapped to 0→0.5
+        : .5 + Math.pow((prog-.5)/.5,1.6)*.5; // 0.5→1 with acceleration
+
+      // ── SPACESHIP MOTION ─────────────────────────────────────────
+      let sZ, sS, sBank;
+      if(p<.5){
+        const f=p/.5;
+        sZ=-90+f*68;       // -90 → -22  (slow approach)
+        sS=.14+f*.62;      // .14 → .76
+        sBank=Math.sin(t*.5)*.09;
+      } else if(p<.85){
+        const f=(p-.5)/.35;
+        sZ=-22+f*28;       // -22 → 6    (rush in)
+        sS=.76+f*1.84;     // .76 → 2.6
+        sBank=Math.sin(t*.8)*.13;
+      } else {
+        const f=(p-.85)/.15;
+        sZ=6+f*16;         // 6 → 22     (fly-by past camera)
+        sS=2.6+f*.9;       // 2.6 → 3.5
+        sBank=f*.6;
+      }
+      spaceship.position.z+=(sZ-spaceship.position.z)*.08;
+      spaceship.scale.x+=(sS-spaceship.scale.x)*.08;
+      spaceship.scale.y=spaceship.scale.z=spaceship.scale.x;
+      spaceship.rotation.z+=(sBank-spaceship.rotation.z)*.12;
+      spaceship.rotation.y+=.007+p*.014;
+      spaceship.rotation.x=p*.10;
+      // Gentle cosmic drift (fades as ship approaches)
+      spaceship.position.x=.7+Math.sin(t*.32)*.45*(1-p*.75);
+      spaceship.position.y=.3+Math.cos(t*.26)*.32*(1-p*.55);
+
+      // ── ENGINE & RINGS ───────────────────────────────────────────
+      spaceship._engGlow.intensity=5+p*32;
+      spaceship._engGlow.color.setHSL(.38-p*.24,1,.55);
+      spaceship._ir1.rotation.y+=.055+p*.18;
+      spaceship._ir2.rotation.y-=.045+p*.14;
+      spaceship._ir1.material.emissiveIntensity=2.5+p*5;
+      spaceship._ir2.material.emissiveIntensity=2.2+p*4;
+      spaceship._tFires.forEach(function(f){
+        f.scale.y=.8+Math.sin(t*13+f.position.x)*.5+p*1.1;
+        f.material.emissiveIntensity=3.5+p*5.5+Math.sin(t*18)*1.5;
+      });
+      spaceship._blinks.forEach(function(b){
+        b.material.emissiveIntensity=Math.sin(t*5+b._phase)>.55?7:.12;
+      });
+
+      // ── EXHAUST TRAIL ────────────────────────────────────────────
+      if(p>.12){
+        const ea=exGeo.attributes.position.array;
+        for(let i=0;i<exN;i++){
+          ea[i*3+2]-=.09+p*.28;
+          if(ea[i*3+2]<-3.5){
+            ea[i*3]=(Math.random()-.5)*(.4+p*.6);
+            ea[i*3+1]=(Math.random()-.5)*(.4+p*.6);
+            ea[i*3+2]=0;
+          }
+        }
+        exGeo.attributes.position.needsUpdate=true;
+        exMat.opacity=Math.min(.95,p*1.6);
+        exMat.size=.06+p*.13;
+        exhaust.position.copy(spaceship.position);
+        exhaust.position.z-=spaceship.scale.x*1.6;
+        exhaust.scale.setScalar(spaceship.scale.x*.6);
+      }
+
+      // ── MUSHROOMS SCATTER ────────────────────────────────────────
       mushrooms.forEach(function(m){
-        m.position.y += Math.sin(t*m._fs+m._fo)*.0022;
-        m.rotation.y += .004;
+        const sc=Math.max(0,(p-.3)/.7);
+        const by=Math.sin(t*m._fs+m._fo)*.18;
+        m.position.x+=(m._ox*(1+sc*2.5)-m.position.x)*.025;
+        m.position.y+=((m._oy*(1+sc*1.8)+by)-m.position.y)*.025;
+        m.rotation.y+=.004+sc*.018;
+        m.rotation.z+=sc*.007;
       });
+
+      // ── CRYSTALS ────────────────────────────────────────────────
       crystals.forEach(function(c){
-        c.position.y += Math.sin(t*c._fs+c._fo)*.003;
-        c.rotation.x += .012; c.rotation.y += .009;
+        c.position.y+=Math.sin(t*c._fs+c._fo)*.003;
+        c.rotation.x+=.012+p*.028;
+        c.rotation.y+=.009+p*.020;
+        if(c.material) c.material.emissiveIntensity=.8+p*1.5;
       });
-      camera.position.x += (mx*1.6 - camera.position.x)*.04;
-      camera.position.y += (my*.9  - camera.position.y)*.04;
-      camera.position.z  = Math.max(4, 10-scrollPx*.005);
+
+      // ── WARP STAR RUSH ───────────────────────────────────────────
+      const ws=p*1.6+scrollVel*.018;
+      const sa=pGeo.attributes.position.array;
+      for(let i=0;i<pN;i++){
+        sa[i*3+2]+=ws;
+        if(sa[i*3+2]>16){
+          sa[i*3]=(Math.random()-.5)*32;
+          sa[i*3+1]=(Math.random()-.5)*18;
+          sa[i*3+2]=-12-Math.random()*88;
+        }
+      }
+      pGeo.attributes.position.needsUpdate=true;
+      starMat.size=.07+p*.26;
+      starMat.opacity=.85+p*.15;
+
+      // ── SCENE LIGHTS ─────────────────────────────────────────────
+      if(sceneLights[1]) sceneLights[1].intensity=2.5+p*12; // green ramps up
+      if(sceneLights[0]) sceneLights[0].intensity=3.5-p*1.5;
+      if(sceneLights[2]) sceneLights[2].intensity=1.8+p*5;
+
+      // ── FOG ──────────────────────────────────────────────────────
+      scene.fog.density=Math.max(.004,.02-p*.017);
+
+      // ── CAMERA ───────────────────────────────────────────────────
+      const par=Math.max(0,1-p*1.4);
+      camera.position.x+=(mx*1.5*par-camera.position.x)*.04;
+      camera.position.y+=(my*.85*par-camera.position.y)*.04;
+      camera.position.z+=(10+p*2.2-camera.position.z)*.035;
+      camera.fov=55+p*22; // warp-tunnel FOV expansion
+      camera.updateProjectionMatrix();
+
+      // ── WARP OVERLAY ─────────────────────────────────────────────
+      if(warpOverlay){
+        warpOverlay.style.opacity=p>.2?(p-.2)/.8:0;
+        if(p>.55) warpOverlay.classList.add('warp-active');
+        else warpOverlay.classList.remove('warp-active');
+      }
+      if(speedLines){
+        speedLines.style.opacity=p>.4?(p-.4)*.8:0;
+      }
+
+      // ── FLY-BY FLASH ─────────────────────────────────────────────
+      if(p>.86&&p<.93&&t-lastFlash>2.5){
+        lastFlash=t;
+        heroSection.classList.add('warp-flash');
+        setTimeout(function(){heroSection.classList.remove('warp-flash');},200);
+      }
+
       renderer.render(scene, camera);
     })();
   } catch(e){ console.warn('Three.js hero init failed:',e.message); }
