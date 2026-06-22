@@ -2216,6 +2216,7 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
 
 // 3. THREE.JS HERO — mushroom spaceship scroll warp + floating crystals + star rush
 (function loadHero3D(){
+  if(window.innerWidth<768) return; // skip heavy WebGL on mobile
   const canvas = document.getElementById('hero-3d-canvas');
   if(!canvas || typeof THREE === 'undefined') return;
   try {
@@ -2634,7 +2635,7 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
 
 // ── 3D SECTION EFFECTS ────────────────────────────────────────────────
 (function sectionEffects3D(){
-  if(typeof THREE==='undefined') return;
+  if(window.innerWidth<768||typeof THREE==='undefined') return; // skip on mobile
   let canvas=document.getElementById('creatures-canvas');
   if(!canvas){
     canvas=document.createElement('canvas');
