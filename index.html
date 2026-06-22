@@ -1153,6 +1153,28 @@
     /* Speed-line vignette that pulses on high scroll */
     #speedLines{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;
       background:radial-gradient(ellipse 80% 60% at 50% 50%,transparent 40%,rgba(7,26,15,.55) 100%);}
+
+    /* ── SECTION CREATURES ────────────────────────────────────── */
+    .sc-creature{position:absolute;pointer-events:none;z-index:6;opacity:0;user-select:none;line-height:1;
+      transition:opacity .9s cubic-bezier(.16,1,.3,1);animation-play-state:paused;will-change:transform;}
+    .sc-creature.visible{opacity:1;animation-play-state:running;}
+    /* Entrance pop */
+    @keyframes scPop{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.18) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+    /* Bob animations */
+    @keyframes scBob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-13px) scale(1.06)}}
+    @keyframes scSaucerFloat{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-12px) rotate(7deg)}}
+    @keyframes scGhost{0%,100%{transform:translateY(0) scaleX(1)}30%{transform:translateY(-18px) scaleX(1.06)}70%{transform:translateY(-7px) scaleX(.94)}}
+    @keyframes scRocket{0%,100%{transform:translateY(0) rotate(-20deg)}50%{transform:translateY(-15px) rotate(-12deg)}}
+    @keyframes scMushroom{0%,100%{transform:translateY(0) rotate(-5deg) scale(1)}50%{transform:translateY(-11px) rotate(5deg) scale(1.08)}}
+    @keyframes scSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    @keyframes scMoon{0%,100%{transform:translateY(0) rotate(-14deg)}50%{transform:translateY(-12px) rotate(14deg)}}
+    @keyframes scComet{0%,100%{transform:translate(0,0) rotate(-40deg)}50%{transform:translate(-11px,11px) rotate(-50deg)}}
+    @keyframes scCrystal{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.14)}}
+    @keyframes scWiggle{0%,100%{transform:rotate(-10deg)}25%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}}
+    @keyframes scTwinkle{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(1.4) rotate(25deg);opacity:.6}}
+    @keyframes scPlanet{0%,100%{transform:rotate(-12deg) scale(1)}50%{transform:rotate(12deg) scale(1.1)}}
+    /* Mobile: shrink creatures */
+    @media(max-width:768px){.sc-creature{font-size:70%!important;}}
   </style>
 </head>
 <body>
@@ -2627,6 +2649,102 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
       renderer.render(scene, camera);
     })();
   } catch(e){ console.warn('Three.js hero init failed:',e.message); }
+})();
+
+// ── SECTION CREATURES ─────────────────────────────────────────────────
+(function addSectionCreatures(){
+  // [emoji, section-selector, left%, top%, font-size-px, animation-name, delay-s, glow-color]
+  const defs=[
+    // Features bar
+    ['👽','.features-bar',   2,  22, 30,'scBob',       0.1,'rgba(0,255,88,.85)'],
+    ['🛸','.features-bar',  93,  18, 26,'scSaucerFloat',0.5,'rgba(116,198,157,.9)'],
+    // How to Order
+    ['🚀','.how-order-sec',  4,  52, 36,'scRocket',     0.0,'rgba(255,165,0,.85)'],
+    ['👾','.how-order-sec', 90,  32, 28,'scBob',        0.3,'rgba(124,58,237,.9)'],
+    ['⭐','.how-order-sec', 87,  72, 20,'scTwinkle',    0.6,'rgba(255,215,0,.85)'],
+    ['🤝','.how-order-sec', 92,  65, 22,'scWiggle',     0.8,'rgba(45,158,96,.8)'],
+    // Catalogue
+    ['👻','.catalogue',      1,  22, 42,'scGhost',      0.1,'rgba(255,255,255,.65)'],
+    ['🍄','.catalogue',     94,  48, 34,'scMushroom',   0.4,'rgba(200,80,80,.85)'],
+    ['💫','.catalogue',      3,  68, 24,'scTwinkle',    0.2,'rgba(255,215,0,.9)'],
+    ['🌟','.catalogue',     92,  76, 20,'scTwinkle',    0.7,'rgba(255,215,0,.85)'],
+    ['🛸','.catalogue',      5,  90, 22,'scSaucerFloat',0.9,'rgba(116,198,157,.8)'],
+    // How It's Made
+    ['🤖','.how-made-sec',   2,  48, 34,'scBob',        0.1,'rgba(0,180,255,.85)'],
+    ['⚙️','.how-made-sec',  93,  36, 28,'scSpin',       0.0,'rgba(200,200,200,.65)'],
+    ['✨','.how-made-sec',   90,  66, 20,'scTwinkle',   0.5,'rgba(255,240,100,.9)'],
+    ['🔧','.how-made-sec',   4,  72, 22,'scWiggle',     0.7,'rgba(255,140,0,.8)'],
+    // Testimonials
+    ['🌙','.testimonials-sec', 3, 20, 36,'scMoon',      0.0,'rgba(255,215,80,.85)'],
+    ['🌟','.testimonials-sec',91, 48, 26,'scTwinkle',   0.35,'rgba(255,215,0,.9)'],
+    ['👽','.testimonials-sec',93, 72, 28,'scBob',        0.6,'rgba(0,255,88,.85)'],
+    ['💫','.testimonials-sec', 5, 68, 22,'scTwinkle',   0.8,'rgba(255,200,50,.85)'],
+    ['🛸','.testimonials-sec',89, 20, 22,'scSaucerFloat',1.0,'rgba(116,198,157,.8)'],
+    // About
+    ['🪐','.about-sec',      3,  40, 40,'scPlanet',     0.0,'rgba(255,140,0,.75)'],
+    ['☄️','.about-sec',     89,  26, 28,'scComet',      0.3,'rgba(255,100,50,.85)'],
+    ['🛸','.about-sec',      5,  70, 24,'scSaucerFloat',0.6,'rgba(116,198,157,.85)'],
+    ['👾','.about-sec',     92,  65, 26,'scBob',        0.9,'rgba(124,58,237,.9)'],
+    // Services
+    ['💎','.services-sec',   2,  50, 30,'scCrystal',    0.1,'rgba(0,200,255,.9)'],
+    ['🛸','.services-sec',  92,  30, 32,'scSaucerFloat',0.4,'rgba(116,198,157,.9)'],
+    ['👾','.services-sec',  90,  68, 26,'scBob',        0.7,'rgba(124,58,237,.9)'],
+    ['⭐','.services-sec',   4,  75, 20,'scTwinkle',    0.9,'rgba(255,215,0,.85)'],
+    // Materials
+    ['⚛️','.materials-sec',  3, 44, 32,'scSpin',        0.0,'rgba(0,200,255,.85)'],
+    ['🌈','.materials-sec', 90, 56, 28,'scBob',         0.3,'rgba(255,100,200,.75)'],
+    ['✨','.materials-sec',  5, 70, 22,'scTwinkle',     0.6,'rgba(255,240,100,.9)'],
+    ['🔬','.materials-sec', 92, 30, 24,'scWiggle',      0.8,'rgba(100,200,255,.8)'],
+    // FAQ
+    ['🧠','.faq-sec',        2, 44, 30,'scBob',         0.1,'rgba(255,100,100,.75)'],
+    ['💡','.faq-sec',       92, 36, 26,'scTwinkle',     0.25,'rgba(255,220,50,.9)'],
+    ['👽','.faq-sec',        4, 72, 24,'scBob',         0.55,'rgba(0,255,88,.8)'],
+    // Custom Orders
+    ['🚀','.custom-sec',     3, 50, 36,'scRocket',      0.1,'rgba(255,165,0,.85)'],
+    ['🎨','.custom-sec',    91, 32, 28,'scBob',         0.4,'rgba(200,100,200,.85)'],
+    ['🌟','.custom-sec',    88, 68, 22,'scTwinkle',     0.7,'rgba(255,215,0,.85)'],
+    // Contact
+    ['📡','.contact-sec',    3, 40, 32,'scSaucerFloat', 0.0,'rgba(0,200,255,.85)'],
+    ['👾','.contact-sec',   89, 60, 30,'scBob',         0.35,'rgba(124,58,237,.9)'],
+    ['💫','.contact-sec',    5, 68, 20,'scTwinkle',     0.6,'rgba(255,200,50,.85)'],
+    // Footer
+    ['🪐','footer',          5, 45, 34,'scPlanet',      0.0,'rgba(255,140,0,.75)'],
+    ['🌟','footer',         89, 38, 22,'scTwinkle',     0.2,'rgba(255,215,0,.9)'],
+    ['🛸','footer',         48, 15, 20,'scSaucerFloat', 0.4,'rgba(116,198,157,.8)'],
+  ];
+
+  // Duration map so spinners are slower
+  const durMap={'scSpin':'9s','scPlanet':'6s','scMoon':'5s','scComet':'4s'};
+
+  const obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add('visible');
+        obs.unobserve(en.target);
+      }
+    });
+  },{threshold:.12});
+
+  defs.forEach(function(d){
+    const tgt=document.querySelector(d[1]);
+    if(!tgt) return;
+    const cs=window.getComputedStyle(tgt);
+    if(cs.position==='static') tgt.style.position='relative';
+
+    const el=document.createElement('span');
+    el.className='sc-creature';
+    el.textContent=d[0];
+    const dur=durMap[d[5]]||(3.2+Math.random()*2.4).toFixed(1)+'s';
+    const timeFn=d[5]==='scSpin'?'linear':'ease-in-out';
+    el.style.cssText=
+      'left:'+d[2]+'%;top:'+d[3]+'%;font-size:'+d[4]+'px;'+
+      'filter:drop-shadow(0 0 9px '+d[6]+');'+
+      'animation:'+d[5]+' '+dur+' '+timeFn+' '+d[7]+'s infinite;'+
+      'transition-delay:'+d[7]+'s;';
+    tgt.appendChild(el);
+    obs.observe(el);
+  });
+
 })();
 </script>
 
