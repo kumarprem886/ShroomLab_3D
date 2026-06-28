@@ -527,8 +527,8 @@
     .hero::after {
       content: ''; position: absolute; pointer-events: none;
       width: 520px; height: 520px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(116,198,157,0.07) 0%, transparent 70%);
-      right: -120px; top: -120px;
+      background: radial-gradient(circle, rgba(116,198,157,0.07) 0%, transparent 60%);
+      right: -160px; top: -260px;
       animation: heroGlow 7s ease-in-out infinite alternate;
     }
     @keyframes heroGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.35); opacity: 1; } }
@@ -1060,7 +1060,8 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
-      .hero { flex-direction: column-reverse; padding: 44px 5% 36px; gap: 28px; text-align: center; }
+      .hero { flex-direction: column; padding: 44px 5% 36px; gap: 28px; text-align: center; }
+      .hero-blob { box-shadow: 0 0 28px rgba(116,198,157,0.25) !important; }
       .hero-sub { margin: 0 auto 16px; }
       .hero-tags, .hero-btns { justify-content: center; }
       .hero-blob { width: 220px; height: 220px; }
