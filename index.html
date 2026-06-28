@@ -1154,8 +1154,6 @@
     #speedLines{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;
       background:radial-gradient(ellipse 80% 60% at 50% 50%,transparent 40%,rgba(7,26,15,.55) 100%);}
 
-    /* ── 3D CREATURES CANVAS ─────────────────────────────────── */
-    #creatures-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;}
   </style>
 </head>
 <body>
@@ -2633,8 +2631,8 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
   } catch(e){ console.warn('Three.js hero init failed:',e.message); }
 })();
 
-// ── 3D SECTION EFFECTS ────────────────────────────────────────────────
-(function sectionEffects3D(){
+// ── 3D SECTION EFFECTS — REMOVED ──────────────────────────────────────
+(function sectionEffects3D(){return;
   if(window.innerWidth<768||typeof THREE==='undefined') return; // skip on mobile
   let canvas=document.getElementById('creatures-canvas');
   if(!canvas){
@@ -2882,7 +2880,6 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
 
 <button class="back-top" id="backTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div id="toast" class="toast"></div>
-<canvas id="creatures-canvas"></canvas>
 <canvas id="confetti-canvas"></canvas>
 </body>
 </html>
