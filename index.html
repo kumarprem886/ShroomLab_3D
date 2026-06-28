@@ -1108,6 +1108,14 @@
     @keyframes canvasFade{0%,100%{opacity:.82}50%{opacity:1}}
     #hero-3d-canvas{animation:canvasFade 6s ease-in-out infinite}
 
+    /* Custom cursor glow (desktop only) */
+    @media(pointer:fine){
+      body{cursor:none}
+      #cur-inner{position:fixed;width:10px;height:10px;background:#00ff88;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;mix-blend-mode:difference}
+      #cur-outer{position:fixed;width:38px;height:38px;border:1.5px solid rgba(0,255,136,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:border-color .2s}
+      a:hover~#cur-inner,button:hover~#cur-inner{width:18px;height:18px;background:#7c3aed}
+    }
+
     /* Product card — purple neon hover */
     .product-card:hover{box-shadow:0 14px 50px rgba(124,58,237,.45),0 0 0 1px rgba(124,58,237,.2)!important;}
     /* Active filter button neon ring */
@@ -2473,7 +2481,7 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
     const speedLines=document.getElementById('speedLines');
 
     // ── Input ────────────────────────────────────────────────────────
-    let mx=0,my=0,scrollPx=0,prevScrollPx=0;
+    let mx=0,my=0,smx=0,smy=0,scrollPx=0,prevScrollPx=0;
     window.addEventListener('mousemove',function(e){
       mx=(e.clientX/innerWidth-.5)*2;
       my=(e.clientY/innerHeight-.5)*-2;
@@ -2494,6 +2502,8 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
       const rawProg=scrollPx/trackH;
       const prog=Math.min(1,Math.max(0,rawProg));
       const scrollVel=Math.abs(scrollPx-prevScrollPx);
+      smx+=(mx-smx)*.055; smy+=(my-smy)*.055;
+      const mPar=Math.max(0,1-p*1.2); // cursor influence fades during warp
 
       // Ease: slow start, explosive middle, dramatic end
       const p = prog<.5
@@ -2521,9 +2531,10 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
       spaceship.position.z+=(sZ-spaceship.position.z)*.08;
       spaceship.scale.x+=(sS-spaceship.scale.x)*.08;
       spaceship.scale.y=spaceship.scale.z=spaceship.scale.x;
-      spaceship.rotation.z+=(sBank-spaceship.rotation.z)*.12;
+      // Cursor-reactive tilt — ship leans toward cursor like Meshy's character
+      spaceship.rotation.z+=(sBank+smx*.18*mPar-spaceship.rotation.z)*.12;
       spaceship.rotation.y+=.007+p*.014;
-      spaceship.rotation.x=p*.10;
+      spaceship.rotation.x+=(p*.10-smy*.12*mPar-spaceship.rotation.x)*.08;
       // Gentle cosmic drift (fades as ship approaches)
       spaceship.position.x=.7+Math.sin(t*.32)*.45*(1-p*.75);
       spaceship.position.y=.3+Math.cos(t*.26)*.32*(1-p*.55);
@@ -2566,8 +2577,8 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
       mushrooms.forEach(function(m){
         const sc=Math.max(0,(p-.3)/.7);
         const by=Math.sin(t*m._fs+m._fo)*.18;
-        m.position.x+=(m._ox*(1+sc*2.5)-m.position.x)*.025;
-        m.position.y+=((m._oy*(1+sc*1.8)+by)-m.position.y)*.025;
+        m.position.x+=(m._ox*(1+sc*2.5)+smx*.55*mPar-m.position.x)*.025;
+        m.position.y+=((m._oy*(1+sc*1.8)+by)-smy*.35*mPar-m.position.y)*.025;
         m.rotation.y+=.004+sc*.018;
         m.rotation.z+=sc*.007;
       });
@@ -2851,11 +2862,22 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
       renderer.setSize(CW,CH); camera.aspect=CW/CH; camera.updateProjectionMatrix();
     });
 
+    // Mouse tracking for section parallax
+    let secMx=0,secMy=0,sMx=0,sMy=0;
+    window.addEventListener('mousemove',function(e){
+      secMx=(e.clientX/CW-.5)*2;
+      secMy=(e.clientY/CH-.5)*-2;
+    },{passive:true});
+
     let crT=0;
     (function loop(){
       requestAnimationFrame(loop);
       if(document.hidden) return;
       crT+=.016;
+      // Smooth camera parallax from mouse — shifts the scene as if looking from different angles
+      sMx+=(secMx-sMx)*.04; sMy+=(secMy-sMy)*.04;
+      camera.position.x=sMx*.45;
+      camera.position.y=sMy*.28;
       creatures.forEach(function(c){
         const rect=c.sec.getBoundingClientRect();
         const onScreen=rect.bottom>0&&rect.top<CH;
@@ -2884,5 +2906,24 @@ if (newCount > 0) setTimeout(() => showToast(`✨ ${newCount} new item${newCount
 <div id="toast" class="toast"></div>
 <canvas id="creatures-canvas"></canvas>
 <canvas id="confetti-canvas"></canvas>
+<div id="cur-inner"></div>
+<div id="cur-outer"></div>
+<script>
+// Custom cursor glow
+(function(){
+  var ci=document.getElementById('cur-inner'),co=document.getElementById('cur-outer');
+  if(!ci||window.matchMedia('(pointer:coarse)').matches) return;
+  var ox=window.innerWidth/2,oy=window.innerHeight/2,cx=ox,cy=oy;
+  window.addEventListener('mousemove',function(e){ox=e.clientX;oy=e.clientY;ci.style.left=ox+'px';ci.style.top=oy+'px';},{passive:true});
+  (function tick(){requestAnimationFrame(tick);cx+=(ox-cx)*.12;cy+=(oy-cy)*.12;co.style.left=cx+'px';co.style.top=cy+'px';})();
+  // Expand on interactive elements
+  document.addEventListener('mouseover',function(e){
+    if(e.target.matches('a,button,.product-card,.filter-btn')){ci.style.width='18px';ci.style.height='18px';ci.style.background='#7c3aed';co.style.borderColor='rgba(124,58,237,.6)';}
+  });
+  document.addEventListener('mouseout',function(e){
+    if(e.target.matches('a,button,.product-card,.filter-btn')){ci.style.width='';ci.style.height='';ci.style.background='';co.style.borderColor='';}
+  });
+})();
+</script>
 </body>
 </html>
