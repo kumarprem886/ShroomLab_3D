@@ -351,6 +351,24 @@
       </div>
     </div>
 
+    <!-- FEATURED PRODUCTS -->
+    <div class="settings-section">
+      <div class="settings-toggle" onclick="toggleFeaturedMgr()">
+        <h3>⭐ Featured Products</h3>
+        <span id="featured-arrow">▼</span>
+      </div>
+      <div class="settings-body" id="featured-body">
+        <p style="font-size:0.78rem;color:#555;margin-bottom:8px;line-height:1.4">Choose which products appear in the homepage "Featured Products" grid. <b id="featured-count">0</b> selected.</p>
+        <input type="text" id="featured-search" placeholder="Search products…" oninput="renderFeaturedList()" style="width:100%;box-sizing:border-box;padding:7px 10px;border:1.5px solid #cce8d6;border-radius:8px;font-size:0.82rem;margin-bottom:8px;font-family:inherit">
+        <div id="featured-list" style="max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:3px;margin-bottom:10px"></div>
+        <div style="display:flex;gap:6px">
+          <button onclick="saveFeatured()" style="flex:1;background:#1b4332;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:600">💾 Save</button>
+          <button onclick="clearFeatured()" style="background:#fff;border:1.5px solid #ccc;color:#555;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:0.82rem">✕ Clear</button>
+        </div>
+        <div id="featured-saved-msg" style="display:none;font-size:0.72rem;color:#065f46;font-weight:600;margin-top:6px;text-align:center"></div>
+      </div>
+    </div>
+
     <!-- SETTINGS -->
     <div class="settings-section">
       <div class="settings-toggle" onclick="toggleSettings()">
@@ -475,6 +493,7 @@ const K_EDITS  = 'shroomlab_admin_edits';   // {title: editedObj}
 const K_DELS   = 'shroomlab_admin_deletes'; // [title]
 const K_CATS   = 'shroomlab_new_categories';
 const K_CAT_OV = 'shroomlab_cat_overrides'; // overrides for both builtin & custom
+const K_FEATURED = 'shroomlab_featured';    // [title, ...] manually pinned to homepage
 
 let siteProducts  = [];  // loaded from index.html
 let newProducts   = JSON.parse(localStorage.getItem(K_NEW)   ||'[]');
@@ -482,6 +501,7 @@ let pendingEdits  = JSON.parse(localStorage.getItem(K_EDITS) ||'{}');
 let pendingDels   = JSON.parse(localStorage.getItem(K_DELS)  ||'[]');
 let customCats    = JSON.parse(localStorage.getItem(K_CATS)  ||'{}');
 let catOverrides  = JSON.parse(localStorage.getItem(K_CAT_OV)||'{}');
+let featuredTitles = JSON.parse(localStorage.getItem(K_FEATURED)||'[]');
 
 let activeCat     = 'all';
 let imgMode       = 'upload';
@@ -677,6 +697,86 @@ function removeNewBadge(title){
   pendingEdits[title] = {...base, isNew: false, addedAt: 0};
   renderNewBadgeList();
   renderAll();
+}
+
+// ── FEATURED PRODUCTS MANAGER ──────────────────────────────────────────
+function toggleFeaturedMgr(){
+  const body  = document.getElementById('featured-body');
+  const arrow = document.getElementById('featured-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲' : '▼';
+  if(open){ updateFeaturedCount(); renderFeaturedList(); }
+}
+
+function allProductsForFeatured(){
+  return [
+    ...siteProducts.filter(p => !pendingDels.includes(p.title)).map(p => pendingEdits[p.title] || p),
+    ...newProducts
+  ];
+}
+
+function renderFeaturedList(){
+  const body = document.getElementById('featured-body');
+  if(!body.classList.contains('open')) return;
+  const q = (document.getElementById('featured-search').value || '').toLowerCase();
+  const all = allProductsForFeatured();
+  const filtered = q ? all.filter(p => p.title.toLowerCase().includes(q)) : all;
+  const container = document.getElementById('featured-list');
+  container.innerHTML = '';
+  if(!filtered.length){
+    container.innerHTML = '<p style="color:#888;font-size:0.78rem;text-align:center;padding:12px">No products found</p>';
+    return;
+  }
+  filtered.forEach(p => {
+    const checked = featuredTitles.includes(p.title);
+    const ci = catInfo((p.cats||[])[0]||p.cat||'custom');
+    const row = document.createElement('label');
+    row.style.cssText = `display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;cursor:pointer;background:${checked?'#e8f5e9':'#fafafa'};border:1px solid ${checked?'#a5d6a7':'#eee'}`;
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = checked;
+    cb.style.accentColor = '#1b4332';
+    cb.addEventListener('change', () => {
+      if(cb.checked){ if(!featuredTitles.includes(p.title)) featuredTitles.push(p.title); }
+      else { featuredTitles = featuredTitles.filter(t => t !== p.title); }
+      updateFeaturedCount();
+      renderFeaturedList();
+    });
+    const titleSpan = document.createElement('span');
+    titleSpan.style.cssText = 'font-size:0.8rem;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis';
+    titleSpan.textContent = p.title;
+    const catSpan = document.createElement('span');
+    catSpan.style.cssText = 'font-size:0.72rem;color:#888;flex-shrink:0';
+    catSpan.textContent = ci.emoji;
+    row.appendChild(cb);
+    row.appendChild(titleSpan);
+    row.appendChild(catSpan);
+    container.appendChild(row);
+  });
+}
+
+function updateFeaturedCount(){
+  const el = document.getElementById('featured-count');
+  if(el) el.textContent = featuredTitles.length;
+}
+
+function saveFeatured(){
+  localStorage.setItem(K_FEATURED, JSON.stringify(featuredTitles));
+  const msg = document.getElementById('featured-saved-msg');
+  msg.textContent = '✅ Saved! Refresh the homepage to see changes.';
+  msg.style.display = 'block';
+  setTimeout(() => { msg.style.display = 'none'; }, 2500);
+}
+
+function clearFeatured(){
+  featuredTitles = [];
+  localStorage.removeItem(K_FEATURED);
+  updateFeaturedCount();
+  renderFeaturedList();
+  const msg = document.getElementById('featured-saved-msg');
+  msg.textContent = 'Cleared — auto-pick will be used on the homepage.';
+  msg.style.display = 'block';
+  setTimeout(() => { msg.style.display = 'none'; }, 2500);
 }
 
 // ── CATEGORY MANAGER ──────────────────────────────────────────────────

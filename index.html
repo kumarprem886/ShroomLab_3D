@@ -1926,6 +1926,19 @@ function redraw() {
 }
 
 function renderFeatured() {
+  const pinned = JSON.parse(localStorage.getItem('shroomlab_featured') || '[]');
+  if (pinned.length > 0) {
+    const items = [];
+    pinned.forEach(title => {
+      const i = PRODUCTS.findIndex(p => p.title === title);
+      if (i >= 0) items.push({p: PRODUCTS[i], i});
+    });
+    if (items.length > 0) {
+      grid.innerHTML = items.map(({p,i}) => renderCard(p,i)).join('');
+      afterRender();
+      return;
+    }
+  }
   const seen = new Set();
   const items = [];
   // One isNew product per category first, then fill with first-product fallbacks
