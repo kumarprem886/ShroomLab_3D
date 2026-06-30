@@ -1544,6 +1544,10 @@ async function pushToGitHub(){
     let newIdxContent = injectNewCategories(idxContent);
     newIdxContent = updateExistingCategories(newIdxContent);
     newIdxContent = newIdxContent.replace(/const NEW_DAYS = \d+;/, `const NEW_DAYS = ${s.newDays};`);
+    newIdxContent = newIdxContent.replace(
+      /const FEATURED_PINNED = \[.*?\];/,
+      `const FEATURED_PINNED = ${JSON.stringify(featuredTitles)};`
+    );
 
     // 4. catalogue.html — inject categories + NEW_DAYS
     setPushStatus('loading', '📥 Fetching catalogue.html…');
@@ -1570,6 +1574,7 @@ async function pushToGitHub(){
     pendingEdits={}; pendingDels=[]; newProducts=[]; catOverrides={};
     localStorage.removeItem(K_EDITS); localStorage.removeItem(K_DELS);
     localStorage.removeItem(K_NEW);   localStorage.removeItem(K_CAT_OV);
+    localStorage.removeItem(K_FEATURED);
     cancelEdit();
     await loadSiteProducts();
 

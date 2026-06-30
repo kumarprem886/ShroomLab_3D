@@ -1925,8 +1925,11 @@ function redraw() {
   if (activeCat === 'all' && !searchVal) renderRows(); else renderGrid(activeCat);
 }
 
+const FEATURED_PINNED = []; // managed by admin push — do not edit manually
+
 function renderFeatured() {
-  const pinned = JSON.parse(localStorage.getItem('shroomlab_featured') || '[]');
+  const pinned = FEATURED_PINNED.length > 0 ? FEATURED_PINNED
+               : JSON.parse(localStorage.getItem('shroomlab_featured') || '[]');
   if (pinned.length > 0) {
     const items = [];
     pinned.forEach(title => {
