@@ -1063,9 +1063,13 @@
     .cats-toggle-btn { flex-shrink: 0; white-space: nowrap; }
     .tog-arrow { display: inline-block; font-size: 10px; transition: transform 0.2s; }
     .cat-popup {
+      position: absolute; left: 0; right: 0; z-index: 200;
+      background: inherit;
       display: none; padding: 12px 5% 14px;
       border-top: 1px solid rgba(45,158,96,0.16);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
       grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 6px;
+      max-height: calc(100vh - 140px); overflow-y: auto;
     }
     .cat-popup.open { display: grid; }
     .pop-btn {
