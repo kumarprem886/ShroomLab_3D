@@ -1454,6 +1454,14 @@ function injectNewCategories(html){
       /(let activeCat)/,
       `document.getElementById('cnt-${key}').textContent  = \`(\${counts.${key}})\`;\n$1`
     );
+
+    // 7. CAT_ORDER — append key so "All" rows view includes this category (catalogue.html only)
+    if(result.includes('const CAT_ORDER = [')) {
+      result = result.replace(
+        /(const CAT_ORDER = \[[^\]]+?)(\s*\]\s*;)/,
+        `$1,'${key}'$2`
+      );
+    }
   });
   return result;
 }
