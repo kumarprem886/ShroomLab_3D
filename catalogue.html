@@ -1446,6 +1446,41 @@ function redraw() {
   if (activeCat === 'all' && !searchVal) renderRows(); else renderGrid(activeCat);
 }
 
+// ── MERGE ADMIN LOCALSTORAGE DATA ────────────────────────────────────────
+(function mergeAdminData() {
+  const adminEdits   = JSON.parse(localStorage.getItem('shroomlab_admin_edits')    || '{}');
+  const adminDels    = JSON.parse(localStorage.getItem('shroomlab_admin_deletes')  || '[]');
+  const adminNew     = JSON.parse(localStorage.getItem('shroomlab_new_products')   || '[]');
+  const customCats   = JSON.parse(localStorage.getItem('shroomlab_new_categories') || '{}');
+
+  // Apply edits + deletes to site products
+  for (let i = PRODUCTS.length - 1; i >= 0; i--) {
+    if (adminDels.includes(PRODUCTS[i].title)) { PRODUCTS.splice(i, 1); continue; }
+    if (adminEdits[PRODUCTS[i].title]) PRODUCTS[i] = adminEdits[PRODUCTS[i].title];
+  }
+  // Append admin-added products
+  adminNew.forEach(p => PRODUCTS.push(p));
+
+  // Register custom categories in all lookup objects + filter bar
+  const filterBar = document.getElementById('filter-bar');
+  Object.entries(customCats).forEach(([key, info]) => {
+    const label = `${info.emoji || ''}${info.label || key}`.trim();
+    if (!BADGE[key])      BADGE[key]      = label;
+    if (!BADGE_CLASS[key]) BADGE_CLASS[key] = `badge-${key}`;
+    if (!CAT_COLORS[key]) CAT_COLORS[key] = info.color || '#2d9e60';
+    if (!CAT_ORDER.includes(key)) CAT_ORDER.push(key);
+    if (!filterBar.querySelector(`[data-cat="${key}"]`)) {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn';
+      btn.dataset.cat = key;
+      const span = document.createElement('span');
+      span.id = `cnt-${key}`;
+      btn.append(`${info.emoji || ''} ${info.label || key} `, span);
+      filterBar.appendChild(btn);
+    }
+  });
+})();
+
 renderRows();
 
 const counts = { actionfigurines: 0, mask_helmet: 0, cartoon: 0, pokemon: 0, halloween: 0 };
